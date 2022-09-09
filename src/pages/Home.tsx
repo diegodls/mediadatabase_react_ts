@@ -23,7 +23,7 @@ export function Home() {
   }, []);
 
   return (
-    <div className='h-full w-full flex flex-col'>
+    <div className='h-full w-full flex flex-col items-center'>
       <Header />
       <Loading show={loadingData} />
       <p className='text-7xl'>Home</p>
