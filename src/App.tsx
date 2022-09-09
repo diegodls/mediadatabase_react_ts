@@ -7,7 +7,7 @@ import { NotFound } from "./pages/NotFound";
 export function App() {
   return (
     <BrowserRouter>
-      <div className='h-screen w-screen'>
+      <div className='h-screen w-screen px-2'>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/details' element={<Details />} />
