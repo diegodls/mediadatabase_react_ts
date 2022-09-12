@@ -1,42 +1,45 @@
 import axios from "axios";
-import { ITitleOverview } from "../interfaces/interface";
+import { IMovieDetails } from "../interfaces/IMovieDetails";
+import {
+  ITrending,
+  ITrendingResult,
+  ITrendingTime,
+  ITrendingType,
+} from "../interfaces/ITrending";
 
-interface ApiOption {
-  method: string;
-  url: string;
-  params: { tconst: string; currentCountry: string };
+const service = axios.create({
+  baseURL: "https://api.themoviedb.org/3",
+  timeout: 1000,
   headers: {
-    "X-RapidAPI-Key": string;
-    "X-RapidAPI-Host": string;
-  };
-}
+    Authorization: `Bearer ${import.meta.env.VITE_THEMOVIEDB_TOKEN}`,
+    "Content-Type": "application/json;charset=utf-8",
+  },
+  params: {
+    language: `${import.meta.env.VITE_THEMOVIEDB_LANGUAGE}`,
+  },
+});
 
-async function makeApiCall(options: ApiOption): Promise<ITitleOverview> {
-  let data = {} as ITitleOverview;
-  await axios
-    .request(options)
-    .then(function (response) {
-      console.log(response.data);
-      data = response.data;
-    })
-    .catch(function (error) {
-      console.error(error);
-      return error;
+export async function getMoviesDetails(
+  movieId: number
+): Promise<IMovieDetails> {
+  let movieData: IMovieDetails = await service
+    .get<Promise<IMovieDetails>>(`/movie/${movieId}`)
+    .then((response) => {
+      return response.data;
     });
 
-  return data;
+  return movieData;
 }
 
-export function getOverview(title: string): Promise<ITitleOverview> {
-  const options = {
-    method: "GET",
-    url: "https://imdb8.p.rapidapi.com/title/get-overview-details",
-    params: { tconst: title, currentCountry: "US" },
-    headers: {
-      "X-RapidAPI-Key": "4bd2a93e22mshd9758584eab9653p15f1adjsn839c24bc1c2a",
-      "X-RapidAPI-Host": "imdb8.p.rapidapi.com",
-    },
-  };
+export async function getTrending(
+  type: ITrendingType,
+  time: ITrendingTime
+): Promise<ITrendingResult[]> {
+  const trendingData: ITrending = await service
+    .get<Promise<ITrending>>(`/trending/${type}/${time}`)
+    .then((response) => {
+      return response.data;
+    });
 
-  return makeApiCall(options);
+  return trendingData.results;
 }
