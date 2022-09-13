@@ -1,13 +1,7 @@
 import axios from "axios";
 import { IMovieDetails } from "../interfaces/IMovieDetails";
-import {
-  ITrending,
-  ITrendingResult,
-  ITrendingTime,
-  ITrendingType,
-} from "../interfaces/ITrending";
 
-const service = axios.create({
+export const service = axios.create({
   baseURL: "https://api.themoviedb.org/3",
   timeout: 1000,
   headers: {
@@ -29,17 +23,4 @@ export async function getMoviesDetails(
     });
 
   return movieData;
-}
-
-export async function getTrending(
-  type: ITrendingType,
-  time: ITrendingTime
-): Promise<ITrendingResult[]> {
-  const trendingData: ITrending = await service
-    .get<Promise<ITrending>>(`/trending/${type}/${time}`)
-    .then((response) => {
-      return response.data;
-    });
-
-  return trendingData.results;
 }
