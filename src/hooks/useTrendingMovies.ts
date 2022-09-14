@@ -19,7 +19,10 @@ export function useTrendingMovies() {
       .then((response) => {
         return response.data;
       });
-    setTrendingMovies(trendingData.results);
+
+    console.log("trendingData.results");
+    console.log(trendingData.results.length);
+
     return trendingData.results;
   }
 
