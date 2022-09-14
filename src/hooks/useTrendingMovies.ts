@@ -7,9 +7,8 @@ import {
 } from "../interfaces/ITrending";
 import { service } from "../services/api";
 
-export function useTrendingMovieAndSeries() {
-  const [trendingMovieAndSeries, setTrendingMovieAndSeries] =
-    useState<ITrendingResult[]>();
+export function useTrendingMovies() {
+  const [trendingMovies, setTrendingMovies] = useState<ITrendingResult[]>();
 
   async function getTrending(
     type: ITrendingType,
@@ -20,23 +19,24 @@ export function useTrendingMovieAndSeries() {
       .then((response) => {
         return response.data;
       });
+    setTrendingMovies(trendingData.results);
     return trendingData.results;
   }
 
-  async function fetchOverview() {
-    const trending = await getTrending("movie", "week");
+  async function fetchOverview(type: ITrendingType, time: ITrendingTime) {
+    const trending = await getTrending(type, time);
 
     if (trending) {
-      setTrendingMovieAndSeries(trending);
+      setTrendingMovies(trending);
     }
   }
   useEffect(() => {
-    fetchOverview();
+    fetchOverview("movie", "week");
   }, []);
 
-  console.log("useTrendingMovieAndSeries");
+  console.log("useTrendingMovies");
 
   return {
-    trendingMovieAndSeries,
+    trendingMovies,
   };
 }
