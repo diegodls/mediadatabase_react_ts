@@ -1,20 +1,18 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home } from "./pages/Home";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Details } from "./pages/Details";
-import { Search } from "./pages/Search";
+import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
+import { Search } from "./pages/Search";
 
 export function App() {
   return (
     <BrowserRouter>
-      <div className='h-screen w-screen px-2'>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/details' element={<Details />} />
-          <Route path='/search' element={<Search />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/details' element={<Details />} />
+        <Route path='/search' element={<Search />} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
     </BrowserRouter>
   );
 }
