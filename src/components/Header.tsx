@@ -18,7 +18,7 @@ export function Header() {
   }
 
   return (
-    <header className='w-full h-10 flex flex-row items-center justify-between fixed z-50'>
+    <header className='w-full h-10 flex flex-row items-center justify-between fixed z-50 px-2'>
       <div className='w-28 min-w-max h-full px-2 flex items-center justify-center'>
         <p>LOGO</p>
       </div>
