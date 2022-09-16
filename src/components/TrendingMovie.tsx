@@ -68,16 +68,14 @@ export function TrendingMovie() {
       {slideArray && slideArray?.length > 0 ? (
         <div
           ref={slideMouseOverRef}
-          className='w-full max-h-[28rem] relative z-0'
+          className='w-full max-h-[28rem]  relative z-0'
         >
           <div
             ref={slideAnimationRef}
-            className='w-full max-h-[28rem] aspect-video bg-green-500 overflow-hidden'
+            className='w-full max-h-[28rem] overflow-hidden flex justify-center items-center'
           >
-            <div className='w-full top-0 h-10 bg-gradient-to-b from-bg-custom-background absolute z-10' />
-            <div className='w-full bottom-0 h-12 bg-gradient-to-t from-bg-custom-background absolute z-10' />
             <img
-              className='w-full h-auto transform lg:-translate-y-[8rem]'
+              className='min-w-full min-h-full flex-shrink-0'
               src={
                 API_BASEURL_IMAGE_1280 + slideArray[currentIndex].backdrop_path
               }
@@ -85,6 +83,13 @@ export function TrendingMovie() {
               title={slideArray[currentIndex].title}
             />
           </div>
+          <div className='ml-16 p-2 rounded w-80 top-1/2 transform -translate-y-1/2 absolute'>
+            <strong className='text-4xl wrap-text'>
+              {slideArray[currentIndex].title}
+            </strong>
+          </div>
+          <div className='w-full top-0 h-10 bg-gradient-to-b from-bg-custom-background absolute z-10' />
+          <div className='w-full bottom-0 h-12 bg-gradient-to-t from-bg-custom-background absolute z-10' />
           <div className='absolute w-full top-1/2 transform -translate-y-1/2 px-3 flex items-center justify-between'>
             <button onClick={handlePrev}>
               <ArrowCircleLeft size={32} weight='bold' />
@@ -93,21 +98,12 @@ export function TrendingMovie() {
               <ArrowCircleRight size={32} weight='bold' />
             </button>
           </div>
-          <div className='flex flex-row justify-between'>
-            {trendingMovies?.map((value: ITrendingResult, index: number) => {
-              return (
-                <div
-                  key={index}
-                  className={`w-4 h-4 rounded-full bg-red-500 ${
-                    currentIndex === index ? "bg-green-500" : ""
-                  }`}
-                ></div>
-              );
-            })}
-          </div>
         </div>
       ) : (
-        "Carregando..."
+        <div
+          ref={slideMouseOverRef}
+          className='w-full h-[28rem] relative z-0'
+        />
       )}
     </>
   );
