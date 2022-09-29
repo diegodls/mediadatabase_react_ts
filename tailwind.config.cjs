@@ -4,7 +4,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "bg-custom-background": "#131313",
+        "customColors-background": "#131313",
+      },
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       },
       keyframes: {
         fadeIn: {
@@ -17,13 +20,14 @@ module.exports = {
         },
       },
       animation: {
-        fadeIn: "fadeIn .1s ease-in",
-        fadeOut: "fadeIn .1s ease-out",
+        fadeIn: "fadeIn .2s ease-in",
+        fadeOut: "fadeIn .2s ease-out",
       },
     },
   },
   plugins: [
     require("@tailwindcss/forms"),
+    require("@tailwindcss/line-clamp"),
     require("tailwind-scrollbar"),
     // ...
   ],
