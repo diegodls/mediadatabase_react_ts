@@ -17,6 +17,13 @@ export function TrendingMovie() {
   let slideAnimationRef = useRef<HTMLDivElement>(null);
   let slideInterval: ReturnType<typeof setInterval>;
 
+  function truncateOverview(text: string, maxLength: number) {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    }
+    return text;
+  }
+
   function handleNext() {
     if (slideArray.length > 0) {
       count = (count + 1) % slideArray.length;
@@ -63,19 +70,33 @@ export function TrendingMovie() {
     };
   }, [slideArray]);
 
+  useEffect(() => {
+    console.log("RENDERING -> TrendingMovie.tsx");
+  });
+
   return (
     <>
       {slideArray && slideArray?.length > 0 ? (
         <div
           ref={slideMouseOverRef}
-          className='w-full max-h-[28rem]  relative z-0'
+          className='w-full max-h-[28rem] relative z-0'
         >
+          <div className='ml-16 p-2 rounded w-80 top-1/2 transform -translate-y-1/2 absolute z-20'>
+            <h1 className='text-4xl font-bold wrap-text'>
+              {slideArray[currentIndex].title}
+            </h1>
+            <p className='line-clamp-3'>{slideArray[currentIndex].overview}</p>
+            <p className='line-clamp-3'>
+              {slideArray[currentIndex].vote_average}
+            </p>
+          </div>
+
           <div
             ref={slideAnimationRef}
-            className='w-full max-h-[28rem] overflow-hidden flex justify-center items-center'
+            className='w-full max-h-[28rem] overflow-hidden flex justify-center items-center select-none'
           >
             <img
-              className='min-w-full min-h-full flex-shrink-0'
+              className='min-w-full min-h-full flex-shrink-0 select-none'
               src={
                 API_BASEURL_IMAGE_1280 + slideArray[currentIndex].backdrop_path
               }
@@ -83,14 +104,14 @@ export function TrendingMovie() {
               title={slideArray[currentIndex].title}
             />
           </div>
-          <div className='ml-16 p-2 rounded w-80 top-1/2 transform -translate-y-1/2 absolute'>
-            <strong className='text-4xl wrap-text'>
-              {slideArray[currentIndex].title}
-            </strong>
-          </div>
-          <div className='w-full top-0 h-10 bg-gradient-to-b from-bg-custom-background absolute z-10' />
-          <div className='w-full bottom-0 h-12 bg-gradient-to-t from-bg-custom-background absolute z-10' />
-          <div className='absolute w-full top-1/2 transform -translate-y-1/2 px-3 flex items-center justify-between'>
+
+          <div className='w-full h-12 top-0 bg-gradient-to-b from-customColors-background absolute z-10' />
+
+          <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-10' />
+
+          <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-10' />
+
+          <div className='w-full top-1/2 transform -translate-y-1/2 px-3 flex items-center justify-between absolute z-20'>
             <button onClick={handlePrev}>
               <ArrowCircleLeft size={32} weight='bold' />
             </button>
