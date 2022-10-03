@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-export function LoadingIcon(props: SVGProps<SVGSVGElement>) {
+export function LoadingIcon(props: SVGProps<SVGSVGElement>, stroke: string) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -14,7 +14,7 @@ export function LoadingIcon(props: SVGProps<SVGSVGElement>) {
     >
       <path
         fill='none'
-        stroke='#c00'
+        stroke={stroke ? stroke : "#c00"}
         strokeDasharray='42.76482137044271 42.76482137044271'
         strokeLinecap='round'
         strokeWidth='6.4'
