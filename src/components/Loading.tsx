@@ -5,6 +5,8 @@ interface LoadingProps {
   blur?: boolean;
   backdrop?: boolean;
   onTop?: boolean;
+  message?: string;
+  stroke?: string;
 }
 
 export function Loading({
@@ -12,6 +14,8 @@ export function Loading({
   blur = true,
   backdrop = true,
   onTop = true,
+  message,
+  stroke = "#cfcfcf",
 }: LoadingProps) {
   return (
     <div
@@ -23,9 +27,9 @@ export function Loading({
       ${onTop && "absolute right-0 top-0"}`}
     >
       <div className='w-24 h-24'>
-        <LoadingIcon width={100} height={100} />
+        <LoadingIcon width={100} height={100} stroke={stroke} />
       </div>
-      <p>Loading</p>
+      {message ? <p>{message}</p> : null}
     </div>
   );
 }
