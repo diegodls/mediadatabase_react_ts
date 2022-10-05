@@ -19,6 +19,87 @@ export function TrendingMovie() {
   const imageError =
     "https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png";
 
+  const testExample = {
+    genres: [
+      {
+        id: 28,
+        name: "Ação",
+      },
+      {
+        id: 12,
+        name: "Aventura",
+      },
+      {
+        id: 16,
+        name: "Animação",
+      },
+      {
+        id: 35,
+        name: "Comédia",
+      },
+      {
+        id: 80,
+        name: "Crime",
+      },
+      {
+        id: 99,
+        name: "Documentário",
+      },
+      {
+        id: 18,
+        name: "Drama",
+      },
+      {
+        id: 10751,
+        name: "Família",
+      },
+      {
+        id: 14,
+        name: "Fantasia",
+      },
+      {
+        id: 36,
+        name: "História",
+      },
+      {
+        id: 27,
+        name: "Terror",
+      },
+      {
+        id: 10402,
+        name: "Música",
+      },
+      {
+        id: 9648,
+        name: "Mistério",
+      },
+      {
+        id: 10749,
+        name: "Romance",
+      },
+      {
+        id: 878,
+        name: "Ficção científica",
+      },
+      {
+        id: 10770,
+        name: "Cinema TV",
+      },
+      {
+        id: 53,
+        name: "Thriller",
+      },
+      {
+        id: 10752,
+        name: "Guerra",
+      },
+      {
+        id: 37,
+        name: "Faroeste",
+      },
+    ],
+  };
+
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [imageNotLoaded, setImageNotLoaded] = useState<boolean>(false);
 
@@ -27,6 +108,18 @@ export function TrendingMovie() {
       return text.slice(0, maxLength) + "...";
     }
     return text;
+  }
+
+  function calculateGenreFontSize(genreTitle: string): string {
+    let calculatedNumber: string = "10";
+    let calculatedPercentage: number = 100 - (genreTitle.length - 5) * 10;
+
+    if (calculatedPercentage <= 30) {
+      calculatedPercentage = 50;
+    }
+
+    //return `${100 - (genreTitle.length - 5) * 10}%`;
+    return `text-[${calculatedPercentage}%]`;
   }
 
   function handleNext() {
@@ -87,33 +180,43 @@ export function TrendingMovie() {
           className='w-full max-h-[28rem] relative z-0'
         >
           <div className='ml-16 p-2 rounded w-80 top-1/2 transform -translate-y-1/2 absolute z-50'>
-            <h1 className='text-4xl font-bold wrap-text'>
+            <h1 className='text-4xl font-bold wrap-text md:line-clamp-3 line-clamp-1'>
               {slideArray[currentIndex].title}
             </h1>
-            <span className='line-clamp-3'>
+            <span className='mt-2 line-clamp-3'>
               {slideArray[currentIndex].overview}
             </span>
-            <div className='mt-2 flex row items-center'>
-              <Star size={20} color='#c00' weight='fill' />
-              <span className='ml-2 mt-[2px] font-bold line-clamp-3'>
-                {slideArray[currentIndex].vote_average.toFixed(1)}
+
+            <div className='mt-2 flex row items-center justify-between'>
+              <span className='flex row'>
+                <Star
+                  className='mt-[2px]'
+                  size={24}
+                  color='#c00'
+                  weight='fill'
+                />
+                <span className='text-lg ml-2 font-bold line-clamp-3'>
+                  {slideArray[currentIndex].vote_average.toFixed(1)}
+                </span>
               </span>
-              <span className='w-16 h-8 flex items-center justify-center ml-2 mt-[2px] font-bold px-[2px] py-[1px] bg-black/10 rounded border-2 overflow-x-hidden border-customColors-red-500'>
-                Animação
-              </span>
-              <span
-                title='Animação'
-                className='h-8 flex items-center justify-center ml-2 mt-[2px] font-bold px-2 py-[1px] bg-black/10 rounded border-2 border-customColors-red-500 break-words'
-              >
-                Animação
-              </span>
+
               <a
                 href='#'
-                className='h-8 flex items-center justify-center ml-2 mt-[2px] font-bold px-2 py-[1px] bg-black/10 rounded border-2 border-customColors-red-500'
+                className='min-w-auto h-8 flex items-center justify-center px-2 bg-customColors-red-500 rounded border-2 border-customColors-red-500'
               >
-                Mais ...
+                <span className='m-auto text-white'>Leia Mais</span>
               </a>
             </div>
+
+            <ul className='mt-2 md:flex flex-wrap justify-between row hidden'>
+              {testExample.genres.slice(0, 5).map((genre: any, _) => {
+                return (
+                  <li className='h-8 flex m-[1px]  px-[2px] py-[1px] bg-black/10 rounded-lg border-2 border-customColors-red-500'>
+                    <p className={`p-[1px] m-auto`}>{genre.name}</p>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
           <div
