@@ -179,11 +179,11 @@ export function TrendingMovie() {
           ref={slideMouseOverRef}
           className='w-full max-h-[28rem] relative z-0'
         >
-          <div className='ml-16 p-2 rounded w-80 top-1/2 transform -translate-y-1/2 absolute z-50'>
-            <h1 className='text-4xl font-bold wrap-text md:line-clamp-3 line-clamp-1'>
+          <div className='w-60 ml-16 p-2 rounded top-1/2 transform -translate-y-1/2 absolute z-50'>
+            <h1 className='md:text-4xl font-bold wrap-text line-clamp-1 text-2xl md:w-80 md:line-clamp-3'>
               {slideArray[currentIndex].title}
             </h1>
-            <span className='mt-2 line-clamp-3'>
+            <span className='mt-2 md:line-clamp-3 line-clamp-2'>
               {slideArray[currentIndex].overview}
             </span>
 
@@ -202,17 +202,20 @@ export function TrendingMovie() {
 
               <a
                 href='#'
-                className='min-w-auto h-8 flex items-center justify-center px-2 bg-customColors-red-500 rounded border-2 border-customColors-red-500'
+                className='min-w-auto flex items-center justify-center px-2 bg-customColors-red-500 rounded'
               >
-                <span className='m-auto text-white'>Leia Mais</span>
+                <span className='p-1 m-auto text-white'>Leia Mais</span>
               </a>
             </div>
 
-            <ul className='mt-2 md:flex flex-wrap justify-between row hidden'>
+            <ul className='mt-2 md:flex flex-wrap gap-x-1 row hidden'>
               {testExample.genres.slice(0, 5).map((genre: any, _) => {
                 return (
-                  <li className='h-8 flex m-[1px]  px-[2px] py-[1px] bg-black/10 rounded-lg border-2 border-customColors-red-500'>
-                    <p className={`p-[1px] m-auto`}>{genre.name}</p>
+                  <li
+                    key={genre.id}
+                    className='mb-1 flex bg-black/10 rounded-md border-2 border-customColors-red-500'
+                  >
+                    <p className='m-auto p-1'>{genre.name}</p>
                   </li>
                 );
               })}
@@ -221,7 +224,7 @@ export function TrendingMovie() {
 
           <div
             ref={slideAnimationRef}
-            className='w-full max-h-[28rem]  overflow-hidden flex justify-center items-center select-none bg-red-500'
+            className='w-full max-h-[28rem] overflow-hidden flex justify-center items-center select-none bg-red-500'
           >
             <img
               className='min-w-full min-h-full flex-shrink-0 select-none bg-green-500'
