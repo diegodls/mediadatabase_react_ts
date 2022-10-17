@@ -1,8 +1,8 @@
 import { ArrowCircleLeft, ArrowCircleRight, Star } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import { useTrendingMovies } from "../hooks/useTrendingMovies";
-import { ITrendingResult } from "../interfaces/ITrending";
-import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
+import { ITrendingMoviesResult } from "../interfaces/ITrendingMovies";
+import { API_BASEURL_IMAGE_1280, MovieTypeList } from "../utils/constants";
 import { Loading } from "./Loading";
 
 let count = 0;
@@ -10,7 +10,9 @@ let count = 0;
 export function TrendingMovie() {
   const { trendingMovies } = useTrendingMovies();
 
-  let slideArray: ITrendingResult[] = trendingMovies ? trendingMovies : [];
+  let slideArray: ITrendingMoviesResult[] = trendingMovies
+    ? trendingMovies
+    : [];
 
   let slideMouseOverRef = useRef<HTMLDivElement>(null);
   let slideAnimationRef = useRef<HTMLDivElement>(null);
@@ -19,89 +21,7 @@ export function TrendingMovie() {
   const imageError =
     "https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png";
 
-  const testExample = {
-    genres: [
-      {
-        id: 28,
-        name: "Ação",
-      },
-      {
-        id: 12,
-        name: "Aventura",
-      },
-      {
-        id: 16,
-        name: "Animação",
-      },
-      {
-        id: 35,
-        name: "Comédia",
-      },
-      {
-        id: 80,
-        name: "Crime",
-      },
-      {
-        id: 99,
-        name: "Documentário",
-      },
-      {
-        id: 18,
-        name: "Drama",
-      },
-      {
-        id: 10751,
-        name: "Família",
-      },
-      {
-        id: 14,
-        name: "Fantasia",
-      },
-      {
-        id: 36,
-        name: "História",
-      },
-      {
-        id: 27,
-        name: "Terror",
-      },
-      {
-        id: 10402,
-        name: "Música",
-      },
-      {
-        id: 9648,
-        name: "Mistério",
-      },
-      {
-        id: 10749,
-        name: "Romance",
-      },
-      {
-        id: 878,
-        name: "Ficção científica",
-      },
-      {
-        id: 10770,
-        name: "Cinema TV",
-      },
-      {
-        id: 53,
-        name: "Thriller",
-      },
-      {
-        id: 10752,
-        name: "Guerra",
-      },
-      {
-        id: 37,
-        name: "Faroeste",
-      },
-    ],
-  };
-
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [imageNotLoaded, setImageNotLoaded] = useState<boolean>(false);
 
   function truncateOverview(text: string, maxLength: number) {
     if (text.length > maxLength) {
@@ -209,7 +129,7 @@ export function TrendingMovie() {
             </div>
 
             <ul className='mt-2 md:flex flex-wrap gap-x-1 row hidden'>
-              {testExample.genres.slice(0, 5).map((genre: any, _) => {
+              {MovieTypeList.genres.slice(0, 5).map((genre: any, _) => {
                 return (
                   <li
                     key={genre.id}
@@ -222,27 +142,9 @@ export function TrendingMovie() {
             </ul>
           </div>
 
-          <div
-            ref={slideAnimationRef}
-            className='w-full max-h-[28rem] overflow-hidden flex justify-center items-center select-none bg-red-500'
-          >
-            <img
-              className='min-w-full min-h-full flex-shrink-0 select-none bg-green-500'
-              src={
-                imageNotLoaded
-                  ? imageError
-                  : API_BASEURL_IMAGE_1280 +
-                    slideArray[currentIndex].backdrop_path
-              }
-              alt={slideArray[currentIndex].title}
-              title={slideArray[currentIndex].title}
-              onError={() => setImageNotLoaded(true)}
-            />
-          </div>
-
           <div className='w-full h-12 top-0 bg-gradient-to-b from-customColors-background absolute z-50' />
 
-          <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-10' />
+          <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-40' />
 
           <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-50' />
 
@@ -253,6 +155,27 @@ export function TrendingMovie() {
             <button onClick={handleNext}>
               <ArrowCircleRight size={32} weight='bold' />
             </button>
+          </div>
+
+          <div
+            ref={slideAnimationRef}
+            className='w-full max-h-[28rem] overflow-hidden flex justify-center items-center select-none bg-red-500'
+          >
+            <img
+              className='min-w-full min-h-full flex-shrink-0 select-none bg-green-500 absolute z-20'
+              src={
+                API_BASEURL_IMAGE_1280 + slideArray[currentIndex].backdrop_path
+              }
+              alt={slideArray[currentIndex].title}
+              title={slideArray[currentIndex].title}
+            />
+
+            <img
+              className='min-w-full min-h-full flex-shrink-0 select-none bg-green-500 relative z-10'
+              src={imageError}
+              alt={`Erro ao carregar a imagem de ${slideArray[currentIndex].title}`}
+              title={`Erro ao carregar a imagem de ${slideArray[currentIndex].title}`}
+            />
           </div>
         </div>
       ) : (
