@@ -19,12 +19,12 @@ export function Loading({
 }: LoadingProps) {
   return (
     <div
-      className={`w-full h-full flex flex-col items-center justify-center
+      className={`w-full h-full flex flex-col items-center justify-center 
       ${!show && "hidden"}
       ${show ? "animate-fadeIn" : "animate-fadeOut"}
       ${backdrop && "bg-black/10"}
       ${blur && "backdrop-blur"}
-      ${onTop && "absolute right-0 top-0"}`}
+      ${onTop && "absolute right-0 top-0 z-50"}`}
     >
       <div className='w-24 h-24'>
         <LoadingIcon width={100} height={100} stroke={stroke} />
