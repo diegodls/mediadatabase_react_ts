@@ -1,14 +1,14 @@
-export type ITrendingType = "all" | "movie" | "person" | "tv";
-export type ITrendingTime = "day" | "week";
+export type ITrendingMoviesType = "all" | "movie" | "person" | "tv";
+export type ITrendingMoviesTime = "day" | "week";
 
-export interface ITrending {
+export interface ITrendingMovies {
   page: number;
-  results: ITrendingResult[];
+  results: ITrendingMoviesResult[];
   total_pages: number;
   total_results: number;
 }
 
-export interface ITrendingResult {
+export interface ITrendingMoviesResult {
   adult: boolean;
   backdrop_path: string;
   id: number;
