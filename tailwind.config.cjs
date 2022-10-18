@@ -19,10 +19,20 @@ module.exports = {
           "0%": { opacity: 100 },
           "100%": { opacity: 0 },
         },
+
+        diagonalMove: {
+          "0%": {
+            transform: "translate(-14rem, -18rem)",
+          },
+          "100%": {
+            transform: "translate(14rem, 18rem)",
+          },
+        },
       },
       animation: {
         fadeIn: "fadeIn .2s ease-in",
-        fadeOut: "fadeIn .2s ease-out",
+        fadeOut: "fadeOut .2s ease-out",
+        diagonalMove: "diagonalMove 1s linear infinite",
       },
     },
   },
