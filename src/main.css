@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  font-family: 'Lato', Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Lato", Avenir, Helvetica, Arial, sans-serif;
 
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: #131313;
 
   font-synthesis: none;
@@ -13,4 +13,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
