@@ -5,17 +5,33 @@ import { API_BASEURL_IMAGE_200 } from "../utils/constants";
 export function PopularMovies() {
   const { popularMovies } = usePopularMovies();
 
+  function calcOpacity(length: number, index: number) {
+    const minOpacity: number = 10;
+    const maxOpacity: number = 40;
+    if (index === length - 1) {
+      return maxOpacity / 100;
+    }
+    const opacityInterval = (maxOpacity - minOpacity) / (length - 1);
+    const finalOpacity = (minOpacity + opacityInterval * index) / 100;
+
+    return finalOpacity.toFixed(1);
+  }
+
   return (
     <>
       {popularMovies && popularMovies?.length > 0 ? (
         <div className='w-full h-32 md:h-64 flex flex-row  gap-2 overflow-hidden'>
-          {Array(3)
+          {Array(5)
             .fill(null)
             .map((_, index, array) => (
               <div
                 className={`w-48 h-full rounded-md 
-                bg-slate-500/${(array.length - index) * 5} overflow-hidden`}
+                bg-slate-500/[${calcOpacity(
+                  array.length,
+                  index
+                )}] overflow-hidden`}
               >
+                <h1>{calcOpacity(array.length, index)}</h1>
                 <div className=' h-64 animate-diagonalMove'>
                   <div className='w-12 h-[500px] bg-gradient-to-r from-transparent via-stone-800/90 to-transparent transform rotate-45 translate-y-[-250px]' />
                 </div>
