@@ -92,6 +92,8 @@ export function TrendingMovie() {
     console.log("RENDERING -> TrendingMovie.tsx");
   });
 
+  //
+
   return (
     <>
       {slideArray && slideArray?.length > 0 ? (
@@ -159,10 +161,10 @@ export function TrendingMovie() {
 
           <div
             ref={slideAnimationRef}
-            className='w-full max-h-[28rem] overflow-hidden flex justify-center items-center select-none bg-red-500'
+            className='w-full max-h-[28rem] overflow-hidden flex justify-center items-center select-none'
           >
             <img
-              className='min-w-full min-h-full flex-shrink-0 select-none bg-green-500 absolute z-20'
+              className='min-w-full min-h-full flex-shrink-0 select-none absolute z-20'
               src={
                 API_BASEURL_IMAGE_1280 + slideArray[currentIndex].backdrop_path
               }
@@ -171,7 +173,7 @@ export function TrendingMovie() {
             />
 
             <img
-              className='min-w-full min-h-full flex-shrink-0 select-none bg-green-500 relative z-10'
+              className='min-w-full min-h-full flex-shrink-0 select-none relative z-10'
               src={imageError}
               alt={`Erro ao carregar a imagem de ${slideArray[currentIndex].title}`}
               title={`Erro ao carregar a imagem de ${slideArray[currentIndex].title}`}
@@ -179,11 +181,15 @@ export function TrendingMovie() {
           </div>
         </div>
       ) : (
-        <div
-          ref={slideMouseOverRef}
-          className='w-full min-h-[28rem] max-h-[28rem] flex items-center justify-center relative z-0'
-        >
-          <Loading stroke='#cfcfcf58' />
+        <div className='w-full max-h-[28rem] flex items-center justify-center relative z-0 overflow-hidden'>
+          <Loading stroke='#cfcfcf58' onTop={true} />
+
+          <img
+            className='min-w-full min-h-full flex-shrink-0 select-none relative z-10 opacity-0'
+            src={imageError}
+            alt={`Carregando...`}
+            title={`Carregando...`}
+          />
         </div>
       )}
     </>
