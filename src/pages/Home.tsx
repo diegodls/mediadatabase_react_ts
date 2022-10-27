@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "../components/Header";
 import { Loading } from "../components/Loading";
-import { PopularMovies } from "../components/PopularMovies";
+import { PopularMoviesList } from "../components/PopularMoviesList";
 import { TrendingMovie } from "../components/TrendingMovie";
 import { IMovieDetails } from "../interfaces/IMovieDetails";
 import { getMoviesDetails } from "../services/api";
@@ -29,7 +29,7 @@ export function Home() {
     <div className='h-full w-full flex flex-col items-center overflow-hidden'>
       <Header />
       <TrendingMovie />
-      <PopularMovies />
+      <PopularMoviesList />
       <p className='text-7xl'>Home</p>
       <Link to='/details'>Detalhes</Link>
       <Link to='/nothing'>404</Link>
