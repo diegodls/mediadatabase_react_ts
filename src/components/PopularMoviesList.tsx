@@ -8,9 +8,9 @@ export function PopularMoviesList() {
   //popularMovies && popularMovies?.length > 0
   return (
     <>
-      <div className='w-full h-44 md:h-56'>
+      <div className='w-full h-44 md:h-56 relative top-[-10px]'>
         {popularMovies && popularMovies?.length > 0 ? (
-          <ul className='w-full h-full flex flex-row items-center gap-2 relative overflow-hidden'>
+          <ul className='w-full h-full flex flex-row items-center gap-2 relative'>
             {popularMovies?.map((movie: IPopularMoviesResults) => (
               <PopularMoviesListItem movie={movie} key={movie.id} />
             ))}
