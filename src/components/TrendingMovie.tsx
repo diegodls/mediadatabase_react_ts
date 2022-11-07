@@ -92,16 +92,16 @@ export function TrendingMovie() {
     console.log("RENDERING -> TrendingMovie.tsx");
   });
 
-  //
+  //slideArray && slideArray?.length > 0
 
   return (
-    <>
+    <section
+      ref={slideMouseOverRef}
+      className={`w-full h-full max-h-[30rem] overflow-hidden relative z-0`}
+    >
       {slideArray && slideArray?.length > 0 ? (
-        <div
-          ref={slideMouseOverRef}
-          className='w-full max-h-[28rem] overflow-hidden relative z-0'
-        >
-          <div className='w-60 ml-16 p-2 rounded top-1/2 transform -translate-y-1/2 absolute z-50'>
+        <>
+          <div className='md:w-80 w-60 ml-16 p-2 rounded top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
             <h1 className='md:text-4xl font-bold wrap-text line-clamp-1 text-2xl md:w-80 md:line-clamp-3'>
               {slideArray[currentIndex].title}
             </h1>
@@ -161,7 +161,7 @@ export function TrendingMovie() {
 
           <div
             ref={slideAnimationRef}
-            className='w-full max-h-[28rem] overflow-hidden flex justify-center items-center select-none'
+            className='w-full h-full overflow-hidden flex justify-center items-center select-none'
           >
             <img
               className='min-w-full min-h-full flex-shrink-0 select-none absolute z-20'
@@ -179,19 +179,25 @@ export function TrendingMovie() {
               title={`Erro ao carregar a imagem de ${slideArray[currentIndex].title}`}
             />
           </div>
-        </div>
+        </>
       ) : (
-        <div className='w-full max-h-[28rem] flex items-center justify-center relative z-0 overflow-hidden'>
+        <div
+          className={`w-full max-h-[30rem] flex items-center justify-center overflow-hidden`}
+        >
           <Loading stroke='#cfcfcf58' onTop={true} />
 
-          <img
-            className='min-w-full min-h-full flex-shrink-0 select-none relative z-10 opacity-0'
-            src={imageError}
-            alt={`Carregando...`}
-            title={`Carregando...`}
-          />
+          <div
+            className={`w-full min-h-[350px] flex items-center justify-center opacity-0 overflow-hidden `}
+          >
+            <img
+              className='min-w-full min-h-full flex-shrink-0 select-none relative z-10 opacity-0'
+              src={imageError}
+              alt={`Carregando...`}
+              title={`Carregando...`}
+            />
+          </div>
         </div>
       )}
-    </>
+    </section>
   );
 }
