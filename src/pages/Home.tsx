@@ -26,7 +26,7 @@ export function Home() {
   console.log("Home Rendering");
 
   return (
-    <div className='h-full w-full flex flex-col items-center overflow-hidden'>
+    <div className='w-full h-full flex flex-col'>
       <Header />
       <TrendingMovie />
       <PopularMoviesList />
