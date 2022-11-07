@@ -7,12 +7,9 @@ interface PopularMoviesListItemProps {
 
 export function PopularMoviesListItem({ movie }: PopularMoviesListItemProps) {
   return (
-    <li
-      key={movie.id}
-      className='group min-w-fit h-full flex flex-col rounded-md relative overflow-hidden'
-    >
-      <div className='w-full h-12 flex items-center bottom-[-3rem] group-hover:bottom-0 absolute z-20 group-hover:transition-all'>
-        <p className='p-2 font-bold absolute z-20 line-clamp-2'>
+    <li className='group min-w-fit h-full flex flex-col rounded-md relative overflow-hidden'>
+      <div className='w-full h-12 flex items-center absolute z-20 bottom-0 translate-y-12 group-hover:translate-y-0 transition-all ease-out opacity-0 group-hover:opacity-100'>
+        <p className='font-bold pl-2 absolute z-20 line-clamp-1 overflow-hidden'>
           {movie.title}
         </p>
 
