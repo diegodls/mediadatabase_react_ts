@@ -88,10 +88,6 @@ export function TrendingMovie() {
     };
   }, [slideArray]);
 
-  useEffect(() => {
-    console.log("RENDERING -> TrendingMovie.tsx");
-  });
-
   //slideArray && slideArray?.length > 0
 
   return (
