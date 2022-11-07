@@ -15,9 +15,6 @@ export function usePopularMovies() {
         return response.data;
       });
 
-    console.log("popularData.results");
-    console.log(popularData.results.length);
-
     return popularData.results;
   }
 
