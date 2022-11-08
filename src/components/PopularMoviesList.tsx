@@ -17,7 +17,7 @@ export function PopularMoviesList() {
           </ul>
         ) : (
           <ul className='w-full h-full flex flex-row items-center gap-2 relative'>
-            {Array(4)
+            {Array(6)
               .fill(null)
               .map((_, itemIndex, array) => (
                 <PopularMoviesListItemSkeleton
