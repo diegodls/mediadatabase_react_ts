@@ -13,7 +13,8 @@ export function PopularMoviesListItemSkeleton({
 
   return (
     <li
-      className={`w-36 h-full rounded-md bg-gray-600 overflow-hidden ${dynamicOpacity}`}
+      className={`w-36 h-full rounded-md bg-gray-600 overflow-hidden`}
+      style={{ opacity: dynamicOpacity }}
     >
       <p>{calcDynamicOpacity(itemIndex, array.length)}</p>
       <p>{dynamicOpacity}</p>
