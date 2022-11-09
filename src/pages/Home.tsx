@@ -5,7 +5,7 @@ import { TrendingMovie } from "../components/TrendingMovie";
 
 export function Home() {
   return (
-    <div className='w-full flex flex-col'>
+    <div className='w-full min-w-[640px] flex flex-col overflow-hidden'>
       <Header />
       <TrendingMovie />
       <PopularMoviesList />
