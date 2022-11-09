@@ -14,5 +14,5 @@ export function calcDynamicOpacity(index: number, length: number): number {
     finalOpacity = maxOpacity;
   }
 
-  return Math.floor(finalOpacity) / 12;
+  return Math.floor(finalOpacity) / 10;
 }
