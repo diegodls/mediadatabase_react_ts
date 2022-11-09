@@ -9,11 +9,11 @@ export function PopularMoviesList() {
   //popularMovies && popularMovies?.length > 0
   return (
     <>
-      <div className='group w-full h-44 md:h-56 flex items-center relative top-[-10px]'>
-        <span className='h-full group-hover:flex items-center bg-black/50 hover:bg-black/80 rounded-r-sm overflow-hidden absolute left-0 z-20 cursor-pointer hidden transition-all'>
+      <div className='group/edit w-full h-44 md:h-56 flex items-center relative top-[-10px]'>
+        <span className='h-full flex items-center bg-black/50 hover:bg-black/80 rounded-r-sm overflow-hidden absolute left-0 z-20 cursor-pointer opacity-100 group-hover/edit:opacity-100 transition-all'>
           <CaretLeft size={32} color='#ffffff' weight='fill' />
         </span>
-        <span className='h-full group-hover:flex items-center bg-black/50 hover:bg-black/80 rounded-l-sm overflow-hidden absolute right-0 z-20 cursor-pointer hidden transition-all'>
+        <span className='h-full flex items-center bg-black/50 hover:bg-black/80 rounded-l-sm overflow-hidden absolute right-0 z-20 cursor-pointer opacity-100 group-hover/edit:opacity-100 transition-all'>
           <CaretRight size={32} color='#ffffff' weight='fill' />
         </span>
         {popularMovies && popularMovies?.length > 0 ? (
