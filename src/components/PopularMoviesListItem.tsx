@@ -8,7 +8,7 @@ interface PopularMoviesListItemProps {
 export function PopularMoviesListItem({ movie }: PopularMoviesListItemProps) {
   return (
     <li
-      className='group min-w-fit h-full flex flex-col rounded-md cursor-pointer relative overflow-hidden transform transition-all hover:scale-110 hover:drop-shadow-xl hover:z-10'
+      className='group min-w-fit h-full flex flex-col rounded-md cursor-pointer relative overflow-hidden transform transition-all hover:scale-110 hover:drop-shadow-xl hover:z-10 select-none'
       title={movie.title}
       aria-label={`Imagem da capa do filme ${movie.title} - Clique para visitar`}
     >
