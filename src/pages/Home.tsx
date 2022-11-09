@@ -11,6 +11,7 @@ export function Home() {
       <PopularMoviesList />
 
       <p className='text-7xl'>Home</p>
+
       <Link to='/details'>Detalhes</Link>
       <Link to='/nothing'>404</Link>
       <Link to='/nothing'>404</Link>
