@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require("tailwindcss/plugin");
+
 module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
@@ -40,5 +43,17 @@ module.exports = {
     require("@tailwindcss/forms"),
     require("@tailwindcss/line-clamp"),
     require("tailwind-scrollbar"),
+    require("tailwind-scrollbar-hide"),
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        ".hide-scrollbar": {
+          "-ms-overflow-style": "none" /*  IE and Edge   */,
+          "scrollbar-width": "none" /*  Firefox   */,
+        },
+        ".hide-scrollbar::-webkit-scrollbar": {
+          display: "none",
+        },
+      });
+    }),
   ],
 };
