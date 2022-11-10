@@ -8,7 +8,7 @@ interface PopularMoviesListItemProps {
 export function PopularMoviesListItem({ movie }: PopularMoviesListItemProps) {
   return (
     <li
-      className='group min-w-fit h-full flex flex-col rounded-md cursor-pointer relative overflow-hidden transform transition-all hover:scale-110 hover:drop-shadow-xl hover:z-10 select-none'
+      className='group min-w-fit h-full flex flex-col rounded-md cursor-pointer relative overflow-hidden transform transition-all scale-90 mx-[-3px] hover:scale-100 hover:drop-shadow-xl hover:z-10 select-none'
       title={movie.title}
       aria-label={`Imagem da capa do filme ${movie.title} - Clique para visitar`}
     >
@@ -17,12 +17,12 @@ export function PopularMoviesListItem({ movie }: PopularMoviesListItemProps) {
           {movie.title}
         </p>
 
-        <div className='w-full h-12 bg-gradient-to-t from-customColors-background absolute z-10' />
+        <span className='w-full h-12 bg-gradient-to-t from-customColors-background absolute z-10' />
       </div>
 
       <img
         src={`${API_BASEURL_IMAGE_200 + movie.poster_path}`}
-        className='h-full'
+        className='h-full object-cover'
       />
     </li>
   );
