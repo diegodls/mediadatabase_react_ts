@@ -95,7 +95,7 @@ export function TrendingMovie() {
       ref={slideMouseOverRef}
       className={`w-full h-full max-h-[30rem] overflow-hidden relative z-0`}
     >
-      {slideArray && slideArray?.length > 0 ? (
+      {false ? (
         <>
           <div className='md:w-80 w-60 ml-16 p-2 rounded top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
             <h1 className='md:text-4xl font-bold wrap-text line-clamp-1 text-2xl md:w-80 md:line-clamp-3'>
