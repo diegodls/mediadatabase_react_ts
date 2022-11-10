@@ -13,7 +13,7 @@ export function PopularMoviesListItemSkeleton({
 
   return (
     <li
-      className={`md:w-36 md:min-w-[9rem] h-full rounded-md bg-gray-600 overflow-hidden`}
+      className={`md:w-36 w-28 flex-none h-full rounded-md bg-gray-600 overflow-hidden`}
       style={{ opacity: dynamicOpacity }}
     >
       <div className='animate-diagonalMove'>
