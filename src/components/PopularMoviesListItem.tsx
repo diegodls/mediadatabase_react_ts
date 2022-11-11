@@ -1,27 +1,30 @@
-import { IPopularMoviesResults } from "../interfaces/IPopularMovies";
 import { API_BASEURL_IMAGE_200 } from "../utils/constants";
 
 interface PopularMoviesListItemProps {
-  movie: IPopularMoviesResults;
+  title?: string;
+  poster_path: string;
 }
 
-export function PopularMoviesListItem({ movie }: PopularMoviesListItemProps) {
+export function PopularMoviesListItem({
+  title,
+  poster_path,
+}: PopularMoviesListItemProps) {
   return (
     <li
       className='group min-w-fit h-full flex flex-col rounded-md cursor-pointer relative overflow-hidden transform transition-all scale-90 mx-[-3px] hover:scale-100 hover:drop-shadow-xl hover:z-10 select-none'
-      title={movie.title}
-      aria-label={`Imagem da capa do filme ${movie.title} - Clique para visitar`}
+      title={title}
+      aria-label={`Imagem da capa do filme ${title} - Clique para visitar`}
     >
       <div className='w-full h-12 flex items-center absolute z-20 bottom-0 translate-y-12 group-hover:translate-y-0 transition-all ease-in opacity-0 group-hover:opacity-100'>
         <p className='font-bold pl-2 absolute z-20 line-clamp-1 overflow-hidden scale-90'>
-          {movie.title}
+          {title}
         </p>
 
         <span className='w-full h-12 bg-gradient-to-t from-customColors-background absolute z-10' />
       </div>
 
       <img
-        src={`${API_BASEURL_IMAGE_200 + movie.poster_path}`}
+        src={`${API_BASEURL_IMAGE_200 + poster_path}`}
         className='h-full object-cover'
       />
     </li>
