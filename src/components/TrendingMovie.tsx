@@ -1,14 +1,16 @@
 import { ArrowCircleLeft, ArrowCircleRight, Star } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
+import { useGenres } from "../hooks/useGenres";
 import { useTrendingMovies } from "../hooks/useTrendingMovies";
 import { ITrendingMoviesResult } from "../interfaces/ITrendingMovies";
-import { API_BASEURL_IMAGE_1280, MovieTypeList } from "../utils/constants";
+import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 import { Loading } from "./Loading";
 
 let count = 0;
 
 export function TrendingMovie() {
   const { trendingMovies } = useTrendingMovies();
+  const { genresList } = useGenres();
 
   let slideArray: ITrendingMoviesResult[] = trendingMovies
     ? trendingMovies
@@ -22,25 +24,6 @@ export function TrendingMovie() {
     "https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png";
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-
-  function truncateOverview(text: string, maxLength: number) {
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + "...";
-    }
-    return text;
-  }
-
-  function calculateGenreFontSize(genreTitle: string): string {
-    let calculatedNumber: string = "10";
-    let calculatedPercentage: number = 100 - (genreTitle.length - 5) * 10;
-
-    if (calculatedPercentage <= 30) {
-      calculatedPercentage = 50;
-    }
-
-    //return `${100 - (genreTitle.length - 5) * 10}%`;
-    return `text-[${calculatedPercentage}%]`;
-  }
 
   function handleNext() {
     if (slideArray.length > 0) {
@@ -93,19 +76,27 @@ export function TrendingMovie() {
   return (
     <section
       ref={slideMouseOverRef}
-      className={`w-full h-full max-h-[30rem] overflow-hidden relative z-0`}
+      className={`w-full h-full max-h-[30rem] overflow-hidden relative z-0 `}
     >
-      {false ? (
+      {slideArray && slideArray?.length > 0 ? (
         <>
-          <div className='md:w-80 w-60 ml-16 p-2 rounded top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
-            <h1 className='md:text-4xl font-bold wrap-text line-clamp-1 text-2xl md:w-80 md:line-clamp-3'>
+          <div className='md:w-80 w-60 ml-16 rounded top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
+            <h1
+              aria-label={`Filme: ${slideArray[currentIndex].title}`}
+              title={`Filme: ${slideArray[currentIndex].title}`}
+              className='md:text-4xl font-bold wrap-text line-clamp-1 text-2xl md:w-80 md:line-clamp-1'
+            >
               {slideArray[currentIndex].title}
             </h1>
-            <span className='mt-2 md:line-clamp-3 line-clamp-2'>
+            <span
+              aria-label={`Resumo do filme: ${slideArray[currentIndex].title}: ${slideArray[currentIndex].overview}`}
+              title={slideArray[currentIndex].overview}
+              className='mt-2 md:line-clamp-3 line-clamp-2'
+            >
               {slideArray[currentIndex].overview}
             </span>
 
-            <div className='mt-2 flex row items-center justify-between'>
+            <div className='mt-3 flex row items-center justify-between'>
               <span className='flex row'>
                 <Star
                   className='mt-[2px]'
@@ -119,6 +110,7 @@ export function TrendingMovie() {
               </span>
 
               <a
+                aria-label={`Botão para saber mais sobre ${slideArray[currentIndex].title}`}
                 href='#'
                 className='min-w-auto flex items-center justify-center px-2 bg-customColors-red-500 rounded'
               >
@@ -126,18 +118,38 @@ export function TrendingMovie() {
               </a>
             </div>
 
-            <ul className='mt-2 md:flex flex-wrap gap-x-1 row hidden'>
-              {MovieTypeList.genres.slice(0, 5).map((genre: any, _) => {
-                return (
-                  <li
-                    key={genre.id}
-                    className='mb-1 flex bg-black/10 rounded-md border-2 border-customColors-red-500'
-                  >
-                    <p className='m-auto p-1'>{genre.name}</p>
-                  </li>
-                );
-              })}
-            </ul>
+            {genresList && genresList.genres.length > 0 ? (
+              <ul
+                aria-label={`Lista dos gêneros do filme: ${slideArray[currentIndex].title}`}
+                className='mt-3 md:flex flex-wrap gap-x-2 row hidden'
+              >
+                {slideArray[currentIndex].genre_ids
+                  .slice(0, 5)
+                  .map((id: number, _) => {
+                    return (
+                      <li
+                        key={id}
+                        title={
+                          genresList.genres.find((genre) => genre.id === id)
+                            ?.name
+                        }
+                        aria-label={
+                          genresList.genres.find((genre) => genre.id === id)
+                            ?.name
+                        }
+                        className='mb-1 flex bg-black/10 rounded-md border-2 border-customColors-red-500 cursor-default'
+                      >
+                        <p className='m-auto p-1'>
+                          {
+                            genresList.genres.find((genre) => genre.id === id)
+                              ?.name
+                          }
+                        </p>
+                      </li>
+                    );
+                  })}
+              </ul>
+            ) : null}
           </div>
 
           <div className='w-full h-12 top-0 bg-gradient-to-b from-customColors-background absolute z-50' />
