@@ -1,32 +1,32 @@
-import { Link } from "react-router-dom";
 import { Header } from "../components/Header";
 import { PopularMoviesList } from "../components/PopularMoviesList";
 import { TrendingMovie } from "../components/TrendingMovie";
+import { usePopularMovies } from "../hooks/usePopularMovies";
+import { usePopularTvShows } from "../hooks/usePopularTvShows";
+import { IPopularMoviesResults } from "../interfaces/IPopularMovies";
+import { IPopularTvShowsResults } from "../interfaces/IPopularTvShows";
 
 export function Home() {
+  const { popularMovies } = usePopularMovies();
+  const { popularTvShows } = usePopularTvShows();
+
   return (
     <div className='w-full min-w-[640px] flex flex-col overflow-hidden'>
       <Header />
-      <TrendingMovie />
-      <PopularMoviesList />
 
-      <p className='text-7xl'>Home</p>
-      <p className='text-7xl'>Home</p>
-      <p className='text-7xl'>Home</p>
-      <p className='text-7xl'>Home</p>
-      <p className='text-7xl'>Home</p>
-      <p className='text-7xl'>Home</p>
-      <p className='text-7xl'>Home</p>
-      <p className='text-7xl'>Home</p>
-      <p className='text-7xl'>Home</p>
-      <Link to='/details'>Detalhes</Link>
-      <Link to='/nothing'>404</Link>
-      <Link to='/nothing'>404</Link>
-      <Link to='/nothing'>404</Link>
-      <Link to='/nothing'>404</Link>
-      <Link to='/nothing'>404</Link>
-      <Link to='/nothing'>404</Link>
-      <Link to='/nothing'>404</Link>
+      <TrendingMovie />
+
+      <PopularMoviesList<IPopularMoviesResults>
+        rowTitle='Populares'
+        type='MOVIE'
+        data={popularMovies}
+      />
+
+      <PopularMoviesList<IPopularTvShowsResults>
+        rowTitle='Populares'
+        type='MOVIE'
+        data={popularTvShows}
+      />
     </div>
   );
 }
