@@ -29,8 +29,6 @@ export function usePopularMovies() {
     fetchPopular();
   }, []);
 
-  console.log("usePopularMovies");
-
   return {
     popularMovies,
   };
