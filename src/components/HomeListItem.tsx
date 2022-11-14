@@ -1,14 +1,11 @@
 import { API_BASEURL_IMAGE_200 } from "../utils/constants";
 
-interface PopularMoviesListItemProps {
+interface HomeListItemProps {
   title?: string;
   poster_path: string;
 }
 
-export function PopularMoviesListItem({
-  title,
-  poster_path,
-}: PopularMoviesListItemProps) {
+export function HomeListItem({ title, poster_path }: HomeListItemProps) {
   return (
     <li
       className='group min-w-fit h-full flex flex-col rounded-md cursor-pointer relative overflow-hidden transform transition-all scale-90 mx-[-3px] hover:scale-100 hover:drop-shadow-xl hover:z-10 select-none'
@@ -20,7 +17,7 @@ export function PopularMoviesListItem({
           {title}
         </p>
 
-        <span className='w-full h-12 bg-gradient-to-t from-customColors-background absolute z-10' />
+        <span className='w-full h-12 bg-gradient-to-t from-black absolute z-10' />
       </div>
 
       <img

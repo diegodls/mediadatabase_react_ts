@@ -1,7 +1,7 @@
 import { CaretLeft, CaretRight } from "phosphor-react";
-import { useRef } from "react";
-import { PopularMoviesListItem } from "./PopularMoviesListItem";
-import { PopularMoviesListItemSkeleton } from "./PopularMoviesListItemSkeleton";
+import { useRef, useState } from "react";
+import { HomeListItem } from "./HomeListItem";
+import { HomeListItemSkeleton } from "./HomeListItemSkeleton";
 
 interface IListRowProps<T> {
   rowTitle?: string;
@@ -9,7 +9,7 @@ interface IListRowProps<T> {
   data?: T[];
 }
 
-export function PopularMoviesList<T>({
+export function HomeList<T>({
   rowTitle,
   type,
   data,
@@ -17,6 +17,8 @@ export function PopularMoviesList<T>({
   T & { id: number; title?: string; name?: string; poster_path?: string }
 >) {
   const listRef = useRef<HTMLUListElement>(null);
+
+  const [isMouseOverList, setIsMouseOverList] = useState<boolean>(false);
 
   function handleScrollLeft(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -42,20 +44,25 @@ export function PopularMoviesList<T>({
 
   //popularMovies && popularMovies?.length > 0
 
-  console.log("----------------DATA");
-  console.log(data && data[0]);
-
   return (
-    <>
-      <p>rowTitle: {rowTitle}</p>
-      <p>type: {type}</p>
-      {data ? <p>{data[data.length - 1].name}</p> : null}
-      <div className='group/edit w-full h-48 md:h-64 flex items-center relative top-[-10px]'>
+    <div className={`w-full flex flex-col relative mt-2`}>
+      <strong className='px-5 text-lg'>{rowTitle}</strong>
+      <div
+        onMouseEnter={() => {
+          setIsMouseOverList(true);
+        }}
+        onMouseLeave={() => {
+          setIsMouseOverList(false);
+        }}
+        className='w-full h-48 md:h-64 flex flex-col relative'
+      >
         <button
           aria-label='Scroll para esquerda'
           title='Scroll para esquerda'
           onClick={handleScrollLeft}
-          className='w-9 h-full flex items-center justify-center bg-black/50 hover:bg-black/80 rounded-r-sm overflow-hidden absolute left-0 z-20 cursor-pointer opacity-100 group-hover/edit:opacity-100 transition-all select-none'
+          className={`w-9 h-full flex items-center justify-center bg-black/50 hover:bg-black/80 rounded-r-sm overflow-hidden absolute left-0 z-20 cursor-pointer transition-all select-none ${
+            isMouseOverList ? "opacity-100" : "opacity-0"
+          }`}
         >
           <CaretLeft size={32} color='#ffffff' weight='fill' />
         </button>
@@ -63,18 +70,20 @@ export function PopularMoviesList<T>({
           aria-label='Scroll para direita'
           title='Scroll para direita'
           onClick={handleScrollRight}
-          className='w-9 h-full flex items-center justify-center bg-black/50 hover:bg-black/80 rounded-l-sm overflow-hidden absolute right-0 z-20 cursor-pointer opacity-100 group-hover/edit:opacity-100 transition-all select-none'
+          className={`w-9 h-full flex items-center justify-center bg-black/50 hover:bg-black/80 rounded-l-sm overflow-hidden absolute right-0 z-20 cursor-pointer transition-all select-none  ${
+            isMouseOverList ? "opacity-100" : "opacity-0"
+          }`}
         >
           <CaretRight size={32} color='#ffffff' weight='fill' />
         </button>
         {data && data?.length > 0 ? (
           <ul
-            className='w-full h-full px-9 flex flex-row items-center relative transition-all overflow-x-scroll scroll-smooth scrollbar-hide'
+            className='w-full px-10 flex flex-row items-center relative transition-all overflow-x-scroll scroll-smooth scrollbar-hide'
             ref={listRef}
             role='list'
           >
             {data?.map((item) => (
-              <PopularMoviesListItem
+              <HomeListItem
                 title={item.title || item.name}
                 poster_path={
                   item.poster_path
@@ -93,7 +102,7 @@ export function PopularMoviesList<T>({
             {Array(6)
               .fill(null)
               .map((_, itemIndex, array) => (
-                <PopularMoviesListItemSkeleton
+                <HomeListItemSkeleton
                   key={itemIndex}
                   itemIndex={itemIndex}
                   array={array}
@@ -102,6 +111,6 @@ export function PopularMoviesList<T>({
           </ul>
         )}
       </div>
-    </>
+    </div>
   );
 }
