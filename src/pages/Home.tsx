@@ -1,5 +1,6 @@
 import { Header } from "../components/Header";
 import { HomeList } from "../components/HomeList";
+import { PopularTvShow } from "../components/PopularTvShows";
 import { TrendingMovie } from "../components/TrendingMovie";
 import { usePopularMovies } from "../hooks/usePopularMovies";
 import { usePopularTvShows } from "../hooks/usePopularTvShows";
@@ -13,7 +14,7 @@ import { IUpcomingMoviesResults } from "../interfaces/IUpcomingMovies";
 export function Home() {
   const { popularMovies } = usePopularMovies();
   const { upcomingMovies } = useUpcomingMovies();
-  const { popularTvShows } = usePopularTvShows();
+  const { popularTvShowsWithoutFeatured } = usePopularTvShows();
   const { topRatedTvShows } = useTopRatedTvShows();
 
   return (
@@ -37,7 +38,7 @@ export function Home() {
         <HomeList<IPopularTvShowsResults>
           rowTitle='Series Populares'
           type='TVSHOWS'
-          data={popularTvShows}
+          data={popularTvShowsWithoutFeatured}
         />
 
         <HomeList<ITopRatedTvShowsResults>
@@ -45,6 +46,8 @@ export function Home() {
           type='TVSHOWS'
           data={topRatedTvShows}
         />
+
+        <PopularTvShow />
       </div>
     </div>
   );
