@@ -8,7 +8,7 @@ interface HomeListItemProps {
 export function HomeListItem({ title, poster_path }: HomeListItemProps) {
   return (
     <li
-      className='group min-w-fit h-full flex flex-col rounded-md cursor-pointer relative overflow-hidden transform transition-all scale-90 mx-[-3px] hover:scale-100 hover:drop-shadow-xl hover:z-10 select-none'
+      className='group min-w-fit h-full flex flex-col rounded-md cursor-pointer relative overflow-hidden transform transition-all scale-90 hover:scale-100 hover:drop-shadow-xl hover:z-10 select-none'
       title={title}
       aria-label={`Imagem da capa do filme ${title} - Clique para visitar`}
     >
