@@ -1,16 +1,16 @@
-export interface ILatestTvShows {
+export interface ILatestTvShow {
   backdrop_path: any;
   created_by: any[];
   episode_run_time: number[];
   first_air_date: string;
-  genres: ILatestTvShowsGenres[];
+  genres: ILatestTvShowGenres[];
   homepage: string;
   id: number;
   in_production: boolean;
   languages: string[];
   last_air_date: string;
   name: string;
-  networks: ILatestTvShowsNetworks[];
+  networks: ILatestTvShowNetworks[];
   number_of_episodes: number;
   number_of_seasons: number;
   origin_country: string[];
@@ -20,24 +20,24 @@ export interface ILatestTvShows {
   popularity: number;
   poster_path: any;
   production_companies: any[];
-  seasons: ILatestTvShowsSeasons[];
+  seasons: ILatestTvShowSeasons[];
   status: string;
   type: string;
   vote_average: number;
   vote_count: number;
 }
 
-export interface ILatestTvShowsGenres {
+export interface ILatestTvShowGenres {
   id: number;
   name: string;
 }
 
-export interface ILatestTvShowsNetworks {
+export interface ILatestTvShowNetworks {
   id: number;
   name: string;
 }
 
-export interface ILatestTvShowsSeasons {
+export interface ILatestTvShowSeasons {
   air_date: string;
   episode_count: number;
   id: number;
