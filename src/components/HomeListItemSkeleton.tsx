@@ -13,7 +13,7 @@ export function HomeListItemSkeleton({
 
   return (
     <li
-      className={`md:w-36 w-28 flex-none h-full rounded-md bg-gray-600 overflow-hidden`}
+      className={`md:w-40 w-28 flex-none h-full scale-90 rounded-md bg-gray-600 overflow-hidden`}
       style={{ opacity: dynamicOpacity }}
     >
       <div className='animate-diagonalMove'>
