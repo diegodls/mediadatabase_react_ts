@@ -79,7 +79,7 @@ export function HomeList<T>({
               <CaretRight size={32} color='#ffffff' weight='fill' />
             </button>
             <ul
-              className='w-full h-full px-10 flex flex-row items-center relative transition-all overflow-x-scroll scroll-smooth scrollbar-hide'
+              className='w-full h-full px-10 flex flex-row items-center relative transition-all overflow-x-scroll scroll-smooth hide-scrollbar'
               ref={listRef}
               role='list'
             >
