@@ -7,7 +7,7 @@ import {
 import { service } from "../services/api";
 
 export function usePopularTvShows() {
-  const [FeaturedPopularTvShow, setFeaturedPopularTvShow] =
+  const [featuredPopularTvShow, setFeaturedPopularTvShow] =
     useState<IPopularTvShowsResults>();
 
   const [popularTvShowsWithoutFeatured, setPopularTvShowsWithoutFeatured] =
@@ -54,7 +54,7 @@ export function usePopularTvShows() {
   }, []);
 
   return {
-    FeaturedPopularTvShow,
+    featuredPopularTvShow,
     popularTvShowsWithoutFeatured,
   };
 }
