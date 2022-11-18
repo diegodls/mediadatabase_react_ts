@@ -76,7 +76,7 @@ export function TrendingMovie() {
   return (
     <section
       ref={slideMouseOverRef}
-      className={`w-full h-full max-h-[30rem] overflow-hidden relative z-0 `}
+      className={`w-full h-full max-h-[30rem] overflow-hidden relative z-0`}
     >
       {slideArray && slideArray?.length > 0 ? (
         <>
