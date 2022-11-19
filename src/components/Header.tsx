@@ -23,7 +23,7 @@ export function Header() {
     >
       <div className='w-full h-full px-2 flex items-center justify-between'>
         <span className='max-w-[4em] sm:max-w-[7em] h-full flex items-center justify-center overflow-hidden'>
-          LOGO
+          {/* LOGO */}
         </span>
         <SearchInput />
       </div>
