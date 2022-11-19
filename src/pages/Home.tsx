@@ -31,7 +31,7 @@ export function Home() {
         />
 
         <HomeList<IUpcomingMoviesResults>
-          rowTitle='Próximos Filmes Lançamentos'
+          rowTitle='Próximos Filmes a serem lançados'
           type='MOVIE'
           data={upcomingMovies}
         />
