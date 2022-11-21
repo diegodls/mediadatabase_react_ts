@@ -18,7 +18,7 @@ export function Home() {
   const { topRatedTvShows } = useTopRatedTvShows();
 
   return (
-    <div className='w-full min-w-[640px] flex flex-col overflow-hidden'>
+    <div className='w-full min-w-[640px] max-w-[1366px] flex flex-col overflow-hidden'>
       <Header />
 
       <TrendingMovie />
