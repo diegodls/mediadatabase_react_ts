@@ -32,11 +32,16 @@ export function usePopularTvShows() {
   }
 
   async function populatePopularTvShowsStates() {
-    const popular = await getPopularTvShows();
+    const popular: IPopularTvShowsResults[] = await getPopularTvShows();
 
     if (popular) {
-      let randomNumber = Math.floor(Math.random() * popular.length);
-      let popularFeaturedTvShow = popular[randomNumber];
+      let randomNumber: number = Math.floor(Math.random() * popular.length);
+      let popularFeaturedTvShow = {} as IPopularTvShowsResults;
+
+      while (!popularFeaturedTvShow.backdrop_path) {
+        randomNumber = Math.floor(Math.random() * popular.length);
+        popularFeaturedTvShow = popular[randomNumber];
+      }
 
       let popularTvShowsWithoutFeatured =
         removeFeaturedTvShowItem<IPopularTvShowsResults>(
