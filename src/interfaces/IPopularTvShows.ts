@@ -6,7 +6,7 @@ export interface IPopularTvShowsApiReturn {
 }
 
 export interface IPopularTvShowsResults {
-  backdrop_path: string;
+  backdrop_path: string | null;
   first_air_date: string;
   genre_ids: number[];
   id: number;
