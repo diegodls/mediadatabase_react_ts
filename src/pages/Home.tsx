@@ -23,7 +23,7 @@ export function Home() {
 
       <TrendingMovie />
 
-      <div className='relative top-[-48px]'>
+      <div className='relative mt-[-48px]'>
         <HomeList<IPopularMoviesResults>
           rowTitle='Filmes Populares'
           type='MOVIE'
@@ -38,13 +38,12 @@ export function Home() {
 
         <PopularTvShow />
 
-        <div className='relative top-[-48px]'>
-          <HomeList<IPopularTvShowsResults>
-            rowTitle='Series Populares'
-            type='TVSHOWS'
-            data={popularTvShowsWithoutFeatured}
-          />
-        </div>
+        <HomeList<IPopularTvShowsResults>
+          rowTitle='Series Populares'
+          type='TVSHOWS'
+          data={popularTvShowsWithoutFeatured}
+        />
+
         <HomeList<ITopRatedTvShowsResults>
           rowTitle='Series Melhores Avaliadas'
           type='TVSHOWS'
