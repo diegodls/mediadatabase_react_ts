@@ -10,7 +10,7 @@ export function PopularTvShow() {
 
   return featuredPopularTvShow ? (
     <div className='w-full max-h-[80vh] relative overflow-hidden'>
-      <div className='max-w-[20rem] ml-16 rounded top-1/2 transform absolute z-50 overflow-hidden '>
+      <div className='md:w-80 w-60 ml-16 rounded top-1/2 transform absolute z-50 overflow-hidden'>
         <h1
           aria-label={`Seriado: ${featuredPopularTvShow.name}`}
           title={`Seriado: ${featuredPopularTvShow.name}`}
@@ -18,6 +18,30 @@ export function PopularTvShow() {
         >
           {featuredPopularTvShow.name}
         </h1>
+        <span
+          aria-label={`Resumo do filme: ${featuredPopularTvShow.name}: ${featuredPopularTvShow.overview}`}
+          title={featuredPopularTvShow.overview}
+          className='mt-2 md:line-clamp-3 line-clamp-2'
+        >
+          {featuredPopularTvShow.overview}
+        </span>
+
+        <div className='mt-3 flex row items-center justify-between'>
+          <span className='flex row'>
+            <Star className='mt-[2px]' size={24} color='#c00' weight='fill' />
+            <span className='text-lg ml-2 font-bold line-clamp-3'>
+              {featuredPopularTvShow.vote_average.toFixed(1)}
+            </span>
+          </span>
+
+          <a
+            aria-label={`Botão para saber mais sobre ${featuredPopularTvShow.name}`}
+            href='#'
+            className='min-w-auto flex items-center justify-center px-2 bg-customColors-red-500 rounded'
+          >
+            <span className='p-1 m-auto text-white'>Leia Mais</span>
+          </a>
+        </div>
 
         {TvShowsGenresList && TvShowsGenresList.genres.length > 0 ? (
           <ul
@@ -40,22 +64,6 @@ export function PopularTvShow() {
             })}
           </ul>
         ) : null}
-        <div className='mt-3 flex row items-center justify-between'>
-          <span className='flex row'>
-            <Star className='mt-[2px]' size={24} color='#c00' weight='fill' />
-            <span className='text-lg ml-2 font-bold line-clamp-3'>
-              {featuredPopularTvShow.vote_average.toFixed(1)}
-            </span>
-          </span>
-
-          <a
-            aria-label={`Botão para saber mais sobre ${featuredPopularTvShow.name}`}
-            href='#'
-            className='min-w-auto flex items-center justify-center px-2 bg-customColors-red-500 rounded'
-          >
-            <span className='p-1 m-auto text-white'>Leia Mais</span>
-          </a>
-        </div>
       </div>
       <img
         className='w-full h-auto flex-shrink-0 select-none bg-cover'
