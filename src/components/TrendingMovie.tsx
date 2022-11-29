@@ -10,7 +10,7 @@ let count = 0;
 
 export function TrendingMovie() {
   const { trendingMovies } = useTrendingMovies();
-  const { genresList } = useGenres();
+  const { movieGenresList } = useGenres();
 
   let slideArray: ITrendingMoviesResult[] = trendingMovies
     ? trendingMovies
@@ -95,7 +95,6 @@ export function TrendingMovie() {
             >
               {slideArray[currentIndex].overview}
             </span>
-
             <div className='mt-3 flex row items-center justify-between'>
               <span className='flex row'>
                 <Star
@@ -118,36 +117,25 @@ export function TrendingMovie() {
               </a>
             </div>
 
-            {genresList && genresList.genres.length > 0 ? (
+            {movieGenresList && movieGenresList.genres.length > 0 ? (
               <ul
-                aria-label={`Lista dos gêneros do filme: ${slideArray[currentIndex].title}`}
+                aria-label={`Lista dos gêneros do filme:  ${slideArray[currentIndex].title}`}
                 className='mt-3 md:flex flex-wrap gap-x-2 row hidden'
               >
-                {slideArray[currentIndex].genre_ids
-                  .slice(0, 5)
-                  .map((id: number, _) => {
-                    return (
-                      <li
-                        key={id}
-                        title={
-                          genresList.genres.find((genre) => genre.id === id)
-                            ?.name
-                        }
-                        aria-label={
-                          genresList.genres.find((genre) => genre.id === id)
-                            ?.name
-                        }
-                        className='mb-1 flex bg-black/10 rounded-md border-2 border-customColors-red-500 cursor-default'
-                      >
-                        <p className='m-auto p-1'>
-                          {
-                            genresList.genres.find((genre) => genre.id === id)
-                              ?.name
-                          }
-                        </p>
-                      </li>
-                    );
-                  })}
+                {movieGenresList.genres.map((genre, id: number) => {
+                  return slideArray[currentIndex].genre_ids
+                    .slice(0, 5)
+                    .includes(genre.id) ? (
+                    <li
+                      key={id}
+                      title={genre.name}
+                      aria-label={genre.name}
+                      className='mb-1 flex bg-black/10 rounded-md border-2 border-customColors-red-500 cursor-default'
+                    >
+                      <p className='m-auto p-1'>{genre.name}</p>
+                    </li>
+                  ) : null;
+                })}
               </ul>
             ) : null}
           </div>
