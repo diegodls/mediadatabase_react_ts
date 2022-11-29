@@ -3,31 +3,44 @@ import { IGenres } from "../interfaces/IGenres";
 
 import { service } from "../services/api";
 
-export function useGenres() {
-  const [genresList, setGenresList] = useState<IGenres>();
+type GenreType = "tv" | "movie";
 
-  async function getGenre(): Promise<IGenres> {
+export function useGenres() {
+  const [movieGenresList, setMovieGenresList] = useState<IGenres>();
+  const [TvShowsGenresList, setTvShowsGenresList] = useState<IGenres>();
+
+  async function getGenre(type: GenreType): Promise<IGenres> {
     const genresData: IGenres = await service
-      .get<Promise<IGenres>>(`genre/movie/list`)
+      .get<Promise<IGenres>>(`genre/${type}/list`)
       .then((response) => {
         return response.data;
       });
     return genresData;
   }
 
-  async function fetchGenres() {
-    const genres = await getGenre();
+  async function fetchMovieGenres() {
+    const genres = await getGenre("movie");
 
     if (genres) {
-      setGenresList(genres);
+      setMovieGenresList(genres);
+    }
+  }
+
+  async function fetchTVGenres() {
+    const genres = await getGenre("tv");
+
+    if (genres) {
+      setTvShowsGenresList(genres);
     }
   }
 
   useEffect(() => {
-    fetchGenres();
+    fetchMovieGenres();
+    fetchTVGenres();
   }, []);
 
   return {
-    genresList,
+    movieGenresList,
+    TvShowsGenresList,
   };
 }
