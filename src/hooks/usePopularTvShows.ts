@@ -38,7 +38,10 @@ export function usePopularTvShows() {
       let randomNumber: number = Math.floor(Math.random() * popular.length);
       let popularFeaturedTvShow = {} as IPopularTvShowsResults;
 
-      while (!popularFeaturedTvShow.backdrop_path) {
+      while (
+        !popularFeaturedTvShow.backdrop_path ||
+        popularFeaturedTvShow.original_language === "hi"
+      ) {
         randomNumber = Math.floor(Math.random() * popular.length);
         popularFeaturedTvShow = popular[randomNumber];
       }
