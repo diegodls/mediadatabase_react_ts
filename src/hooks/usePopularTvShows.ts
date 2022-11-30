@@ -25,9 +25,11 @@ export function usePopularTvShows() {
 
   function removeFeaturedTvShowItem<T>(arr: Array<T>, value: T): Array<T> {
     const index = arr.indexOf(value);
+
     if (index > -1) {
       arr.splice(index, 1);
     }
+
     return arr;
   }
 
@@ -36,11 +38,12 @@ export function usePopularTvShows() {
 
     if (popular) {
       let randomNumber: number = Math.floor(Math.random() * popular.length);
-      let popularFeaturedTvShow = {} as IPopularTvShowsResults;
+      let popularFeaturedTvShow: IPopularTvShowsResults = popular[randomNumber];
 
       while (
         !popularFeaturedTvShow.backdrop_path ||
-        popularFeaturedTvShow.original_language === "hi"
+        popularFeaturedTvShow.vote_average.toFixed(1) === "0.0" ||
+        !popularFeaturedTvShow.overview
       ) {
         randomNumber = Math.floor(Math.random() * popular.length);
         popularFeaturedTvShow = popular[randomNumber];
