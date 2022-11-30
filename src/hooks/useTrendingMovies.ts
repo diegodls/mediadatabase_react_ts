@@ -21,9 +21,6 @@ export function useTrendingMovies() {
         return response.data;
       });
 
-    console.log("trendingData.results");
-    console.log(trendingData.results.length);
-
     return trendingData.results;
   }
 
@@ -40,8 +37,6 @@ export function useTrendingMovies() {
   useEffect(() => {
     fetchOverview("movie", "week");
   }, []);
-
-  console.log("useTrendingMovies");
 
   return {
     trendingMovies,

@@ -15,9 +15,6 @@ export function useUpcomingMovies() {
         return response.data;
       });
 
-    console.log("upcomingData.results");
-    console.log(upcomingData.results.length);
-
     return upcomingData.results;
   }
 
@@ -31,8 +28,6 @@ export function useUpcomingMovies() {
   useEffect(() => {
     fetchOverview();
   }, []);
-
-  console.log("useUpcoming");
 
   return {
     upcomingMovies,
