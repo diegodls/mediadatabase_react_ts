@@ -10,7 +10,7 @@ export function PopularTvShow() {
 
   return featuredPopularTvShow ? (
     <div className='w-full max-h-[80vh] relative overflow-hidden'>
-      <div className='md:w-80 w-60 ml-16 rounded top-1/2 transform absolute z-50 overflow-hidden'>
+      <div className='md:w-80 w-60 ml-16 rounded top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
         <h1
           aria-label={`Seriado: ${featuredPopularTvShow.name}`}
           title={`Seriado: ${featuredPopularTvShow.name}`}
@@ -65,6 +65,8 @@ export function PopularTvShow() {
           </ul>
         ) : null}
       </div>
+
+      <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-40' />
       <img
         className='w-full h-auto flex-shrink-0 select-none bg-cover'
         src={API_BASEURL_IMAGE_1280 + featuredPopularTvShow?.backdrop_path}
