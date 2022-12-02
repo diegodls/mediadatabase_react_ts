@@ -1,6 +1,5 @@
 import { CaretLeft, CaretRight } from "phosphor-react";
 import { useRef, useState } from "react";
-import { usePopularMovies } from "../hooks/usePopularMovies";
 import { HomeListItem } from "./HomeListItem";
 import { HomeListItemSkeleton } from "./HomeListItemSkeleton";
 
@@ -17,7 +16,6 @@ export function HomeList<T>({
 }: IListRowProps<
   T & { id: number; title?: string; name?: string; poster_path?: string }
 >) {
-  const { popularMovies } = usePopularMovies();
   const listRef = useRef<HTMLUListElement>(null);
 
   const [isMouseOverList, setIsMouseOverList] = useState<boolean>(false);
@@ -42,8 +40,6 @@ export function HomeList<T>({
     }
   }
 
-  //popularMovies && popularMovies?.length > 0
-
   return (
     <div className='w-full flex flex-col relative mt-2'>
       <strong className='px-5 text-lg'>{rowTitle}</strong>
@@ -56,7 +52,7 @@ export function HomeList<T>({
         }}
         className='w-full h-48 md:h-64 flex flex-col relative'
       >
-        {popularMovies && popularMovies?.length > 0 ? (
+        {data && data?.length > 0 ? (
           <div className='w-full h-full relative'>
             <button
               aria-label='Scroll para esquerda'

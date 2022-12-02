@@ -1,17 +1,21 @@
 import { ArrowCircleLeft, ArrowCircleRight, Star } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
-import { useGenres } from "../hooks/useGenres";
-import { useTrendingMovies } from "../hooks/useTrendingMovies";
+import { IGenres } from "../interfaces/IGenres";
 import { ITrendingMoviesResult } from "../interfaces/ITrendingMovies";
 import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 import { Loading } from "./Loading";
 
 let count = 0;
 
-export function TrendingMovie() {
-  const { trendingMovies } = useTrendingMovies();
-  const { movieGenresList } = useGenres();
+interface TrendingMovieProps {
+  trendingMovies: ITrendingMoviesResult[] | null;
+  movieGenresList: IGenres | null;
+}
 
+export function TrendingMovie({
+  trendingMovies,
+  movieGenresList,
+}: TrendingMovieProps) {
   let slideArray: ITrendingMoviesResult[] = trendingMovies
     ? trendingMovies
     : [];

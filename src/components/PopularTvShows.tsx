@@ -1,13 +1,17 @@
 import { Star } from "phosphor-react";
-import { useGenres } from "../hooks/useGenres";
-import { usePopularTvShows } from "../hooks/usePopularTvShows";
+import { IGenres } from "../interfaces/IGenres";
+import { IPopularTvShowsResults } from "../interfaces/IPopularTvShows";
 import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 
-export function PopularTvShow() {
-  const { TvShowsGenresList } = useGenres();
+interface PopularTvShowProps {
+  featuredPopularTvShow: IPopularTvShowsResults | null;
+  TvShowsGenresList: IGenres | null;
+}
 
-  const { featuredPopularTvShow } = usePopularTvShows();
-
+export function PopularTvShow({
+  featuredPopularTvShow,
+  TvShowsGenresList,
+}: PopularTvShowProps) {
   return featuredPopularTvShow ? (
     <div className='w-full max-h-[80vh] relative overflow-hidden'>
       <div className='md:w-80 w-60 ml-16 rounded top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
@@ -35,7 +39,7 @@ export function PopularTvShow() {
           </span>
 
           <a
-            aria-label={`Botão para saber mais sobre ${featuredPopularTvShow.name}`}
+            aria-label={`Botão: Clique para saber mais sobre ${featuredPopularTvShow.name}`}
             href='#'
             className='min-w-auto flex items-center justify-center px-2 bg-customColors-red-500 rounded'
           >
