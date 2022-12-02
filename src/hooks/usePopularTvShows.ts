@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   IPopularTvShowsApiReturn,
   IPopularTvShowsResults,
@@ -7,11 +7,14 @@ import {
 import { service } from "../services/api";
 
 export function usePopularTvShows() {
-  const [featuredPopularTvShow, setFeaturedPopularTvShow] =
-    useState<IPopularTvShowsResults>();
+  const [featuredPopularTvShow, setFeaturedPopularTvShow] = useState<
+    IPopularTvShowsResults | undefined
+  >(undefined);
 
   const [popularTvShowsWithoutFeatured, setPopularTvShowsWithoutFeatured] =
-    useState<IPopularTvShowsResults[]>();
+    useState<IPopularTvShowsResults[] | undefined>(undefined);
+
+  const shouldUpdateState = useRef<boolean>(true);
 
   async function getPopularTvShows(): Promise<IPopularTvShowsResults[]> {
     const popularData: IPopularTvShowsApiReturn = await service
@@ -61,7 +64,10 @@ export function usePopularTvShows() {
   }
 
   useEffect(() => {
-    populatePopularTvShowsStates();
+    if (shouldUpdateState.current) {
+      shouldUpdateState.current = false;
+      populatePopularTvShowsStates();
+    }
   }, []);
 
   return {
