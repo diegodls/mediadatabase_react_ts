@@ -1,3 +1,4 @@
+import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { HomeList } from "../components/HomeList";
 import { PopularPerson } from "../components/PopularPerson";
@@ -68,6 +69,8 @@ export function Home() {
       </div>
 
       <PopularPerson personList={personList ? personList : null} />
+
+      <Footer />
     </div>
   );
 }
