@@ -1,5 +1,6 @@
 import { ArrowCircleLeft, ArrowCircleRight, Star } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { IGenres } from "../interfaces/IGenres";
 import { ITrendingMoviesResult } from "../interfaces/ITrendingMovies";
 import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
@@ -117,7 +118,12 @@ export function TrendingMovie({
                 href='#'
                 className='min-w-auto flex items-center justify-center px-2 bg-customColors-red-500 rounded'
               >
-                <span className='p-1 m-auto text-white'>Leia Mais</span>
+                <NavLink
+                  to={`/movie/${slideArray[currentIndex].id}`}
+                  className='p-1 m-auto text-white'
+                >
+                  Leia Mais
+                </NavLink>
               </a>
             </div>
 
