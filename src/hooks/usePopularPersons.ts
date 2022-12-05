@@ -24,7 +24,10 @@ export function usePopularPersons() {
     console.log(popularPersons);
 
     if (popularPersons) {
-      setPersonList(popularPersons);
+      let filteredPopularPersons = popularPersons.filter(
+        (person) => person.profile_path
+      );
+      setPersonList(filteredPopularPersons);
     }
   }
   useEffect(() => {
