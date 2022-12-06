@@ -5,12 +5,12 @@ import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 
 interface PopularTvShowProps {
   featuredPopularTvShow: IPopularTvShowsResults | null;
-  TvShowsGenresList: IGenres | null;
+  tvShowsGenresList: IGenres | null;
 }
 
 export function PopularTvShow({
   featuredPopularTvShow,
-  TvShowsGenresList,
+  tvShowsGenresList,
 }: PopularTvShowProps) {
   return featuredPopularTvShow ? (
     <div className='w-full max-h-[80vh] relative overflow-hidden'>
@@ -47,12 +47,12 @@ export function PopularTvShow({
           </a>
         </div>
 
-        {TvShowsGenresList && TvShowsGenresList.genres.length > 0 ? (
+        {tvShowsGenresList && tvShowsGenresList.genres.length > 0 ? (
           <ul
             aria-label={`Lista dos gêneros do filme: ${featuredPopularTvShow.name}`}
             className='mt-3 md:flex flex-wrap gap-x-2 row hidden'
           >
-            {TvShowsGenresList.genres.map((genre, id: number) => {
+            {tvShowsGenresList.genres.map((genre, id: number) => {
               return featuredPopularTvShow.genre_ids
                 .slice(0, 5)
                 .includes(genre.id) ? (
