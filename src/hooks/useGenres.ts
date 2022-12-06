@@ -7,7 +7,7 @@ type GenreType = "tv" | "movie";
 
 export function useGenres() {
   const [movieGenresList, setMovieGenresList] = useState<IGenres>();
-  const [TvShowsGenresList, setTvShowsGenresList] = useState<IGenres>();
+  const [tvShowsGenresList, setTvShowsGenresList] = useState<IGenres>();
 
   async function getGenre(type: GenreType): Promise<IGenres> {
     const genresData: IGenres = await service
@@ -41,6 +41,6 @@ export function useGenres() {
 
   return {
     movieGenresList,
-    TvShowsGenresList,
+    tvShowsGenresList,
   };
 }
