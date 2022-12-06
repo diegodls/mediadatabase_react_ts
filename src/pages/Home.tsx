@@ -1,5 +1,4 @@
 import { Footer } from "../components/Footer";
-import { Header } from "../components/Header";
 import { HomeList } from "../components/HomeList";
 import { PopularPerson } from "../components/PopularPerson";
 import { PopularTvShow } from "../components/PopularTvShows";
@@ -24,12 +23,10 @@ export function Home() {
     usePopularTvShows();
   const { topRatedTvShows } = useTopRatedTvShows();
   const { personList } = usePopularPersons();
-  const { TvShowsGenresList, movieGenresList } = useGenres();
+  const { tvShowsGenresList, movieGenresList } = useGenres();
 
   return (
     <div className='w-full min-w-[640px] max-w-[1366px] flex flex-col overflow-hidden'>
-      <Header />
-
       <TrendingMovie
         trendingMovies={trendingMovies ? trendingMovies : null}
         movieGenresList={movieGenresList ? movieGenresList : null}
@@ -52,7 +49,7 @@ export function Home() {
           featuredPopularTvShow={
             featuredPopularTvShow ? featuredPopularTvShow : null
           }
-          TvShowsGenresList={TvShowsGenresList ? TvShowsGenresList : null}
+          tvShowsGenresList={tvShowsGenresList ? tvShowsGenresList : null}
         />
 
         <HomeList<IPopularTvShowsResults>
