@@ -21,8 +21,8 @@ export function HomeListItem({ title, poster_path }: HomeListItemProps) {
       </div>
 
       <img
-        src={`${API_BASEURL_IMAGE_200 + poster_path}`}
-        className='h-full object-cover'
+        src={poster_path ? API_BASEURL_IMAGE_200 + poster_path : poster_path}
+        className='h-full'
       />
     </li>
   );
