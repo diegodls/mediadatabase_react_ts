@@ -19,7 +19,7 @@ export function HomeList<T>({
     title?: string;
     name?: string;
     poster_path?: string;
-    profile_path: string | null;
+    profile_path?: string | null;
   }
 >) {
   const listRef = useRef<HTMLUListElement>(null);
