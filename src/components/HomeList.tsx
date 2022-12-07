@@ -89,11 +89,7 @@ export function HomeList<T>({
                 return (
                   <HomeListItem
                     title={item.title || item.name}
-                    poster_path={
-                      item.poster_path ||
-                      item.profile_path ||
-                      "https://cdn.w600.comps.canstockphoto.com.br/projetos-poster-glitched-tipogr%C3%A1fico-vetor-clip-arte_csp40896763.jpg"
-                    }
+                    poster_path={item.poster_path || item.profile_path}
                     key={item.id}
                   />
                 );
