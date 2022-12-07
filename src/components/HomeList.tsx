@@ -4,7 +4,7 @@ import { HomeListItem } from "./HomeListItem";
 import { HomeListItemSkeleton } from "./HomeListItemSkeleton";
 
 interface IListRowProps<T> {
-  rowTitle?: string;
+  rowTitle: string;
   type?: string;
   data?: T[];
 }
@@ -14,7 +14,13 @@ export function HomeList<T>({
   type,
   data,
 }: IListRowProps<
-  T & { id: number; title?: string; name?: string; poster_path?: string }
+  T & {
+    id: number;
+    title?: string;
+    name?: string;
+    poster_path?: string;
+    profile_path: string | null;
+  }
 >) {
   const listRef = useRef<HTMLUListElement>(null);
 
@@ -42,7 +48,7 @@ export function HomeList<T>({
 
   return (
     <div className='w-full flex flex-col relative mt-2'>
-      <strong className='px-5 text-lg'>{rowTitle}</strong>
+      <strong className='ml-5 text-lg'>{rowTitle}</strong>
       <div
         onMouseEnter={() => {
           setIsMouseOverList(true);
@@ -79,17 +85,19 @@ export function HomeList<T>({
               ref={listRef}
               role='list'
             >
-              {data?.map((item) => (
-                <HomeListItem
-                  title={item.title || item.name}
-                  poster_path={
-                    item.poster_path
-                      ? item.poster_path
-                      : "https://cdn.w600.comps.canstockphoto.com.br/projetos-poster-glitched-tipogr%C3%A1fico-vetor-clip-arte_csp40896763.jpg"
-                  }
-                  key={item.id}
-                />
-              ))}
+              {data?.map((item) => {
+                return (
+                  <HomeListItem
+                    title={item.title || item.name}
+                    poster_path={
+                      item.poster_path ||
+                      item.profile_path ||
+                      "https://cdn.w600.comps.canstockphoto.com.br/projetos-poster-glitched-tipogr%C3%A1fico-vetor-clip-arte_csp40896763.jpg"
+                    }
+                    key={item.id}
+                  />
+                );
+              })}
             </ul>
           </div>
         ) : (
