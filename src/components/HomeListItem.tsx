@@ -2,7 +2,7 @@ import { API_BASEURL_IMAGE_200 } from "../utils/constants";
 
 interface HomeListItemProps {
   title?: string;
-  poster_path: string;
+  poster_path?: string | null | undefined;
 }
 
 export function HomeListItem({ title, poster_path }: HomeListItemProps) {
@@ -21,7 +21,11 @@ export function HomeListItem({ title, poster_path }: HomeListItemProps) {
       </div>
 
       <img
-        src={poster_path ? API_BASEURL_IMAGE_200 + poster_path : poster_path}
+        src={
+          poster_path
+            ? API_BASEURL_IMAGE_200 + poster_path
+            : "https://cdn.w600.comps.canstockphoto.com.br/projetos-poster-glitched-tipogr%C3%A1fico-vetor-clip-arte_csp40896763.jpg"
+        }
         className='h-full'
       />
     </li>
