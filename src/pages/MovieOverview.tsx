@@ -1,23 +1,24 @@
 import { Star } from "phosphor-react";
 import { useParams } from "react-router-dom";
+import { HomeList } from "../components/HomeList";
 import { Loading } from "../components/Loading";
-import { useGenres } from "../hooks/useGenres";
+import { useMovieCredits } from "../hooks/useMovieDetails";
 import { useMovieOverview } from "../hooks/useMovieOverview";
 import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 
 export function MovieOverview() {
   let { movieId } = useParams();
   const { movieOverview } = useMovieOverview(movieId || "");
-  const { movieGenresList } = useGenres();
+  const { movieCredits } = useMovieCredits(movieId || "");
 
   return (
-    <div className='w-screen h-screen'>
+    <div className='w-full'>
       {!movieOverview ? (
         <Loading />
       ) : (
         <>
           <div className='w-full max-h-[80vh] flex items-center justify-center relative overflow-hidden'>
-            <div className='md:w-80 w-60 ml-16 rounded left-0 top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
+            <div className='max-w-[20rem] ml-16 rounded left-0 top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
               <h1
                 aria-label={`Seriado: ${movieOverview.title}`}
                 title={`Seriado: ${movieOverview.title}`}
@@ -27,17 +28,20 @@ export function MovieOverview() {
               </h1>
 
               <div className='mt-3 flex row items-center justify-between'>
-                <span className='flex row'>
+                <div className='flex row'>
                   <Star
                     className='mt-[2px]'
                     size={24}
                     color='#c00'
                     weight='fill'
                   />
-                  <span className='text-lg ml-2 font-bold line-clamp-3'>
+                  <p className='text-lg ml-2 font-bold line-clamp-3'>
                     {movieOverview.vote_average.toFixed(1)}
-                  </span>
-                </span>
+                  </p>
+                </div>
+                <p className='text-lg ml-2 font-bold line-clamp-3'>
+                  {movieOverview.runtime} min
+                </p>
               </div>
 
               {movieOverview.genres && movieOverview.genres.length > 0 ? (
@@ -58,22 +62,32 @@ export function MovieOverview() {
                 </ul>
               ) : null}
             </div>
+            <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-50' />
 
             <img
-              className='w-full h-auto flex-shrink-0 select-none bg-cover'
+              className='w-full h-auto flex-shrink-0 select-none bg-cover relative'
               src={API_BASEURL_IMAGE_1280 + movieOverview?.backdrop_path}
               alt={movieOverview?.title}
               title={movieOverview?.title}
             />
           </div>
-          <span
-            aria-label={`Resumo do filme: ${movieOverview.title}: ${movieOverview.overview}`}
-            title={movieOverview.overview}
-            className='mt-2 md:line-clamp-3 line-clamp-2'
-          >
-            {movieOverview.overview}
-          </span>
-          {movieOverview.genres[0].name}
+
+          <div className='mt-2 mx-5'>
+            <strong className='text-xl'>Sinopse</strong>
+            <p
+              aria-label={`Resumo do filme: ${movieOverview.title}: ${movieOverview.overview}`}
+              title={movieOverview.overview}
+              className='mt-2'
+            >
+              {movieOverview.overview}
+            </p>
+          </div>
+
+          {movieCredits && movieCredits.cast.length > 0 ? (
+            <>
+              <HomeList rowTitle='Elenco' data={movieCredits.cast} />
+            </>
+          ) : null}
         </>
       )}
     </div>
