@@ -150,8 +150,6 @@ export function TrendingMovie({
             ) : null}
           </div>
 
-          <div className='w-full h-12 top-0 bg-gradient-to-b from-customColors-background absolute z-50' />
-
           <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-40' />
 
           <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-50' />
