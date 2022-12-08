@@ -25,7 +25,7 @@ export function Home() {
   const { tvShowsGenresList, movieGenresList } = useGenres();
 
   return (
-    <div className='w-full min-w-[640px] max-w-[1366px] flex flex-col overflow-hidden'>
+    <>
       <TrendingMovie
         trendingMovies={trendingMovies ? trendingMovies : null}
         movieGenresList={movieGenresList ? movieGenresList : null}
@@ -65,6 +65,6 @@ export function Home() {
       </div>
 
       <PopularPerson personList={personList ? personList : null} />
-    </div>
+    </>
   );
 }
