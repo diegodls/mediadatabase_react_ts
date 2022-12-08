@@ -21,8 +21,6 @@ export function useMovieCredits(movieID: string) {
 
     if (movieDetails) {
       setMovieCredits(movieDetails);
-      console.log("movieDetails");
-      console.log(movieDetails);
     }
   }
   useEffect(() => {
