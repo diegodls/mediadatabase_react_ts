@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { HomeList } from "../components/HomeList";
 import { Loading } from "../components/Loading";
 import { useMovieCredits } from "../hooks/useMovieDetails";
+import { useMovieImages } from "../hooks/useMovieImages";
 import { useMovieOverview } from "../hooks/useMovieOverview";
 import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 
@@ -10,6 +11,7 @@ export function MovieOverview() {
   let { movieId } = useParams();
   const { movieOverview } = useMovieOverview(movieId || "");
   const { movieCredits } = useMovieCredits(movieId || "");
+  const { movieImages } = useMovieImages(movieId || "");
 
   return (
     <div className='w-full'>
@@ -90,6 +92,8 @@ export function MovieOverview() {
           ) : null}
         </>
       )}
+      <p>movieImages</p>
+      {JSON.stringify(movieImages)}
     </div>
   );
 }
