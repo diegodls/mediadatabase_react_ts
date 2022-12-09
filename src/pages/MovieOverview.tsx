@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { HomeList } from "../components/HomeList";
 import { Loading } from "../components/Loading";
 import { useMovieCredits } from "../hooks/useMovieDetails";
-import { useMovieImages } from "../hooks/useMovieImages";
+import { useMovieKeywords } from "../hooks/useMovieKeywords";
 import { useMovieOverview } from "../hooks/useMovieOverview";
 import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 
@@ -11,7 +11,7 @@ export function MovieOverview() {
   let { movieId } = useParams();
   const { movieOverview } = useMovieOverview(movieId || "");
   const { movieCredits } = useMovieCredits(movieId || "");
-  const { movieImages } = useMovieImages(movieId || "");
+  const { movieKeywords } = useMovieKeywords(movieId || "");
 
   return (
     <div className='w-full'>
@@ -20,14 +20,22 @@ export function MovieOverview() {
       ) : (
         <>
           <div className='w-full max-h-[80vh] flex items-center justify-center relative overflow-hidden'>
-            <div className='max-w-[20rem] ml-16 rounded left-0 top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
+            <div className='max-w-[50vw] ml-16 rounded left-0 top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
               <h1
-                aria-label={`Seriado: ${movieOverview.title}`}
-                title={`Seriado: ${movieOverview.title}`}
-                className='md:text-4xl font-bold wrap-text text-2xl'
+                aria-label={`nome do filme: ${movieOverview.title}`}
+                title={`Filme: ${movieOverview.title}`}
+                className='md:text-4xl font-bold text-2xl'
               >
                 {movieOverview.title}
               </h1>
+
+              <p
+                aria-label={`Nome original do filme: ${movieOverview.title} é ${movieOverview.original_title}`}
+                title={`Nome original: ${movieOverview.original_title}`}
+                className='font-bold wrap-text text-md'
+              >
+                {movieOverview.original_title}
+              </p>
 
               <div className='mt-3 flex row items-center justify-between'>
                 <div className='flex row'>
@@ -84,6 +92,20 @@ export function MovieOverview() {
               {movieOverview.overview}
             </p>
           </div>
+          {movieKeywords && movieKeywords.keywords.length > 0 ? (
+            <ul role='list' className='mt-2 mx-5 flex flex-row gap-2'>
+              {movieKeywords.keywords.slice(0, 5).map((keyword) => (
+                <li
+                  key={keyword.id}
+                  title={keyword.name}
+                  aria-label={keyword.name}
+                  className='mb-1 p-1 px-3 flex bg-black/10 rounded-full border-2 border-customColors-red-500 cursor-pointer'
+                >
+                  <p className='m-auto capitalize'>{keyword.name}</p>
+                </li>
+              ))}
+            </ul>
+          ) : null}
 
           {movieCredits && movieCredits.cast.length > 0 ? (
             <>
@@ -92,8 +114,6 @@ export function MovieOverview() {
           ) : null}
         </>
       )}
-      <p>movieImages</p>
-      {JSON.stringify(movieImages)}
     </div>
   );
 }
