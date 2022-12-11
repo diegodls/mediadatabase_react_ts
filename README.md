@@ -1,6 +1,6 @@
 # mediadatabase_react_ts
 
-<h1 dir="auto" align="center"> EM CONSTRUÇÃO...
+<h1 dir="auto" align="center"> EM CONSTRUÇÃO....
 </h1>
 <p dir="auto" align="center">
   <a
