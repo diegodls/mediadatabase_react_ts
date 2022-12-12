@@ -25,7 +25,7 @@ export function Home() {
   const { tvShowsGenresList, movieGenresList } = useGenres();
 
   return (
-    <div className='w-full flex flex-col items-center justify-center'>
+    <div className='w-full flex flex-col items-center'>
       <TrendingMovie
         trendingMovies={trendingMovies ? trendingMovies : null}
         movieGenresList={movieGenresList ? movieGenresList : null}
