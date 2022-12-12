@@ -76,8 +76,6 @@ export function TrendingMovie({
     };
   }, [slideArray]);
 
-  //slideArray && slideArray?.length > 0
-
   return (
     <section
       ref={slideMouseOverRef}
