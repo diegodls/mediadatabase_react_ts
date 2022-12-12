@@ -17,6 +17,7 @@ export function HomeList<T>({
   T & {
     id: number;
     title?: string;
+    character?: string | null;
     name?: string;
     poster_path?: string;
     profile_path?: string | null;
@@ -89,6 +90,7 @@ export function HomeList<T>({
                 return (
                   <HomeListItem
                     title={item.title || item.name}
+                    character={item.character ? item.character : null}
                     poster_path={item.poster_path || item.profile_path}
                     key={item.id}
                   />
