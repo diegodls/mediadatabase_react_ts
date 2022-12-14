@@ -7,14 +7,6 @@ export function useMovieImages(movieID: string) {
   const [movieImages, setMovieImages] = useState<IMovieImages>();
 
   async function getMovieImages(movieID: string): Promise<IMovieImages> {
-    /*
-    //interceptors affect all request, not only this one
-    service.interceptors.request.use((config) => {
-      config.params = {};
-      return config;
-    });
-    */
-
     const movieImagesData: IMovieImages = await service
       .get<Promise<IMovieImages>>(`/movie/${movieID}/images`)
       .then((response) => {
