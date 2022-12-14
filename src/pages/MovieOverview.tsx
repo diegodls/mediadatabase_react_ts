@@ -2,9 +2,13 @@ import { Star } from "phosphor-react";
 import { useParams } from "react-router-dom";
 import { HomeList } from "../components/HomeList";
 import { Loading } from "../components/Loading";
+import { MovieVideo } from "../components/MovieVideo";
+import { SimilarMovies } from "../components/SimilarMovies";
 import { useMovieCredits } from "../hooks/useMovieDetails";
 import { useMovieKeywords } from "../hooks/useMovieKeywords";
 import { useMovieOverview } from "../hooks/useMovieOverview";
+import { useMovieVideos } from "../hooks/useMovieVideos";
+import { useSimilarMovies } from "../hooks/useSimilarMovies";
 import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 
 export function MovieOverview() {
@@ -12,13 +16,15 @@ export function MovieOverview() {
   const { movieOverview } = useMovieOverview(movieId || "");
   const { movieCredits } = useMovieCredits(movieId || "");
   const { movieKeywords } = useMovieKeywords(movieId || "");
+  const { movieVideos } = useMovieVideos(movieId || "");
+  const { similarMovies } = useSimilarMovies(movieId || "");
 
   return (
     <div className='w-full'>
       {!movieOverview ? (
         <Loading />
       ) : (
-        <>
+        <div className='w-full h-full flex flex-col gap-4'>
           <div className='w-full max-h-[80vh] flex items-center justify-center relative overflow-hidden'>
             <div className='max-w-[50vw] ml-16 rounded left-0 top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
               <h1
@@ -37,7 +43,7 @@ export function MovieOverview() {
                 {movieOverview.original_title}
               </p>
 
-              <div className='mt-3 flex row items-center justify-between'>
+              <div className='mt-4 flex row items-center justify-between'>
                 <div className='flex row'>
                   <Star
                     className='mt-[2px]'
@@ -57,7 +63,7 @@ export function MovieOverview() {
               {movieOverview.genres && movieOverview.genres.length > 0 ? (
                 <ul
                   aria-label={`Lista dos gêneros do filme:  ${movieOverview.title}`}
-                  className='mt-3 md:flex flex-wrap gap-x-2 row hidden'
+                  className='mt-4 md:flex flex-wrap gap-x-2 row hidden'
                 >
                   {movieOverview.genres.slice(0, 5).map((genre, id: number) => (
                     <li
@@ -82,7 +88,7 @@ export function MovieOverview() {
             />
           </div>
 
-          <div className='mt-2 mx-5'>
+          <div className='mx-5'>
             <strong className='text-xl'>Sinopse</strong>
             <p
               aria-label={`Resumo do filme: ${movieOverview.title}: ${movieOverview.overview}`}
@@ -92,28 +98,43 @@ export function MovieOverview() {
               {movieOverview.overview}
             </p>
           </div>
+
           {movieKeywords && movieKeywords.keywords.length > 0 ? (
-            <ul role='list' className='mt-2 mx-5 flex flex-row gap-2'>
-              {movieKeywords.keywords.slice(0, 5).map((keyword) => (
-                <li
-                  key={keyword.id}
-                  title={keyword.name}
-                  aria-label={keyword.name}
-                  className='mb-1 p-1 px-3 flex bg-black/10 rounded-full border-2 border-customColors-red-500 cursor-pointer'
-                >
-                  <p className='m-auto capitalize'>{keyword.name}</p>
-                </li>
-              ))}
-            </ul>
+            <div className='mx-5'>
+              <strong className='text-xl'>Tags</strong>
+              <ul role='list' className='mt-4 flex flex-row gap-2'>
+                {movieKeywords.keywords.slice(0, 5).map((keyword) => (
+                  <li
+                    key={keyword.id}
+                    title={keyword.name}
+                    aria-label={keyword.name}
+                    className='mb-1 p-1 px-3 flex bg-black/10 rounded-full border-2 border-customColors-red-500 cursor-pointer'
+                  >
+                    <p className='m-auto capitalize'>{keyword.name}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ) : null}
 
           {movieCredits && movieCredits.cast.length > 0 ? (
-            <>
-              <HomeList rowTitle='Elenco' data={movieCredits.cast} />
-            </>
+            <HomeList rowTitle='Elenco' data={movieCredits.cast} />
           ) : null}
-        </>
+        </div>
       )}
+
+      {movieVideos && movieVideos.results.length > 0 ? (
+        <div className='mx-5 flex flex-col gap-4'>
+          <strong className='text-xl'>Videos</strong>
+          {movieVideos.results.map((movieVideo, _) => (
+            <MovieVideo key={movieVideo.id} data={movieVideo} />
+          ))}
+        </div>
+      ) : null}
+
+      {similarMovies && similarMovies.results.length > 0 ? (
+        <SimilarMovies data={similarMovies.results} />
+      ) : null}
     </div>
   );
 }
