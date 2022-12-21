@@ -2,7 +2,7 @@ import { Star } from "phosphor-react";
 import { useParams } from "react-router-dom";
 import { HomeList } from "../components/HomeList";
 import { Loading } from "../components/Loading";
-import { MovieVideo } from "../components/MovieVideo";
+import { MovieVideos } from "../components/MovieVideos";
 import { SimilarMovies } from "../components/SimilarMovies";
 import { useMovieCredits } from "../hooks/useMovieDetails";
 import { useMovieKeywords } from "../hooks/useMovieKeywords";
@@ -123,14 +123,7 @@ export function MovieOverview() {
         </div>
       )}
 
-      {movieVideos && movieVideos.results.length > 0 ? (
-        <div className='mx-5 flex flex-col gap-4'>
-          <strong className='text-xl'>Videos</strong>
-          {movieVideos.results.map((movieVideo, _) => (
-            <MovieVideo key={movieVideo.id} data={movieVideo} />
-          ))}
-        </div>
-      ) : null}
+      <MovieVideos data={movieVideos} />
 
       {similarMovies && similarMovies.results.length > 0 ? (
         <SimilarMovies data={similarMovies.results} />
