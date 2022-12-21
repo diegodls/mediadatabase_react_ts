@@ -26,26 +26,25 @@ export function MovieVideos({ data }: MovieVideoProps) {
 
   return (
     <Section>
-      <div className='w-full'>
+      <div className='w-full bg-blue-500'>
         <SectionTitle title='Videos' />
 
         {data && data.results.length > 0 ? (
-          <div className='w-full overflow-hidden flex bg-red-500'>
-            <div className='max-w-screen-lg flex-1'>
-              <iframe
-                title={`${featuredMovie.name}`}
-                src={`https://www.youtube.com/embed/${featuredMovie.key}`}
-                width='1633'
-                height='919'
-                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                allowFullScreen
-                className='w-full h-auto aspect-video'
-              />
-            </div>
-            <ul className='w-[20%] flex flex-col gap-2 overflow-x-hidden'>
+          <div className='w-full bg-red-500 overflow-hidden'>
+            <iframe
+              title={`${featuredMovie.name}`}
+              src={`https://www.youtube.com/embed/${featuredMovie.key}`}
+              width='1633'
+              height='919'
+              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+              allowFullScreen
+              className='w-full h-auto aspect-video'
+            />
+
+            <ul className='w-full h-full flex gap-2'>
               {data.results.map((movie: IMovieVideoResults) => (
                 <li
-                  className='w-full bg-zinc-800 cursor-pointer'
+                  className='w-[250px] h-[150px] bg-zinc-800 cursor-pointer'
                   key={movie.key}
                   onClick={() => {
                     handleChangeFeaturedMovie(movie);
@@ -54,8 +53,42 @@ export function MovieVideos({ data }: MovieVideoProps) {
                   <img
                     src={`https://i.ytimg.com/vi/${movie.key}/hqdefault.jpg`}
                     alt={movie.name}
+                    className='w-[250px]'
                   />
-                  <p>{movie.name}</p>
+                  <p>AAAA</p>
+                </li>
+              ))}
+
+              {data.results.map((movie: IMovieVideoResults) => (
+                <li
+                  className='w-[250px] h-[150px] bg-zinc-800 cursor-pointer'
+                  key={movie.key}
+                  onClick={() => {
+                    handleChangeFeaturedMovie(movie);
+                  }}
+                >
+                  <img
+                    src={`https://i.ytimg.com/vi/${movie.key}/hqdefault.jpg`}
+                    alt={movie.name}
+                    className='w-[250px]'
+                  />
+                  <p>AAAA</p>
+                </li>
+              ))}
+              {data.results.map((movie: IMovieVideoResults) => (
+                <li
+                  className='w-[250px] h-[150px] bg-zinc-800 cursor-pointer'
+                  key={movie.key}
+                  onClick={() => {
+                    handleChangeFeaturedMovie(movie);
+                  }}
+                >
+                  <img
+                    src={`https://i.ytimg.com/vi/${movie.key}/hqdefault.jpg`}
+                    alt={movie.name}
+                    className='w-[250px]'
+                  />
+                  <p>AAAA</p>
                 </li>
               ))}
             </ul>
