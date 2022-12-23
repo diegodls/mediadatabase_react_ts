@@ -21,9 +21,9 @@ export function Header() {
 
   return (
     <header
-      className={`w-full max-w-[1366px] min-w-[640px] h-10 flex flex-row items-center justify-center absolute z-50 overflow-hidden transition-all`}
+      className={`w-full h-10 flex flex-row items-center justify-center absolute z-50 overflow-hidden transition-all`}
     >
-      <div className='w-full h-full px-2 flex items-center justify-between z-50'>
+      <div className='w-full h-full  max-w-CustomMaxWidth  px-2 flex items-center justify-between z-50'>
         <span className='max-w-[4em] sm:max-w-[7em] h-full flex items-center justify-center overflow-hidden'>
           {/* LOGO */}
         </span>

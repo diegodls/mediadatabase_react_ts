@@ -1,6 +1,4 @@
 import { HomeList } from "../components/HomeList";
-import { PopularPerson } from "../components/PopularPerson";
-import { PopularTvShow } from "../components/PopularTvShows";
 import { TrendingMovie } from "../components/TrendingMovie";
 import { useGenres } from "../hooks/useGenres";
 import { usePopularMovies } from "../hooks/usePopularMovies";
@@ -27,8 +25,8 @@ export function Home() {
   return (
     <div className='w-full flex flex-col items-center'>
       <TrendingMovie
-        trendingMovies={trendingMovies ? trendingMovies : null}
-        movieGenresList={movieGenresList ? movieGenresList : null}
+        trendingMovies={trendingMovies}
+        movieGenresList={movieGenresList}
       />
 
       <div className='relative mt-[-48px]'>
@@ -39,17 +37,16 @@ export function Home() {
         />
 
         <HomeList<IUpcomingMoviesResults>
-          rowTitle='Próximos Filmes a serem lançados'
+          rowTitle='Próximos Filmes a Serem Lançados'
           type='MOVIE'
           data={upcomingMovies}
         />
 
+        {/*         
         <PopularTvShow
-          featuredPopularTvShow={
-            featuredPopularTvShow ? featuredPopularTvShow : null
-          }
-          tvShowsGenresList={tvShowsGenresList ? tvShowsGenresList : null}
-        />
+          featuredPopularTvShow={featuredPopularTvShow}
+          tvShowsGenresList={tvShowsGenresList}
+        /> */}
 
         <HomeList<IPopularTvShowsResults>
           rowTitle='Series Populares'
@@ -64,7 +61,7 @@ export function Home() {
         />
       </div>
 
-      <PopularPerson personList={personList ? personList : null} />
+      {/* <PopularPerson personList={personList} /> */}
     </div>
   );
 }
