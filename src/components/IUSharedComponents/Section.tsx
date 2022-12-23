@@ -1,10 +1,17 @@
 interface SectionProps {
-  children: React.ReactElement;
+  title?: string;
+  children: React.ReactNode;
 }
-export function Section({ children }: SectionProps) {
+export function Section({ title, children }: SectionProps) {
   return (
-    <section className='w-full'>
-      <div className='mx-5 flex flex-col gap-4'>{children}</div>
+    <section className='w-full mt-2 px-4'>
+      {title ? (
+        <div className='w-full pl-1 border-l-4 border-customColors-red-500'>
+          <h2 className='text-xl font-bold'>{title}</h2>
+        </div>
+      ) : null}
+
+      <div className='w-full mt-2 flex flex-col gap-4'>{children}</div>
     </section>
   );
 }
