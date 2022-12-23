@@ -5,6 +5,9 @@ const plugin = require("tailwindcss/plugin");
 module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
+    maxWidth: {
+      CustomMaxWidth: "1366px",
+    },
     extend: {
       colors: {
         "customColors-background": "#131313",
