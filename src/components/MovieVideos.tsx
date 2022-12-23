@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { IMovieVideoResults, IMovieVideos } from "../interfaces/IMovieVideos";
 import { Section } from "./IUSharedComponents/Section";
-import { SectionTitle } from "./IUSharedComponents/SectionTitle";
 
 interface MovieVideoProps {
   data?: IMovieVideos;
@@ -25,53 +24,49 @@ export function MovieVideos({ data }: MovieVideoProps) {
   }
 
   return (
-    <Section>
-      <div className='w-full'>
-        <SectionTitle title='Videos' />
+    <Section title='Videos'>
+      {data && data.results.length > 0 ? (
+        <div className='w-full '>
+          <iframe
+            title={`${featuredMovie.name}`}
+            src={`https://www.youtube.com/embed/${featuredMovie.key}`}
+            width='1633'
+            height='919'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+            allowFullScreen
+            className='w-full h-auto aspect-video'
+          />
 
-        {data && data.results.length > 0 ? (
-          <div className='w-full '>
-            <iframe
-              title={`${featuredMovie.name}`}
-              src={`https://www.youtube.com/embed/${featuredMovie.key}`}
-              width='1633'
-              height='919'
-              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-              allowFullScreen
-              className='w-full h-auto aspect-video'
-            />
-
-            <div className='w-full h-40 flex justify-center'>
-              <ul
-                className='mt-2 flex gap-2 overflow-x-auto overflow-y-hidden overflow-hidden'
-                role='list'
-              >
-                {data.results.map((movie: IMovieVideoResults) => (
-                  <li
-                    className={`in-w-fit h-auto flex-col  cursor-pointer rounded-md ${
-                      movie.id === featuredMovie.id
-                        ? "border-4 border-customColors-red-500"
-                        : ""
-                    }`}
-                    key={movie.key}
-                    onClick={() => {
-                      handleChangeFeaturedMovie(movie);
-                    }}
-                  >
-                    <img
-                      src={`https://i.ytimg.com/vi/${movie.key}/hqdefault.jpg`}
-                      alt={movie.name}
-                      className='h-full rounded-md'
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className='w-full h-40 flex justify-center'>
+            <ul
+              className='mt-2 flex gap-2 overflow-x-auto overflow-y-hidden overflow-hidden'
+              role='list'
+            >
+              {data.results.map((movie: IMovieVideoResults) => (
+                <li
+                  className={`in-w-fit h-auto flex-col  cursor-pointer rounded-md ${
+                    movie.id === featuredMovie.id
+                      ? "border-4 border-customColors-red-500"
+                      : ""
+                  }`}
+                  key={movie.key}
+                  onClick={() => {
+                    handleChangeFeaturedMovie(movie);
+                  }}
+                >
+                  <img
+                    src={`https://i.ytimg.com/vi/${movie.key}/hqdefault.jpg`}
+                    alt={movie.name}
+                    className='h-full rounded-md'
+                  />
+                </li>
+              ))}
+            </ul>
           </div>
-        ) : (
-          <h1>Sem vídeos</h1>
-        )}
-      </div>
+        </div>
+      ) : (
+        <h1>Sem vídeos</h1>
+      )}
     </Section>
   );
 }

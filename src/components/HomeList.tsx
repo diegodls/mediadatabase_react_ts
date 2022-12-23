@@ -2,6 +2,7 @@ import { CaretLeft, CaretRight } from "phosphor-react";
 import { useRef, useState } from "react";
 import { HomeListItem } from "./HomeListItem";
 import { HomeListItemSkeleton } from "./HomeListItemSkeleton";
+import { Section } from "./IUSharedComponents/Section";
 
 interface IListRowProps<T> {
   rowTitle: string;
@@ -48,8 +49,7 @@ export function HomeList<T>({
   }
 
   return (
-    <div className='w-full flex flex-col relative mt-2'>
-      <strong className='ml-5 text-lg'>{rowTitle}</strong>
+    <Section title={rowTitle}>
       <div
         onMouseEnter={() => {
           setIsMouseOverList(true);
@@ -115,6 +115,6 @@ export function HomeList<T>({
           </ul>
         )}
       </div>
-    </div>
+    </Section>
   );
 }
