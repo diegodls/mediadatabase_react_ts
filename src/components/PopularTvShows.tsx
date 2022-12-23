@@ -4,8 +4,8 @@ import { IPopularTvShowsResults } from "../interfaces/IPopularTvShows";
 import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 
 interface PopularTvShowProps {
-  featuredPopularTvShow: IPopularTvShowsResults | null;
-  tvShowsGenresList: IGenres | null;
+  featuredPopularTvShow: IPopularTvShowsResults | undefined;
+  tvShowsGenresList: IGenres | undefined;
 }
 
 export function PopularTvShow({

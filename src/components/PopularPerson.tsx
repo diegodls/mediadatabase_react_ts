@@ -3,7 +3,7 @@ import { API_BASEURL_IMAGE_200 } from "../utils/constants";
 
 import profile_picture_not_found from "../assets/img/profile_picture_not_found.png";
 interface PopularPersonProps {
-  personList: IPerson[] | null;
+  personList: IPerson[] | undefined;
 }
 export function PopularPerson({ personList }: PopularPersonProps) {
   return (
