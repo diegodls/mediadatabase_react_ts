@@ -1,6 +1,7 @@
 import { Star } from "phosphor-react";
 import { useParams } from "react-router-dom";
 import { HomeList } from "../components/HomeList";
+import { Section } from "../components/IUSharedComponents/Section";
 import { Loading } from "../components/Loading";
 import { MovieVideos } from "../components/MovieVideos";
 import { SimilarMovies } from "../components/SimilarMovies";
@@ -65,9 +66,9 @@ export function MovieOverview() {
                   aria-label={`Lista dos gêneros do filme:  ${movieOverview.title}`}
                   className='mt-4 md:flex flex-wrap gap-x-2 row hidden'
                 >
-                  {movieOverview.genres.slice(0, 5).map((genre, id: number) => (
+                  {movieOverview.genres.slice(0, 5).map((genre, _) => (
                     <li
-                      key={id}
+                      key={genre.id}
                       title={genre.name}
                       aria-label={genre.name}
                       className='mb-1 flex bg-black/10 rounded-md border-2 border-customColors-red-500 cursor-default'
@@ -78,6 +79,9 @@ export function MovieOverview() {
                 </ul>
               ) : null}
             </div>
+
+            <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-40' />
+
             <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-50' />
 
             <img
@@ -88,8 +92,7 @@ export function MovieOverview() {
             />
           </div>
 
-          <div className='mx-5'>
-            <strong className='text-xl'>Sinopse</strong>
+          <Section title='Sinopse'>
             <p
               aria-label={`Resumo do filme: ${movieOverview.title}: ${movieOverview.overview}`}
               title={movieOverview.overview}
@@ -97,12 +100,11 @@ export function MovieOverview() {
             >
               {movieOverview.overview}
             </p>
-          </div>
+          </Section>
 
           {movieKeywords && movieKeywords.keywords.length > 0 ? (
-            <div className='mx-5'>
-              <strong className='text-xl'>Tags</strong>
-              <ul role='list' className='mt-4 flex flex-row gap-2'>
+            <Section title='Tags'>
+              <ul role='list' className='mt-4 flex flex-row gap-2 flex-wrap'>
                 {movieKeywords.keywords.slice(0, 5).map((keyword) => (
                   <li
                     key={keyword.id}
@@ -114,7 +116,7 @@ export function MovieOverview() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </Section>
           ) : null}
 
           {movieCredits && movieCredits.cast.length > 0 ? (
