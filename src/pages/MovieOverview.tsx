@@ -1,8 +1,8 @@
-import { Star } from "phosphor-react";
 import { useParams } from "react-router-dom";
 import { HomeList } from "../components/HomeList";
 import { Section } from "../components/IUSharedComponents/Section";
 import { Loading } from "../components/Loading";
+import { MovieOverviewBannerDescription } from "../components/MovieOverviewBannerDescription";
 import { MovieVideos } from "../components/MovieVideos";
 import { SimilarMovies } from "../components/SimilarMovies";
 import { useMovieCredits } from "../hooks/useMovieDetails";
@@ -26,70 +26,20 @@ export function MovieOverview() {
         <Loading />
       ) : (
         <div className='w-full h-full flex flex-col gap-4'>
-          <div className='w-full max-h-[80vh] flex items-center justify-center relative overflow-hidden'>
-            <div className='max-w-[50vw] ml-16 rounded left-0 top-1/2 transform -translate-y-1/2 absolute z-50 overflow-hidden'>
-              <h1
-                aria-label={`nome do filme: ${movieOverview.title}`}
-                title={`Filme: ${movieOverview.title}`}
-                className='md:text-4xl font-bold text-2xl'
-              >
-                {movieOverview.title}
-              </h1>
+          <div className='relative'>
+            <div className='w-full max-h-[80vh] flex flex-col items-center justify-center relative overflow-hidden'>
+              <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-50' />
 
-              <p
-                aria-label={`Nome original do filme: ${movieOverview.title} é ${movieOverview.original_title}`}
-                title={`Nome original: ${movieOverview.original_title}`}
-                className='font-bold wrap-text text-md'
-              >
-                {movieOverview.original_title}
-              </p>
-
-              <div className='mt-4 flex row items-center justify-between'>
-                <div className='flex row'>
-                  <Star
-                    className='mt-[2px]'
-                    size={24}
-                    color='#c00'
-                    weight='fill'
-                  />
-                  <p className='text-lg ml-2 font-bold line-clamp-3'>
-                    {movieOverview.vote_average.toFixed(1)}
-                  </p>
-                </div>
-                <p className='text-lg ml-2 font-bold line-clamp-3'>
-                  {movieOverview.runtime} min
-                </p>
-              </div>
-
-              {movieOverview.genres && movieOverview.genres.length > 0 ? (
-                <ul
-                  aria-label={`Lista dos gêneros do filme:  ${movieOverview.title}`}
-                  className='mt-4 md:flex flex-wrap gap-x-2 row hidden'
-                >
-                  {movieOverview.genres.slice(0, 5).map((genre, _) => (
-                    <li
-                      key={genre.id}
-                      title={genre.name}
-                      aria-label={genre.name}
-                      className='mb-1 flex bg-black/10 rounded-md border-2 border-customColors-red-500 cursor-default'
-                    >
-                      <p className='m-auto p-1'>{genre.name}</p>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
+              <img
+                className='w-full h-auto flex-shrink-0 select-none bg-cover relative'
+                src={API_BASEURL_IMAGE_1280 + movieOverview?.backdrop_path}
+                alt={movieOverview?.title}
+                title={movieOverview?.title}
+              />
             </div>
+            <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-40 hidden md:block' />
 
-            <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-40' />
-
-            <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-50' />
-
-            <img
-              className='w-full h-auto flex-shrink-0 select-none bg-cover relative'
-              src={API_BASEURL_IMAGE_1280 + movieOverview?.backdrop_path}
-              alt={movieOverview?.title}
-              title={movieOverview?.title}
-            />
+            <MovieOverviewBannerDescription movieOverview={movieOverview} />
           </div>
 
           <Section title='Sinopse'>
