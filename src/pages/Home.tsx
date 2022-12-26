@@ -29,11 +29,12 @@ export function Home() {
         movieGenresList={movieGenresList}
       />
 
-      <div className='relative mt-[-48px]'>
+      <div className='relative md:mt-[-48px]'>
         <HomeList<IPopularMoviesResults>
           rowTitle='Filmes Populares'
           type='MOVIE'
           data={popularMovies}
+          titleBg={false}
         />
 
         <HomeList<IUpcomingMoviesResults>
