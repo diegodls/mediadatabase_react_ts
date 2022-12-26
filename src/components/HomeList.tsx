@@ -5,15 +5,17 @@ import { HomeListItemSkeleton } from "./HomeListItemSkeleton";
 import { Section } from "./IUSharedComponents/Section";
 
 interface IListRowProps<T> {
-  rowTitle: string;
-  type?: string;
   data?: T[];
+  rowTitle?: string;
+  titleBg?: boolean;
+  type?: string;
 }
 
 export function HomeList<T>({
-  rowTitle,
-  type,
   data,
+  rowTitle,
+  titleBg = true,
+  type,
 }: IListRowProps<
   T & {
     id: number;
@@ -49,7 +51,7 @@ export function HomeList<T>({
   }
 
   return (
-    <Section title={rowTitle}>
+    <Section title={rowTitle} titleBg={titleBg}>
       <div
         onMouseEnter={() => {
           setIsMouseOverList(true);
