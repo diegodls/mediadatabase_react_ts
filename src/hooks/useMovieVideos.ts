@@ -22,7 +22,9 @@ export function useMovieVideos(movieID: string) {
     movieID: string
   ): Promise<IMovieVideos> {
     const movieVideosData: IMovieVideos = await serviceWithoutParams
-      .get<Promise<IMovieVideos>>(`/movie/${movieID}/images`)
+      .get<Promise<IMovieVideos>>(`/movie/${movieID}/videos`, {
+        params: { language: undefined },
+      })
       .then((response) => {
         return response.data;
       });

@@ -8,7 +8,9 @@ export function useMovieImages(movieID: string) {
 
   async function getMovieImages(movieID: string): Promise<IMovieImages> {
     const movieImagesData: IMovieImages = await service
-      .get<Promise<IMovieImages>>(`/movie/${movieID}/images`)
+      .get<Promise<IMovieImages>>(`/movie/${movieID}/images`, {
+        params: { language: undefined },
+      })
       .then((response) => {
         return response.data;
       });
