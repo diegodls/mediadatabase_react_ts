@@ -1,16 +1,17 @@
 import { useParams } from "react-router-dom";
+import { FeaturedContent } from "../components/FeaturedContent";
 import { HomeList } from "../components/HomeList";
-import { Section } from "../components/IUSharedComponents/Section";
 import { Loading } from "../components/Loading";
-import { MovieOverviewBannerDescription } from "../components/MovieOverviewBannerDescription";
 import { MovieVideos } from "../components/MovieVideos";
+import { Section } from "../components/Section";
 import { SimilarMovies } from "../components/SimilarMovies";
+import { useGenres } from "../hooks/useGenres";
 import { useMovieCredits } from "../hooks/useMovieDetails";
+import { useMovieImages } from "../hooks/useMovieImages";
 import { useMovieKeywords } from "../hooks/useMovieKeywords";
 import { useMovieOverview } from "../hooks/useMovieOverview";
 import { useMovieVideos } from "../hooks/useMovieVideos";
 import { useSimilarMovies } from "../hooks/useSimilarMovies";
-import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 
 export function MovieOverview() {
   let { movieId } = useParams();
@@ -18,7 +19,14 @@ export function MovieOverview() {
   const { movieCredits } = useMovieCredits(movieId || "");
   const { movieKeywords } = useMovieKeywords(movieId || "");
   const { movieVideos } = useMovieVideos(movieId || "");
+  const { movieImages } = useMovieImages(movieId || "");
   const { similarMovies } = useSimilarMovies(movieId || "");
+
+  const { movieGenresList } = useGenres();
+
+  const genres_id: number[] | undefined = movieOverview?.genres.map((genre) => {
+    return genre.id;
+  });
 
   return (
     <div className='w-full'>
@@ -26,21 +34,17 @@ export function MovieOverview() {
         <Loading />
       ) : (
         <div className='w-full h-full flex flex-col gap-4'>
-          <div className='relative'>
-            <div className='w-full max-h-[80vh] flex flex-col items-center justify-center relative overflow-hidden'>
-              <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-50' />
-
-              <img
-                className='w-full h-auto flex-shrink-0 select-none bg-cover relative'
-                src={API_BASEURL_IMAGE_1280 + movieOverview?.backdrop_path}
-                alt={movieOverview?.title}
-                title={movieOverview?.title}
-              />
-            </div>
-            <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-40 hidden md:block' />
-
-            <MovieOverviewBannerDescription movieOverview={movieOverview} />
-          </div>
+          <FeaturedContent
+            genresList={movieGenresList}
+            contentGenresList={genres_id}
+            title={movieOverview?.title}
+            subTitle={movieOverview?.original_title}
+            backdrop_path={movieOverview?.backdrop_path}
+            overview={movieOverview?.overview}
+            vote_average={movieOverview?.vote_average}
+            type={"MOVIE"}
+            showReadMore={false}
+          />
 
           <Section title='Sinopse'>
             <p
@@ -79,6 +83,10 @@ export function MovieOverview() {
 
       {similarMovies && similarMovies.results.length > 0 ? (
         <SimilarMovies data={similarMovies.results} />
+      ) : null}
+
+      {movieImages && movieImages.backdrops.length > 0 ? (
+        <h1>movieImages.backdrops.length: {movieImages.backdrops.length}</h1>
       ) : null}
     </div>
   );
