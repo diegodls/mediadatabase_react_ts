@@ -2,9 +2,8 @@ import { ArrowCircleLeft, ArrowCircleRight } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import { IGenres } from "../interfaces/IGenres";
 import { ITrendingMoviesResult } from "../interfaces/ITrendingMovies";
-import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
+import { FeaturedContent } from "./FeaturedContent";
 import { Loading } from "./Loading";
-import { TrendingMovieDescription } from "./TrendingMovieDescription";
 
 let count = 0;
 
@@ -84,18 +83,22 @@ export function TrendingMovie({
       {slideArray && slideArray?.length > 0 ? (
         <>
           <div
-            className={`w-full h-full max-h-[30rem] flex flex-col overflow-hidden relative z-0`}
+            className={`w-full h-full flex flex-col overflow-hidden relative z-0`}
           >
-            <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-40 md:block hidden' />
-
-            <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-50' />
-
             <div className='w-full top-1/2 transform -translate-y-1/2 px-3 flex items-center justify-between absolute z-50'>
               <button onClick={handlePrev}>
-                <ArrowCircleLeft size={32} weight='bold' />
+                <ArrowCircleLeft
+                  size={32}
+                  weight='bold'
+                  className='bg-customColors-background/60 rounded-full drop-shadow-2xl'
+                />
               </button>
               <button onClick={handleNext}>
-                <ArrowCircleRight size={32} weight='bold' />
+                <ArrowCircleRight
+                  size={32}
+                  weight='bold'
+                  className='bg-customColors-background/60 rounded-full drop-shadow-2xl'
+                />
               </button>
             </div>
 
@@ -103,30 +106,20 @@ export function TrendingMovie({
               ref={slideAnimationRef}
               className='w-full h-full overflow-hidden flex justify-center items-center relative select-none'
             >
-              <img
-                className='min-w-full min-h-full flex-shrink-0 select-none absolute z-20'
-                src={
-                  API_BASEURL_IMAGE_1280 +
-                  slideArray[currentIndex].backdrop_path
-                }
-                alt={slideArray[currentIndex].title}
-                title={slideArray[currentIndex].title}
-              />
-
-              <img
-                className='min-w-full min-h-full flex-shrink-0 select-none relative z-10'
-                src={imageError}
-                alt={`Erro ao carregar a imagem de ${slideArray[currentIndex].title}`}
-                title={`Erro ao carregar a imagem de ${slideArray[currentIndex].title}`}
+              <FeaturedContent
+                genresList={movieGenresList}
+                contentGenresList={slideArray[currentIndex]?.genre_ids}
+                contentID={slideArray[currentIndex]?.id}
+                title={slideArray[currentIndex]?.title}
+                subTitle={slideArray[currentIndex]?.original_title}
+                backdrop_path={slideArray[currentIndex]?.backdrop_path}
+                overview={slideArray[currentIndex]?.overview}
+                vote_average={slideArray[currentIndex]?.vote_average}
+                type={slideArray[currentIndex]?.media_type}
+                showReadMore={true}
               />
             </div>
           </div>
-
-          <TrendingMovieDescription
-            slideArray={slideArray}
-            movieGenresList={movieGenresList}
-            currentIndex={currentIndex}
-          />
         </>
       ) : (
         <div
