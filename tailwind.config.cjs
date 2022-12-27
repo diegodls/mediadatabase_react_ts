@@ -6,7 +6,7 @@ module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
     maxWidth: {
-      CustomMaxWidth: "1366px",
+      CustomMaxWidth: "1280px",
     },
     extend: {
       colors: {
