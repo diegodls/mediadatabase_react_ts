@@ -1,3 +1,4 @@
+import { FeaturedContent } from "../components/FeaturedContent";
 import { HomeList } from "../components/HomeList";
 import { TrendingMovie } from "../components/TrendingMovie";
 import { useGenres } from "../hooks/useGenres";
@@ -43,11 +44,18 @@ export function Home() {
           data={upcomingMovies}
         />
 
-        {/*         
-        <PopularTvShow
-          featuredPopularTvShow={featuredPopularTvShow}
-          tvShowsGenresList={tvShowsGenresList}
-        /> */}
+        <FeaturedContent
+          genresList={tvShowsGenresList}
+          contentGenresList={featuredPopularTvShow?.genre_ids}
+          contentID={featuredPopularTvShow?.id}
+          title={featuredPopularTvShow?.name}
+          subTitle={featuredPopularTvShow?.original_name}
+          backdrop_path={featuredPopularTvShow?.backdrop_path}
+          overview={featuredPopularTvShow?.overview}
+          vote_average={featuredPopularTvShow?.vote_average}
+          type={"TVSHOW"}
+          showReadMore={true}
+        />
 
         <HomeList<IPopularTvShowsResults>
           rowTitle='Series Populares'
