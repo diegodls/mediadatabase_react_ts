@@ -1,5 +1,5 @@
 import { ISimilarMoviesResult } from "../interfaces/ISimilarMovies";
-import { Section } from "./IUSharedComponents/Section";
+import { Section } from "./Section";
 
 interface ISimilarMovies {
   data?: ISimilarMoviesResult[];

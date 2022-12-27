@@ -2,7 +2,7 @@ import { CaretLeft, CaretRight } from "phosphor-react";
 import { useRef, useState } from "react";
 import { HomeListItem } from "./HomeListItem";
 import { HomeListItemSkeleton } from "./HomeListItemSkeleton";
-import { Section } from "./IUSharedComponents/Section";
+import { Section } from "./Section";
 
 interface IListRowProps<T> {
   data?: T[];

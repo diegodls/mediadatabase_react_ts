@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IMovieVideoResults, IMovieVideos } from "../interfaces/IMovieVideos";
-import { Section } from "./IUSharedComponents/Section";
+import { Section } from "./Section";
 
 interface MovieVideoProps {
   data?: IMovieVideos;
