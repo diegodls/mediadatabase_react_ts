@@ -1,5 +1,6 @@
 import { FeaturedContent } from "../components/FeaturedContent";
 import { HomeList } from "../components/HomeList";
+import { PopularPerson } from "../components/PopularPerson";
 import { TrendingMovie } from "../components/TrendingMovie";
 import { useGenres } from "../hooks/useGenres";
 import { usePopularMovies } from "../hooks/usePopularMovies";
@@ -33,14 +34,14 @@ export function Home() {
       <div className='relative md:mt-[-48px]'>
         <HomeList<IPopularMoviesResults>
           rowTitle='Filmes Populares'
-          type='MOVIE'
+          type='movie'
           data={popularMovies}
           titleBg={false}
         />
 
         <HomeList<IUpcomingMoviesResults>
           rowTitle='Próximos Filmes a Serem Lançados'
-          type='MOVIE'
+          type='movie'
           data={upcomingMovies}
         />
 
@@ -53,24 +54,24 @@ export function Home() {
           backdrop_path={featuredPopularTvShow?.backdrop_path}
           overview={featuredPopularTvShow?.overview}
           vote_average={featuredPopularTvShow?.vote_average}
-          type={"TVSHOW"}
+          type='tvshow'
           showReadMore={true}
         />
 
         <HomeList<IPopularTvShowsResults>
           rowTitle='Series Populares'
-          type='TVSHOWS'
+          type='tvshow'
           data={popularTvShowsWithoutFeatured}
         />
 
         <HomeList<ITopRatedTvShowsResults>
           rowTitle='Series Melhores Avaliadas'
-          type='TVSHOWS'
+          type='tvshow'
           data={topRatedTvShows}
         />
       </div>
 
-      {/* <PopularPerson personList={personList} /> */}
+      <PopularPerson personList={personList} />
     </div>
   );
 }
