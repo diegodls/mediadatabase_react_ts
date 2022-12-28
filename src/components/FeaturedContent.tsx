@@ -3,6 +3,7 @@ import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 import { FeaturedContentDescription } from "./FeaturedContentDescription";
 
 import backdrop_path_error from "../assets/img/image-error.png";
+import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 
 export interface FeaturedContentProps {
   genresList?: IGenres;
@@ -14,7 +15,7 @@ export interface FeaturedContentProps {
   overview?: string;
   vote_average?: number;
   runtime?: number;
-  type?: string;
+  type?: MediaTypes;
   showReadMore?: boolean;
 }
 
