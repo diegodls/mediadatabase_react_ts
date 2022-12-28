@@ -1,5 +1,6 @@
 import { CaretLeft, CaretRight } from "phosphor-react";
 import { useRef, useState } from "react";
+import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 import { HomeListItem } from "./HomeListItem";
 import { HomeListItemSkeleton } from "./HomeListItemSkeleton";
 import { Section } from "./Section";
@@ -8,7 +9,7 @@ interface IListRowProps<T> {
   data?: T[];
   rowTitle?: string;
   titleBg?: boolean;
-  type?: string;
+  type?: MediaTypes;
 }
 
 export function HomeList<T>({
@@ -95,6 +96,8 @@ export function HomeList<T>({
                     character={item.character ? item.character : null}
                     poster_path={item.poster_path || item.profile_path}
                     key={item.id}
+                    type={type}
+                    contentID={item.id}
                   />
                 );
               })}
