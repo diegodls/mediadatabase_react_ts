@@ -1,4 +1,6 @@
 import { Star } from "phosphor-react";
+import { NavLink } from "react-router-dom";
+import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 import { FeaturedContentProps } from "./FeaturedContent";
 
 export function FeaturedContentDescription({
@@ -14,7 +16,7 @@ export function FeaturedContentDescription({
   showReadMore,
 }: FeaturedContentProps) {
   const mediaType: string = type === "movie" ? "Filme" : "Seriado";
-  const urlType: string = type === "movie" ? "movie" : "tvshow";
+  const urlType: MediaTypes = type === "movie" ? "movie" : "tvshow";
 
   return (
     <div className='mt-2 px-4 md:max-w-[40%] md:px-0 md:mt-0 md:ml-16 md:left-0 md:top-1/2 md:transform md:-translate-y-1/2 md:absolute md:z-50 md:overflow-hidden'>
@@ -63,13 +65,12 @@ export function FeaturedContentDescription({
         ) : null}
 
         {showReadMore && contentID ? (
-          <a
-            aria-label={`Botão: Clique para saber mais sobre ${title}`}
-            href={`${urlType}/${contentID}`}
+          <NavLink
+            to={`${urlType}/${contentID}`}
             className='min-w-auto flex items-center justify-center px-2 bg-customColors-red-500 rounded'
           >
-            <span className='p-1 m-auto text-white'>Leia Mais</span>
-          </a>
+            <p className='p-1 m-auto text-white'>Leia Mais</p>
+          </NavLink>
         ) : null}
       </div>
 
