@@ -42,7 +42,7 @@ export function MovieOverview() {
             backdrop_path={movieOverview?.backdrop_path}
             overview={movieOverview?.overview}
             vote_average={movieOverview?.vote_average}
-            type={"MOVIE"}
+            type={"movie"}
             showReadMore={false}
           />
 

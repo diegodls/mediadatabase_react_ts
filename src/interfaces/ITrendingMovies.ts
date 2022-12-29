@@ -1,3 +1,5 @@
+import { MediaTypes } from "../types/sharedTypes/MediaTypes";
+
 export type ITrendingMoviesType = "all" | "movie" | "person" | "tv";
 export type ITrendingMoviesTime = "day" | "week";
 
@@ -17,7 +19,7 @@ export interface ITrendingMoviesResult {
   original_title: string;
   overview: string;
   poster_path: string;
-  media_type: string;
+  media_type: MediaTypes;
   genre_ids: number[];
   popularity: number;
   release_date: string;

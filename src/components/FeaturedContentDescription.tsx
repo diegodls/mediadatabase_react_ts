@@ -1,6 +1,5 @@
 import { Star } from "phosphor-react";
 import { NavLink } from "react-router-dom";
-import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 import { FeaturedContentProps } from "./FeaturedContent";
 
 export function FeaturedContentDescription({
@@ -16,7 +15,6 @@ export function FeaturedContentDescription({
   showReadMore,
 }: FeaturedContentProps) {
   const mediaType: string = type === "movie" ? "Filme" : "Seriado";
-  const urlType: MediaTypes = type === "movie" ? "movie" : "tvshow";
 
   return (
     <div className='mt-2 px-4 md:max-w-[40%] md:px-0 md:mt-0 md:ml-16 md:left-0 md:top-1/2 md:transform md:-translate-y-1/2 md:absolute md:z-50 md:overflow-hidden'>
@@ -66,7 +64,7 @@ export function FeaturedContentDescription({
 
         {showReadMore && contentID ? (
           <NavLink
-            to={`${urlType}/${contentID}`}
+            to={`${type}/${contentID}`}
             className='min-w-auto flex items-center justify-center px-2 bg-customColors-red-500 rounded'
           >
             <p className='p-1 m-auto text-white'>Leia Mais</p>

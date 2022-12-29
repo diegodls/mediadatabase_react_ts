@@ -54,19 +54,19 @@ export function Home() {
           backdrop_path={featuredPopularTvShow?.backdrop_path}
           overview={featuredPopularTvShow?.overview}
           vote_average={featuredPopularTvShow?.vote_average}
-          type='tvshow'
+          type='tv'
           showReadMore={true}
         />
 
         <HomeList<IPopularTvShowsResults>
           rowTitle='Series Populares'
-          type='tvshow'
+          type='tv'
           data={popularTvShowsWithoutFeatured}
         />
 
         <HomeList<ITopRatedTvShowsResults>
           rowTitle='Series Melhores Avaliadas'
-          type='tvshow'
+          type='tv'
           data={topRatedTvShows}
         />
       </div>
