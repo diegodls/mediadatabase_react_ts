@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { App } from "./App";
+import { Test } from "./components/Test";
 import "./main.css";
 import { Details } from "./pages/Details";
 import { Home } from "./pages/Home";
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
       { path: "/details", element: <Details /> },
       { path: "/search", element: <Search /> },
       { path: "/movie/:movieId", element: <MovieOverview /> },
+      { path: "tests", element: <Test /> },
       { path: "*", element: <NotFound /> },
     ],
   },
