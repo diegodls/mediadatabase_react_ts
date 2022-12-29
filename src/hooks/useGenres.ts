@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { IGenres } from "../interfaces/IGenres";
 
 import { service } from "../services/api";
-
-type GenreType = "tv" | "movie";
+import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 
 export function useGenres() {
   const [movieGenresList, setMovieGenresList] = useState<IGenres>();
   const [tvShowsGenresList, setTvShowsGenresList] = useState<IGenres>();
 
-  async function getGenre(type: GenreType): Promise<IGenres> {
+  async function getGenre(type: MediaTypes): Promise<IGenres> {
     const genresData: IGenres = await service
       .get<Promise<IGenres>>(`genre/${type}/list`)
       .then((response) => {
