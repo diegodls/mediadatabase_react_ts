@@ -16,7 +16,7 @@ export function Section({ title, children, titleBg = true }: SectionProps) {
         </div>
       ) : null}
 
-      <div className='w-full mt-2 flex flex-col gap-4'>{children}</div>
+      <div className='w-full mt-2 flex flex-col'>{children}</div>
     </section>
   );
 }
