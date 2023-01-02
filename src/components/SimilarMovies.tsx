@@ -11,7 +11,6 @@ export function SimilarMovies({ similarMovies }: ISimilarMovies) {
   const listRef = useRef<HTMLUListElement>(null);
   const listHeightShowSize = 208; // h-52 or 13rem
 
-  const [listHeight, setListHeight] = useState<number | undefined>(undefined);
   const [showMore, setShowMore] = useState<boolean>(false);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
@@ -22,8 +21,6 @@ export function SimilarMovies({ similarMovies }: ISimilarMovies) {
     ) {
       setShowMore(true);
     }
-
-    setListHeight(listRef.current?.scrollHeight);
   }
 
   function handleCollapse() {
@@ -40,7 +37,6 @@ export function SimilarMovies({ similarMovies }: ISimilarMovies) {
     window.addEventListener("resize", handleResize);
 
     setTimeout(() => {
-      setListHeight(listRef.current?.scrollHeight);
       handleResize();
     }, 250);
 
@@ -74,15 +70,16 @@ export function SimilarMovies({ similarMovies }: ISimilarMovies) {
           })}
         </ul>
       </div>
-
-      <button
-        className={`w-full h-8 flex justify-center bg-gradient-to-t from-black`}
-        onClick={() => {
-          handleCollapse();
-        }}
-      >
-        <strong>{isCollapsed ? "Mostrar Menos" : "Mostrar Mais"}</strong>
-      </button>
+      {showMore ? (
+        <button
+          className={`w-full h-8 flex justify-center bg-gradient-to-t from-black`}
+          onClick={() => {
+            handleCollapse();
+          }}
+        >
+          <strong>{isCollapsed ? "Mostrar Menos" : "Mostrar Mais"}</strong>
+        </button>
+      ) : null}
     </Section>
   ) : null;
 }
