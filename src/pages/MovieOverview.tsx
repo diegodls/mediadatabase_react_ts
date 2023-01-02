@@ -81,13 +81,7 @@ export function MovieOverview() {
 
       <MovieVideos data={movieVideos} />
 
-      {similarMovies && similarMovies.results.length > 0 ? (
-        <SimilarMovies data={similarMovies.results} />
-      ) : null}
-
-      {movieImages && movieImages.backdrops.length > 0 ? (
-        <h1>movieImages.backdrops.length: {movieImages.backdrops.length}</h1>
-      ) : null}
+      <SimilarMovies similarMovies={similarMovies} />
     </div>
   );
 }
