@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { ISimilarMovies } from "../interfaces/ISimilarMovies";
+import {
+  ISimilarMovies,
+  ISimilarMoviesResult,
+} from "../interfaces/ISimilarMovies";
 
 import { service } from "../services/api";
 
 export function useSimilarMovies(movieID: string) {
-  const [similarMovies, setSimilarMovies] = useState<ISimilarMovies>();
+  const [similarMovies, setSimilarMovies] = useState<ISimilarMoviesResult[]>();
 
   async function getSimilarMovies(movieID: string): Promise<ISimilarMovies> {
     const similarMovieData: ISimilarMovies = await service
@@ -20,7 +23,7 @@ export function useSimilarMovies(movieID: string) {
     const similarMovies = await getSimilarMovies(movieID);
 
     if (similarMovies) {
-      setSimilarMovies(similarMovies);
+      setSimilarMovies(similarMovies.results);
     }
   }
   useEffect(() => {
