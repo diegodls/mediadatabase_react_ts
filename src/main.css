@@ -8,6 +8,8 @@
   color: #ffffff;
   background-color: #131313;
 
+  scroll-behavior: smooth;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
