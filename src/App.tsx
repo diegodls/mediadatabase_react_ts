@@ -7,9 +7,9 @@ import { Header } from "./components/Header";
 export function App() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <div className='w-full h-full flex flex-col items-center'>
+      <div className='w-full h-screen flex flex-col items-center'>
         <Header />
-        <div className='max-w-CustomMaxWidth'>
+        <div className='w-full max-w-CustomMaxWidth flex-1'>
           <Outlet />
         </div>
         <Footer />
