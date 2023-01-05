@@ -17,6 +17,7 @@ export interface FeaturedContentProps {
   runtime?: number;
   type?: MediaTypes;
   showReadMore?: boolean;
+  showInfo?: boolean;
 }
 
 export function FeaturedContent({
@@ -31,6 +32,7 @@ export function FeaturedContent({
   runtime,
   type,
   showReadMore,
+  showInfo,
 }: FeaturedContentProps) {
   return (
     <section className='relative'>
@@ -65,6 +67,7 @@ export function FeaturedContent({
         type={type}
         runtime={runtime}
         showReadMore={showReadMore}
+        showInfo={showInfo}
       />
     </section>
   );
