@@ -13,6 +13,7 @@ export function FeaturedContentDescription({
   runtime,
   type,
   showReadMore,
+  showInfo = true,
 }: FeaturedContentProps) {
   const mediaType: string = type === "movie" ? "Filme" : "Seriado";
 
@@ -38,7 +39,7 @@ export function FeaturedContentDescription({
         </p>
       ) : null}
 
-      {overview ? (
+      {overview && showInfo ? (
         <span
           aria-label={`Resumo do ${mediaType}: ${title}: ${overview}`}
           title={overview}
@@ -75,7 +76,7 @@ export function FeaturedContentDescription({
       {genresList && genresList.genres.length > 0 ? (
         <ul
           aria-label={`Lista dos gêneros do ${mediaType}: ${title}`}
-          className='mt-3 md:flex flex-wrap gap-x-2 row hidden'
+          className='mt-3 flex flex-wrap gap-x-2 row '
         >
           {genresList.genres.map((genre) => {
             return contentGenresList?.slice(0, 5).includes(genre.id) ? (
