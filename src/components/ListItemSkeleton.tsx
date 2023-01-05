@@ -1,14 +1,11 @@
 import { calcDynamicOpacity } from "../utils/calcDynamicOpacity";
 
-interface HomeListItemSkeletonProps {
+interface ListItemSkeletonProps {
   itemIndex: number;
   array: null[];
 }
 
-export function HomeListItemSkeleton({
-  itemIndex,
-  array,
-}: HomeListItemSkeletonProps) {
+export function ListItemSkeleton({ itemIndex, array }: ListItemSkeletonProps) {
   const dynamicOpacity = calcDynamicOpacity(itemIndex, array.length);
 
   return (
