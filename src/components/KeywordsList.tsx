@@ -1,44 +1,18 @@
-import { useEffect, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
-import { IMovieKeywords } from "../interfaces/IMovieKeywords";
-import { service } from "../services/api";
-import { MediaTypes } from "../types/sharedTypes/MediaTypes";
+import { IKeywords } from "../interfaces/IKeywords";
 import { ErrorFetchContent } from "./ErrorFetchContent";
 import { Section } from "./Section";
 
 interface KeywordListProps {
-  contentID?: string;
-  title: string;
-  type: MediaTypes;
+  data?: IKeywords;
+  title?: string;
+  error?: IErrorFetchContent;
 }
 
-export function KeywordList({ contentID, title, type }: KeywordListProps) {
-  const [data, setData] = useState<IMovieKeywords | undefined>();
-  const [dataErrorBasicFetch, setDataErrorBasicFetch] =
-    useState<IErrorFetchContent>();
-
-  async function fetchData(url: string) {
-    const data = await service
-      .get<Promise<IMovieKeywords>>(url)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        setDataErrorBasicFetch(err);
-      });
-
-    if (data) {
-      setData(data);
-    }
-  }
-
-  useEffect(() => {
-    fetchData(`/movie/${contentID}/keywords`);
-  }, [contentID]);
-
+export function KeywordList({ data, title, error }: KeywordListProps) {
   return (
     <Section title={title}>
-      <ErrorFetchContent error={dataErrorBasicFetch}>
+      <ErrorFetchContent error={error}>
         {data && data.keywords.length > 0 ? (
           <ul role='list' className='mt-4 flex flex-row gap-2 flex-wrap'>
             {data.keywords.slice(0, 5).map((keyword) => (

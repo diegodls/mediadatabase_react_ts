@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  IUpcomingMovies,
+  IUpcomingMoviesApiReturn,
   IUpcomingMoviesResults,
 } from "../interfaces/IUpcomingMovies";
 import { service } from "../services/api";
@@ -9,8 +9,8 @@ export function useUpcomingMovies() {
   const [upcomingMovies, setUpcoming] = useState<IUpcomingMoviesResults[]>();
 
   async function getTrending(): Promise<IUpcomingMoviesResults[]> {
-    const upcomingData: IUpcomingMovies = await service
-      .get<Promise<IUpcomingMovies>>(`/movie/upcoming/`)
+    const upcomingData: IUpcomingMoviesApiReturn = await service
+      .get<Promise<IUpcomingMoviesApiReturn>>(`/movie/upcoming/`)
       .then((response) => {
         return response.data;
       });

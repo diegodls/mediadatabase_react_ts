@@ -1,23 +1,19 @@
 import { FeaturedContent } from "../components/FeaturedContent";
-import { HomeList } from "../components/HomeList";
+import { List } from "../components/List";
+import { PopularMovies } from "../components/PopularMovies";
 import { PopularPerson } from "../components/PopularPerson";
+import { PopularTvShows } from "../components/PopularTvShows";
 import { TrendingMovie } from "../components/TrendingMovie";
+import { UpcomingMovies } from "../components/UpcomingMovies";
 import { useGenres } from "../hooks/useGenres";
-import { usePopularMovies } from "../hooks/usePopularMovies";
 import { usePopularPersons } from "../hooks/usePopularPersons";
 import { usePopularTvShows } from "../hooks/usePopularTvShows";
 import { useTopRatedTvShows } from "../hooks/useTopRatedTvShows";
 import { useTrendingMovies } from "../hooks/useTrendingMovies";
-import { useUpcomingMovies } from "../hooks/useUpcomingMovies";
-import { IPopularMoviesResults } from "../interfaces/IPopularMovies";
-import { IPopularTvShowsResults } from "../interfaces/IPopularTvShows";
 import { ITopRatedTvShowsResults } from "../interfaces/ITopRatedTvShows";
-import { IUpcomingMoviesResults } from "../interfaces/IUpcomingMovies";
 
 export function Home() {
   const { trendingMovies } = useTrendingMovies();
-  const { popularMovies } = usePopularMovies();
-  const { upcomingMovies } = useUpcomingMovies();
   const { featuredPopularTvShow, popularTvShowsWithoutFeatured } =
     usePopularTvShows();
   const { topRatedTvShows } = useTopRatedTvShows();
@@ -32,18 +28,9 @@ export function Home() {
       />
 
       <div className='relative md:mt-[-48px]'>
-        <HomeList<IPopularMoviesResults>
-          rowTitle='Filmes Populares'
-          type='movie'
-          data={popularMovies}
-          titleBg={false}
-        />
+        <PopularMovies />
 
-        <HomeList<IUpcomingMoviesResults>
-          rowTitle='Próximos Filmes a Serem Lançados'
-          type='movie'
-          data={upcomingMovies}
-        />
+        <UpcomingMovies />
 
         <FeaturedContent
           genresList={tvShowsGenresList}
@@ -58,13 +45,9 @@ export function Home() {
           showReadMore={true}
         />
 
-        <HomeList<IPopularTvShowsResults>
-          rowTitle='Series Populares'
-          type='tv'
-          data={popularTvShowsWithoutFeatured}
-        />
+        <PopularTvShows />
 
-        <HomeList<ITopRatedTvShowsResults>
+        <List<ITopRatedTvShowsResults>
           rowTitle='Series Melhores Avaliadas'
           type='tv'
           data={topRatedTvShows}

@@ -1,4 +1,4 @@
-export interface IUpcomingMovies {
+export interface IUpcomingMoviesApiReturn {
   page: number;
   results: IUpcomingMoviesResults[];
   dates: IUpcomingMoviesDates;

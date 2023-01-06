@@ -1,99 +1,74 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FeaturedContent } from "../components/FeaturedContent";
-import { Loading } from "../components/Loading";
-import { MovieVideos } from "../components/MovieVideos";
-import { SimilarMovies } from "../components/SimilarMovies";
-import { useGenres } from "../hooks/useGenres";
-
-import { CastList } from "../components/CastList";
-import { ErrorFetchContentFull } from "../components/ErrorFetchContentFull";
 import { KeywordList } from "../components/KeywordsList";
+import { Loading } from "../components/Loading";
 import { Summary } from "../components/Summary";
-import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
-import { IMovieOverview } from "../interfaces/IMovieOverview";
-import { service } from "../services/api";
+import { useGenres } from "../hooks/useGenres";
+import { useMovieOverview } from "../hooks/useGetOverview";
+import { useKeywords } from "../hooks/useKeywords";
+import { useMovieCredits } from "../hooks/useMovieDetails";
+import { useMovieImages } from "../hooks/useMovieImages";
+import { useMovieVideos } from "../hooks/useMovieVideos";
+import { useSimilarMovies } from "../hooks/useSimilarMovies";
 
 export function MovieOverview() {
   let { movieId } = useParams();
-
+  const { movieOverview, movieOverviewError, fetchOverview } = useMovieOverview(
+    movieId || ""
+  );
+  const { keywords, keywordsError } = useKeywords(movieId || "", "movie");
+  const { movieCredits } = useMovieCredits(movieId || "");
+  const { movieVideos } = useMovieVideos(movieId || "");
+  const { movieImages } = useMovieImages(movieId || "");
+  const { similarMovies } = useSimilarMovies(movieId || "");
   const { movieGenresList } = useGenres();
 
-  const [loadingData, setLoadingData] = useState<boolean>(true);
-  const [movieOverview, setMovieOverview] = useState<IMovieOverview>();
-  const [movieErrorBasicFetch, setMovieErrorBasicFetch] =
-    useState<IErrorFetchContent>();
+  function refetchData(contentID: string | undefined = undefined) {
+    if (!contentID) return;
+    fetchOverview();
+  }
 
   const genres_id: number[] | undefined = movieOverview?.genres.map((genre) => {
     return genre.id;
   });
 
-  async function fetchData(url: string) {
-    setLoadingData(true);
-
-    const data = await service
-      .get<Promise<IMovieOverview>>(url)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        setMovieErrorBasicFetch(err);
-      })
-      .finally(() => {
-        window.scrollTo(0, 0);
-        setTimeout(() => {
-          setLoadingData(false);
-        }, 500);
-      });
-
-    if (data) {
-      setMovieOverview(data);
-    }
-  }
-
   useEffect(() => {
-    fetchData(`/movie/${movieId}`);
+    refetchData(movieId);
   }, [movieId]);
 
   return (
-    <div className='w-full h-full'>
-      {loadingData ? (
+    <div className='w-full'>
+      {!movieOverview ? (
         <Loading />
       ) : (
-        <ErrorFetchContentFull error={movieErrorBasicFetch}>
-          <div className='w-full h-full flex flex-col gap-4'>
-            <FeaturedContent
-              genresList={movieGenresList}
-              contentGenresList={genres_id}
-              title={movieOverview?.title}
-              subTitle={movieOverview?.original_title}
-              backdrop_path={movieOverview?.backdrop_path}
-              overview={movieOverview?.overview}
-              vote_average={movieOverview?.vote_average}
-              type={"movie"}
-              showReadMore={false}
-              showInfo={false}
-            />
+        <div className='w-full h-full flex flex-col gap-4'>
+          <FeaturedContent
+            genresList={movieGenresList}
+            contentGenresList={genres_id}
+            title={movieOverview?.title}
+            subTitle={movieOverview?.original_title}
+            backdrop_path={movieOverview?.backdrop_path}
+            overview={movieOverview?.overview}
+            vote_average={movieOverview?.vote_average}
+            type={"movie"}
+            showReadMore={false}
+          />
 
-            <Summary
-              title={movieOverview?.title}
-              overview={movieOverview?.overview}
-            />
+          <Summary
+            title={movieOverview?.title}
+            overview={movieOverview?.overview}
+          />
 
-            <KeywordList title='TAGS' contentID={movieId} type='movie' />
+          <KeywordList title={"TAGS"} data={keywords} error={keywordsError} />
 
-            <CastList title='Elenco' contentID={movieId} type='movie' />
-
-            <MovieVideos title='Vídeos' contentID={movieId} type='movie' />
-
-            <SimilarMovies
-              title='Você também pode gostar'
-              contentID={movieId}
-              type='movie'
-            />
-          </div>
-        </ErrorFetchContentFull>
+          <List title='Elenco' data={movieCredits.cast} error={} />
+        </div>
       )}
+      {/* 
+      <MovieVideos data={movieVideos} />
+
+      <SimilarMovies similarMovies={similarMovies} /> */}
     </div>
   );
 }

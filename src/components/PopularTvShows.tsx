@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
-import { IMovieCredits } from "../interfaces/IMovieCredits";
+import {
+  IUpcomingMoviesApiReturn,
+  IUpcomingMoviesResults,
+} from "../interfaces/IUpcomingMovies";
 import { service } from "../services/api";
-import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 import { ErrorFetchContent } from "./ErrorFetchContent";
 import { List } from "./List";
 import { Section } from "./Section";
 
-interface CastListProps {
-  contentID?: string;
-  title: string;
-  type: MediaTypes;
-}
-
-export function CastList({ contentID, title, type }: CastListProps) {
-  const [data, setData] = useState<IMovieCredits | undefined>();
+export function PopularTvShows() {
+  const [data, setData] = useState<IUpcomingMoviesResults[]>();
   const [dataErrorBasicFetch, setDataErrorBasicFetch] =
     useState<IErrorFetchContent>();
 
   async function fetchData(url: string) {
     const data = await service
-      .get<Promise<IMovieCredits>>(url)
+      .get<Promise<IUpcomingMoviesApiReturn>>(url)
       .then((res) => {
         return res.data;
       })
@@ -28,21 +24,19 @@ export function CastList({ contentID, title, type }: CastListProps) {
         setDataErrorBasicFetch(err);
       });
 
-    if (data) {
-      setData(data);
+    if (data && data.results.length > 0) {
+      setData(data.results);
     }
   }
 
   useEffect(() => {
-    fetchData(`/${type}/${contentID}/credits`);
-  }, [contentID]);
+    fetchData("/movie/upcoming/");
+  }, []);
 
   return (
-    <Section title={title}>
+    <Section title={"Próximos Filmes a Serem Lançados"}>
       <ErrorFetchContent error={dataErrorBasicFetch}>
-        {data && data.cast.length > 0 ? (
-          <List data={data.cast} type='person' />
-        ) : null}
+        {data && data.length > 0 ? <List data={data} type={"movie"} /> : null}
       </ErrorFetchContent>
     </Section>
   );
