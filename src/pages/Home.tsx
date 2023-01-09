@@ -6,6 +6,7 @@ import { PopularTvShows } from "../components/PopularTvShows";
 import { TrendingMovie } from "../components/TrendingMovie";
 import { UpcomingMovies } from "../components/UpcomingMovies";
 import { useGenres } from "../hooks/useGenres";
+import { useGetPopular } from "../hooks/useGetPopular";
 import { usePopularPersons } from "../hooks/usePopularPersons";
 import { usePopularTvShows } from "../hooks/usePopularTvShows";
 import { useTopRatedTvShows } from "../hooks/useTopRatedTvShows";
@@ -14,6 +15,7 @@ import { ITopRatedTvShowsResults } from "../interfaces/ITopRatedTvShows";
 
 export function Home() {
   const { trendingMovies } = useTrendingMovies();
+  const { popular, popularError } = useGetPopular("movie");
   const { featuredPopularTvShow, popularTvShowsWithoutFeatured } =
     usePopularTvShows();
   const { topRatedTvShows } = useTopRatedTvShows();
@@ -28,7 +30,7 @@ export function Home() {
       />
 
       <div className='relative md:mt-[-48px]'>
-        <PopularMovies />
+        <PopularMovies data={popular} error={popularError} />
 
         <UpcomingMovies />
 
