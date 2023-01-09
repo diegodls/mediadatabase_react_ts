@@ -1,45 +1,18 @@
 import { useEffect, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 import { IMovieVideoResults, IMovieVideos } from "../interfaces/IMovieVideos";
-import { service } from "../services/api";
-import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 import { ErrorFetchContent } from "./ErrorFetchContent";
 import { Section } from "./Section";
 
 interface MovieVideoProps {
-  contentID?: string;
-  title: string;
-  type: MediaTypes;
+  data?: IMovieVideos;
+  error?: IErrorFetchContent;
 }
 
-export function MovieVideos({ contentID, title, type }: MovieVideoProps) {
-  const [data, setData] = useState<IMovieVideos | undefined>();
-
+export function MovieVideos({ data, error }: MovieVideoProps) {
   const [featuredMovie, SetFeaturedMovie] = useState<IMovieVideoResults>(
     data?.results[0] || ({} as IMovieVideoResults)
   );
-
-  const [dataErrorBasicFetch, setDataErrorBasicFetch] =
-    useState<IErrorFetchContent>();
-
-  async function fetchData(url: string) {
-    const data = await service
-      .get<Promise<IMovieVideos>>(url)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        setDataErrorBasicFetch(err);
-      });
-
-    if (data) {
-      setData(data);
-    }
-  }
-
-  useEffect(() => {
-    fetchData(`/${type}/${contentID}/videos`);
-  }, [contentID]);
 
   useEffect(() => {
     if (data && data.results.length > 0) {
@@ -53,8 +26,8 @@ export function MovieVideos({ contentID, title, type }: MovieVideoProps) {
   }
 
   return (
-    <Section title={title}>
-      <ErrorFetchContent error={dataErrorBasicFetch}>
+    <Section title={"Vídeos"}>
+      <ErrorFetchContent error={error}>
         {data && data.results.length > 0 ? (
           <div className='w-full '>
             <iframe

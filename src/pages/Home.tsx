@@ -48,7 +48,7 @@ export function Home() {
         <PopularTvShows />
 
         <List<ITopRatedTvShowsResults>
-          rowTitle='Series Melhores Avaliadas'
+          title='Series Melhores Avaliadas'
           type='tv'
           data={topRatedTvShows}
         />

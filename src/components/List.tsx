@@ -11,7 +11,7 @@ interface IListRowProps<T> {
   data?: T[];
   type?: MediaTypes;
   title?: string;
-  error: IErrorFetchContent;
+  error?: IErrorFetchContent;
 }
 
 interface IMock {

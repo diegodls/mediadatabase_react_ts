@@ -4,71 +4,84 @@ import { FeaturedContent } from "../components/FeaturedContent";
 import { KeywordList } from "../components/KeywordsList";
 import { Loading } from "../components/Loading";
 import { Summary } from "../components/Summary";
+
+import { List } from "../components/List";
+import { MovieVideos } from "../components/MovieVideos";
+import { SimilarMovies } from "../components/SimilarMovies";
 import { useGenres } from "../hooks/useGenres";
-import { useMovieOverview } from "../hooks/useGetOverview";
-import { useKeywords } from "../hooks/useKeywords";
-import { useMovieCredits } from "../hooks/useMovieDetails";
-import { useMovieImages } from "../hooks/useMovieImages";
-import { useMovieVideos } from "../hooks/useMovieVideos";
-import { useSimilarMovies } from "../hooks/useSimilarMovies";
+import { useGetCredits } from "../hooks/useGetCredits";
+import { useGetKeywords } from "../hooks/useGetKeywords";
+import { useGetOverview } from "../hooks/useGetOverview";
+import { useSimilarContent } from "../hooks/useGetSimilarContent";
+import { useGetVideos } from "../hooks/useGetVideos";
+import { IKeywords } from "../interfaces/IKeywords";
 
 export function MovieOverview() {
   let { movieId } = useParams();
-  const { movieOverview, movieOverviewError, fetchOverview } = useMovieOverview(
-    movieId || ""
+  const { overview, loadingOverview, overviewError, fetchOverview } =
+    useGetOverview("movie", movieId);
+  const { keywords, keywordsError, fetchKeywords } = useGetKeywords<IKeywords>(
+    "movie",
+    movieId
   );
-  const { keywords, keywordsError } = useKeywords(movieId || "", "movie");
-  const { movieCredits } = useMovieCredits(movieId || "");
-  const { movieVideos } = useMovieVideos(movieId || "");
-  const { movieImages } = useMovieImages(movieId || "");
-  const { similarMovies } = useSimilarMovies(movieId || "");
+  const { credits, creditsError, fetchCredits } = useGetCredits(
+    "movie",
+    movieId
+  );
+  const { videos, videosError, fetchVideos } = useGetVideos("movie", movieId);
+
+  const { similarContent, similarContentError, fetchSimilarContent } =
+    useSimilarContent("movie", movieId);
+
   const { movieGenresList } = useGenres();
 
   function refetchData(contentID: string | undefined = undefined) {
     if (!contentID) return;
     fetchOverview();
+    fetchKeywords();
+    fetchCredits();
+    fetchVideos();
+    fetchSimilarContent();
   }
 
-  const genres_id: number[] | undefined = movieOverview?.genres.map((genre) => {
+  const genres_id: number[] | undefined = overview?.genres.map((genre) => {
     return genre.id;
   });
 
   useEffect(() => {
     refetchData(movieId);
+    window.scrollTo(0, 0);
   }, [movieId]);
 
   return (
     <div className='w-full'>
-      {!movieOverview ? (
+      {!overview || loadingOverview ? (
         <Loading />
       ) : (
-        <div className='w-full h-full flex flex-col gap-4'>
+        <div className='w-full flex flex-col gap-4'>
           <FeaturedContent
             genresList={movieGenresList}
             contentGenresList={genres_id}
-            title={movieOverview?.title}
-            subTitle={movieOverview?.original_title}
-            backdrop_path={movieOverview?.backdrop_path}
-            overview={movieOverview?.overview}
-            vote_average={movieOverview?.vote_average}
+            title={overview?.title}
+            subTitle={overview?.original_title}
+            backdrop_path={overview?.backdrop_path}
+            overview={overview?.overview}
+            vote_average={overview?.vote_average}
             type={"movie"}
             showReadMore={false}
           />
 
-          <Summary
-            title={movieOverview?.title}
-            overview={movieOverview?.overview}
-          />
+          <Summary title={overview?.title} overview={overview?.overview} />
 
-          <KeywordList title={"TAGS"} data={keywords} error={keywordsError} />
+          <KeywordList data={keywords} error={keywordsError} />
 
-          <List title='Elenco' data={movieCredits.cast} error={} />
+          <List title='Elenco' data={credits?.cast} error={creditsError} />
+
+          <MovieVideos data={videos} error={videosError} />
+
+          <SimilarMovies data={similarContent} error={similarContentError} />
         </div>
       )}
-      {/* 
-      <MovieVideos data={movieVideos} />
-
-      <SimilarMovies similarMovies={similarMovies} /> */}
     </div>
   );
 }

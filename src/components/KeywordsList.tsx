@@ -5,13 +5,12 @@ import { Section } from "./Section";
 
 interface KeywordListProps {
   data?: IKeywords;
-  title?: string;
   error?: IErrorFetchContent;
 }
 
-export function KeywordList({ data, title, error }: KeywordListProps) {
+export function KeywordList({ data, error }: KeywordListProps) {
   return (
-    <Section title={title}>
+    <Section title={"TAGS"}>
       <ErrorFetchContent error={error}>
         {data && data.keywords.length > 0 ? (
           <ul role='list' className='mt-4 flex flex-row gap-2 flex-wrap'>

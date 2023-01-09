@@ -1,53 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
-import {
-  ISimilarMovies,
-  ISimilarMoviesResult,
-} from "../interfaces/ISimilarMovies";
-import { service } from "../services/api";
+import { ISimilarMoviesResult } from "../interfaces/ISimilarMovies";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 import { ErrorFetchContent } from "./ErrorFetchContent";
 import { ListItem } from "./ListItem";
 import { Section } from "./Section";
 
 interface ISimilarMoviesProps {
-  contentID?: string;
-  title: string;
-  type: MediaTypes;
+  data?: ISimilarMoviesResult[];
+  error?: IErrorFetchContent;
 }
 
-export function SimilarMovies({ contentID, title, type }: ISimilarMoviesProps) {
+export function SimilarMovies({ data, error }: ISimilarMoviesProps) {
   const listRef = useRef<HTMLUListElement>(null);
   const listHeightShowSize = 208; // h-52 or 13rem
   const componentType: MediaTypes = "movie";
 
   const [showMore, setShowMore] = useState<boolean>(false);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-  const [data, setData] = useState<ISimilarMoviesResult[] | undefined>();
-  const [dataErrorBasicFetch, setDataErrorBasicFetch] =
-    useState<IErrorFetchContent>();
-
-  async function fetchData(url: string) {
-    const data = await service
-      .get<Promise<ISimilarMovies>>(url)
-      .then((res) => {
-        console.log(res);
-
-        return res.data;
-      })
-      .catch((err) => {
-        setDataErrorBasicFetch(err);
-      });
-
-    if (data) {
-      setData(data.results);
-    }
-  }
-
-  useEffect(() => {
-    setIsCollapsed(false);
-    fetchData(`/${type}/${contentID}/similar`);
-  }, [contentID]);
 
   function handleResize() {
     if (
@@ -81,18 +51,18 @@ export function SimilarMovies({ contentID, title, type }: ISimilarMoviesProps) {
   }, []);
 
   return (
-    <Section title={title}>
-      <ErrorFetchContent error={dataErrorBasicFetch}>
+    <Section title={"Você também pode gostar"}>
+      <ErrorFetchContent error={error}>
         {data && data.length > 0 ? (
-          <>
+          <div className='w-full relative'>
             <div
               className={`w-full ${
                 isCollapsed ? "max-h-auto" : "max-h-52"
-              } justify-center overflow-hidden`}
+              } justify-center overflow-hidden `}
             >
               <ul
                 ref={listRef}
-                className='w-full h-full flex flex-row flex-wrap justify-center'
+                className='w-full h-full flex flex-row flex-wrap justify-center relative'
               >
                 {data.map((similarMovie, _) => {
                   return (
@@ -106,20 +76,27 @@ export function SimilarMovies({ contentID, title, type }: ISimilarMoviesProps) {
                 })}
               </ul>
             </div>
-
             {showMore ? (
-              <button
-                className={`w-full h-8 flex justify-center bg-gradient-to-t from-black`}
-                onClick={() => {
-                  handleCollapse();
-                }}
-              >
-                <strong>
-                  {isCollapsed ? "Mostrar Menos" : "Mostrar Mais"}
-                </strong>
-              </button>
+              <div className='w-full flex justify-center items-center '>
+                <button
+                  aria-label={`${
+                    isCollapsed ? "Mostrar Menos" : "Mostrar Mais"
+                  } filmes similares`}
+                  title={`${
+                    isCollapsed ? "Mostrar Menos" : "Mostrar Mais"
+                  } filmes similares`}
+                  className={`mt-2 px-4 py-2 rounded flex bg-black/20 border-2 border-customColors-red-500`}
+                  onClick={() => {
+                    handleCollapse();
+                  }}
+                >
+                  <strong>
+                    {isCollapsed ? "Mostrar Menos" : "Mostrar Mais"}
+                  </strong>
+                </button>
+              </div>
             ) : null}
-          </>
+          </div>
         ) : null}
       </ErrorFetchContent>
     </Section>

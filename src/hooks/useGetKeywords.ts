@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
-import { IKeywords } from "../interfaces/IKeywords";
 import { service } from "../services/api";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 
-export function useKeywords(movieID: string, type: MediaTypes) {
-  const [keywords, setKeywords] = useState<IKeywords>();
+export function useGetKeywords<T>(type: MediaTypes, contentID?: string) {
+  const [keywords, setKeywords] = useState<T>();
   const [loadingKeywords, setLoadingKeywords] = useState<boolean>(true);
   const [keywordsError, setKeywordsError] = useState<IErrorFetchContent>();
 
-  async function getKeywords(movieID: string, type: MediaTypes) {
+  async function fetchKeywords() {
     setLoadingKeywords(true);
     return await service
-      .get<IKeywords>(`/${type}/${movieID}/keywords`)
+      .get<T>(`/${type}/${contentID}/keywords`)
       .then((response) => {
         if (response.data) {
           setKeywords(response.data);
@@ -27,13 +26,13 @@ export function useKeywords(movieID: string, type: MediaTypes) {
   }
 
   useEffect(() => {
-    getKeywords(movieID, type);
+    fetchKeywords();
   }, []);
 
   return {
     keywords,
     loadingKeywords,
     keywordsError,
-    getKeywords,
+    fetchKeywords,
   };
 }

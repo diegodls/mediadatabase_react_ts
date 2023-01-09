@@ -5,18 +5,29 @@ import { MediaTypes } from "./../types/sharedTypes/MediaTypes";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 import { service } from "../services/api";
 
-export function useGetOverview(ContentID: string, type: MediaTypes) {
+export function useGetOverview(type: MediaTypes, contentID?: string) {
   const [overview, setOverview] = useState<IMovieOverview>();
   const [loadingOverview, setLoadingOverview] = useState<boolean>(true);
   const [overviewError, setOverviewError] = useState<IErrorFetchContent>();
 
-  async function getMovieOverview(ContentID: string, type: MediaTypes) {
-
-    Colocar uma condição onde não tiver o id, setar um erro de ID invalido e popular o overviewError
+  async function fetchOverview() {
+    console.log(`Buscando o item: ${contentID}`);
 
     setLoadingOverview(true);
+    setOverviewError(undefined);
+
+    if (!contentID || contentID === undefined || contentID.length <= 0) {
+      setOverviewError({
+        status_message: "É necessário informar o ID do conteúdo!",
+        success: false,
+        status_code: 404,
+      });
+
+      return;
+    }
+
     return await service
-      .get<IMovieOverview>(`/${type}/${ContentID}`)
+      .get<IMovieOverview>(`/${type}/${contentID}`)
       .then((response) => {
         if (response.data) {
           setOverview(response.data);
@@ -26,18 +37,20 @@ export function useGetOverview(ContentID: string, type: MediaTypes) {
         setOverviewError(error);
       })
       .finally(() => {
-        setLoadingOverview(false);
+        setTimeout(() => {
+          setLoadingOverview(false);
+        }, 500);
       });
   }
 
   useEffect(() => {
-    getMovieOverview(ContentID, type);
+    fetchOverview();
   }, []);
 
   return {
     overview,
     loadingOverview,
     overviewError,
-    getMovieOverview,
+    fetchOverview,
   };
 }
