@@ -112,6 +112,7 @@ export function TrendingMovie({
                 contentID={slideArray[currentIndex]?.id}
                 title={slideArray[currentIndex]?.title}
                 subTitle={slideArray[currentIndex]?.original_title}
+                release_date={slideArray[currentIndex]?.release_date}
                 backdrop_path={slideArray[currentIndex]?.backdrop_path}
                 overview={slideArray[currentIndex]?.overview}
                 vote_average={slideArray[currentIndex]?.vote_average}
