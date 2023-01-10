@@ -11,6 +11,7 @@ export interface FeaturedContentProps {
   contentID?: number;
   title?: string;
   subTitle?: string;
+  release_date?: string;
   backdrop_path?: string | null;
   overview?: string;
   vote_average?: number;
@@ -26,6 +27,7 @@ export function FeaturedContent({
   contentID,
   title,
   subTitle,
+  release_date,
   backdrop_path,
   overview,
   vote_average,
@@ -62,6 +64,7 @@ export function FeaturedContent({
         contentID={contentID}
         title={title}
         subTitle={subTitle}
+        release_date={release_date}
         overview={overview}
         vote_average={vote_average}
         type={type}

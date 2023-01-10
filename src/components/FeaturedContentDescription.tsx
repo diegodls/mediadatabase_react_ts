@@ -8,6 +8,7 @@ export function FeaturedContentDescription({
   contentID,
   title,
   subTitle,
+  release_date,
   overview,
   vote_average,
   runtime,
@@ -16,6 +17,28 @@ export function FeaturedContentDescription({
   showInfo = true,
 }: FeaturedContentProps) {
   const mediaType: string = type === "movie" ? "Filme" : "Seriado";
+  const months = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
+
+  function formatDate(date: string): string {
+    let day = date.split("-")[2];
+    let month = date.split("-")[1];
+    let year = date.split("-")[0];
+    let monthInText = months[Number(month) - 1];
+    return `${day} de ${monthInText} de ${year}`;
+  }
 
   return (
     <div className='mt-2 px-4 md:max-w-[40%] md:px-0 md:mt-0 md:ml-16 md:left-0 md:top-1/2 md:transform md:-translate-y-1/2 md:absolute md:z-50 md:overflow-hidden'>
@@ -49,18 +72,46 @@ export function FeaturedContentDescription({
         </span>
       ) : null}
 
-      <div className='mt-2 flex row items-center justify-between'>
-        {vote_average ? (
-          <span className='flex row'>
-            <Star className='mt-[2px]' size={24} color='#c00' weight='fill' />
-            <span className='text-lg ml-2 font-bold line-clamp-3'>
-              {vote_average?.toFixed(1)}
-            </span>
+      <div className='w-full mt-2 flex items-center justify-between'>
+        {release_date ? (
+          <span
+            aria-label={`O ${mediaType} ${title} foi lançado em ${formatDate(
+              release_date
+            )}`}
+            title={`O ${mediaType} ${title} foi lançado em ${formatDate(
+              release_date
+            )}`}
+            className='text-lg font-bold line-clamp-3'
+          >
+            {release_date.split("-")[0]}
           </span>
         ) : null}
 
         {runtime ? (
-          <p className='text-lg ml-10 font-bold line-clamp-3'>{runtime} min</p>
+          <p
+            aria-label={`O ${mediaType} ${title} tem a duração de ${runtime} minutos`}
+            title={`O ${mediaType} ${title} tem a duração de ${runtime} minutos`}
+            className='text-lg font-bold line-clamp-3'
+          >
+            {runtime} min
+          </p>
+        ) : null}
+
+        {vote_average ? (
+          <span
+            aria-label={`O ${mediaType} ${title} tem uam popularidade de ${vote_average}`}
+            title={`O ${mediaType} ${title} tem uam popularidade de ${vote_average}s`}
+            className='flex'
+          >
+            <Star
+              size={24}
+              weight='fill'
+              className='text-customColors-red-500'
+            />
+            <span className='ml-2 text-lg font-bold line-clamp-3'>
+              {vote_average?.toFixed(1)}
+            </span>
+          </span>
         ) : null}
 
         {showReadMore && contentID ? (
