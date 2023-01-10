@@ -30,7 +30,7 @@ export function PopularTvShows() {
   }
 
   useEffect(() => {
-    fetchData("/movie/upcoming/");
+    fetchData("/tv/upcoming/");
   }, []);
 
   return (
