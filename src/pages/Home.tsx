@@ -1,25 +1,40 @@
 import { FeaturedContent } from "../components/FeaturedContent";
 import { List } from "../components/List";
-import { PopularMovies } from "../components/PopularMovies";
 import { PopularPerson } from "../components/PopularPerson";
-import { PopularTvShows } from "../components/PopularTvShows";
 import { TrendingMovie } from "../components/TrendingMovie";
-import { UpcomingMovies } from "../components/UpcomingMovies";
 import { useGenres } from "../hooks/useGenres";
 import { useGetPopular } from "../hooks/useGetPopular";
 import { usePopularPersons } from "../hooks/usePopularPersons";
-import { usePopularTvShows } from "../hooks/usePopularTvShows";
 import { useTopRatedTvShows } from "../hooks/useTopRatedTvShows";
 import { useTrendingMovies } from "../hooks/useTrendingMovies";
+import { useGetUpcoming } from "../hooks/useUpcomingMovies";
+import { IPopularMoviesResults } from "../interfaces/IPopularMovies";
+import { IPopularTvShowsResults } from "../interfaces/IPopularTvShows";
 import { ITopRatedTvShowsResults } from "../interfaces/ITopRatedTvShows";
+import { IUpcomingMoviesResults } from "../interfaces/IUpcomingMovies";
 
 export function Home() {
   const { trendingMovies } = useTrendingMovies();
-  const { popular, popularError } = useGetPopular("movie");
-  const { featuredPopularTvShow, popularTvShowsWithoutFeatured } =
-    usePopularTvShows();
+
+  const { popularList: popularMovieList, popularError: popularMovieListError } =
+    useGetPopular<IPopularMoviesResults>("movie");
+
+  const {
+    popularList: popularTVList,
+    popularItemFeatured: featuredPopularTvShow,
+    popularListWithoutItemFeatured: popularTvShowsWithoutFeatured,
+    popularError: popularTVListError,
+  } = useGetPopular<IPopularTvShowsResults>("tv", true);
+
+  const { upcoming, upcomingError } = useGetUpcoming("movie");
+
+  // const { featuredPopularTvShow, popularTvShowsWithoutFeatured } =
+  //   usePopularTvShows();
+
   const { topRatedTvShows } = useTopRatedTvShows();
+
   const { personList } = usePopularPersons();
+
   const { tvShowsGenresList, movieGenresList } = useGenres();
 
   return (
@@ -28,11 +43,19 @@ export function Home() {
         trendingMovies={trendingMovies}
         movieGenresList={movieGenresList}
       />
-
       <div className='relative md:mt-[-48px]'>
-        <PopularMovies data={popular} error={popularError} />
+        <List<IPopularMoviesResults>
+          type={"movie"}
+          data={popularMovieList}
+          error={popularMovieListError}
+        />
 
-        <UpcomingMovies />
+        <List<IUpcomingMoviesResults>
+          title='Próximos Filmes a Serem Lançados'
+          type={"movie"}
+          data={upcoming}
+          error={upcomingError}
+        />
 
         <FeaturedContent
           genresList={tvShowsGenresList}
@@ -40,23 +63,30 @@ export function Home() {
           contentID={featuredPopularTvShow?.id}
           title={featuredPopularTvShow?.name}
           subTitle={featuredPopularTvShow?.original_name}
+          release_date={featuredPopularTvShow?.first_air_date}
           backdrop_path={featuredPopularTvShow?.backdrop_path}
           overview={featuredPopularTvShow?.overview}
           vote_average={featuredPopularTvShow?.vote_average}
-          type='tv'
+          type={"tv"}
           showReadMore={true}
         />
 
-        <PopularTvShows />
+        <List<IPopularTvShowsResults>
+          type={"tv"}
+          data={popularTvShowsWithoutFeatured}
+        />
 
         <List<ITopRatedTvShowsResults>
           title='Series Melhores Avaliadas'
-          type='tv'
+          type={"tv"}
           data={topRatedTvShows}
         />
       </div>
-
       <PopularPerson personList={personList} />
+      popular[0].id = {popularMovieList ? popularMovieList[0].id : "Sem ID"}
+      popularTVList[0].id = {popularTVList ? popularTVList[0].id : "Sem ID"}
+      featuredPopularTvShow ={" "}
+      {featuredPopularTvShow ? featuredPopularTvShow.name : "Sem item"}
     </div>
   );
 }

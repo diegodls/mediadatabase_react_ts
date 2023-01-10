@@ -1,35 +1,42 @@
 import { useEffect, useState } from "react";
+import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 import {
   IUpcomingMoviesApiReturn,
   IUpcomingMoviesResults,
 } from "../interfaces/IUpcomingMovies";
 import { service } from "../services/api";
+import { MediaTypes } from "./../types/sharedTypes/MediaTypes";
 
-export function useUpcomingMovies() {
-  const [upcomingMovies, setUpcoming] = useState<IUpcomingMoviesResults[]>();
+export function useGetUpcoming(type: MediaTypes) {
+  const [upcoming, setUpcoming] = useState<IUpcomingMoviesResults[]>();
+  const [loadingUpcoming, setLoadingUpcoming] = useState<boolean>(true);
+  const [upcomingError, setUpcomingError] = useState<IErrorFetchContent>();
 
-  async function getTrending(): Promise<IUpcomingMoviesResults[]> {
-    const upcomingData: IUpcomingMoviesApiReturn = await service
-      .get<Promise<IUpcomingMoviesApiReturn>>(`/movie/upcoming/`)
+  async function fetchUpcoming() {
+    setLoadingUpcoming(true);
+    setUpcomingError(undefined);
+
+    return await service
+      .get<IUpcomingMoviesApiReturn>(`/${type}/upcoming/`)
       .then((response) => {
-        return response.data;
+        setUpcoming(response.data.results);
+      })
+      .catch((error) => {
+        setUpcomingError(error);
+      })
+      .finally(() => {
+        setLoadingUpcoming(false);
       });
-
-    return upcomingData.results;
   }
 
-  async function fetchOverview() {
-    const upcoming = await getTrending();
-
-    if (upcoming) {
-      setUpcoming(upcoming);
-    }
-  }
   useEffect(() => {
-    fetchOverview();
+    fetchUpcoming();
   }, []);
 
   return {
-    upcomingMovies,
+    upcoming,
+    loadingUpcoming,
+    upcomingError,
+    fetchUpcoming,
   };
 }

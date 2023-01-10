@@ -11,8 +11,6 @@ export function useGetOverview(type: MediaTypes, contentID?: string) {
   const [overviewError, setOverviewError] = useState<IErrorFetchContent>();
 
   async function fetchOverview() {
-    console.log(`Buscando o item: ${contentID}`);
-
     setLoadingOverview(true);
     setOverviewError(undefined);
 
