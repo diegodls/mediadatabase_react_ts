@@ -12,6 +12,7 @@ interface IListRowProps<T> {
   type?: MediaTypes;
   title?: string;
   error?: IErrorFetchContent;
+  titleBg?: boolean;
 }
 
 interface IMock {
@@ -28,6 +29,7 @@ export function List<T>({
   type,
   title,
   error,
+  titleBg,
 }: IListRowProps<T & IMock>) {
   const listRef = useRef<HTMLUListElement>(null);
 
@@ -56,7 +58,7 @@ export function List<T>({
   //data && data?.length > 0
 
   return (
-    <Section title={title}>
+    <Section title={title} titleBg={titleBg}>
       <ErrorFetchContent error={error}>
         {data && data?.length > 0 ? (
           <div
