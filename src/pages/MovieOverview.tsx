@@ -64,6 +64,8 @@ export function MovieOverview() {
             contentGenresList={genres_id}
             title={overview?.title}
             subTitle={overview?.original_title}
+            release_date={overview?.release_date}
+            runtime={overview?.runtime}
             backdrop_path={overview?.backdrop_path}
             overview={overview?.overview}
             vote_average={overview?.vote_average}
