@@ -1,12 +1,13 @@
 import { FeaturedContent } from "../components/FeaturedContent";
 import { List } from "../components/List";
+import { Loading } from "../components/Loading";
 import { PopularPerson } from "../components/PopularPerson";
 import { TrendingMovie } from "../components/TrendingMovie";
 import { useGenres } from "../hooks/useGenres";
 import { useGetPopular } from "../hooks/useGetPopular";
+import { useGetTrending } from "../hooks/useGetTrending";
 import { usePopularPersons } from "../hooks/usePopularPersons";
 import { useTopRatedTvShows } from "../hooks/useTopRatedTvShows";
-import { useTrendingMovies } from "../hooks/useTrendingMovies";
 import { useGetUpcoming } from "../hooks/useUpcomingMovies";
 import { IPopularMoviesResults } from "../interfaces/IPopularMovies";
 import { IPopularTvShowsResults } from "../interfaces/IPopularTvShows";
@@ -14,22 +15,21 @@ import { ITopRatedTvShowsResults } from "../interfaces/ITopRatedTvShows";
 import { IUpcomingMoviesResults } from "../interfaces/IUpcomingMovies";
 
 export function Home() {
-  const { trendingMovies } = useTrendingMovies();
+  const { trending, loadingTrending, getTrending } = useGetTrending(
+    "movie",
+    "week"
+  );
 
   const { popularList: popularMovieList, popularError: popularMovieListError } =
     useGetPopular<IPopularMoviesResults>("movie");
 
   const {
-    popularList: popularTVList,
     popularItemFeatured: featuredPopularTvShow,
     popularListWithoutItemFeatured: popularTvShowsWithoutFeatured,
     popularError: popularTVListError,
   } = useGetPopular<IPopularTvShowsResults>("tv", true);
 
   const { upcoming, upcomingError } = useGetUpcoming("movie");
-
-  // const { featuredPopularTvShow, popularTvShowsWithoutFeatured } =
-  //   usePopularTvShows();
 
   const { topRatedTvShows } = useTopRatedTvShows();
 
@@ -38,9 +38,17 @@ export function Home() {
   const { tvShowsGenresList, movieGenresList } = useGenres();
 
   return (
-    <div className='w-full flex flex-col items-center'>
+    <div
+      className='w-full flex flex-col items-center'
+      style={{
+        height: `${loadingTrending ? "100vh" : ""}`,
+        overflow: `${loadingTrending ? "hidden" : ""}`,
+      }}
+    >
+      {loadingTrending ? <Loading onTop={true} /> : null}
+
       <TrendingMovie
-        trendingMovies={trendingMovies}
+        trendingMovies={trending}
         movieGenresList={movieGenresList}
       />
       <div className='relative md:mt-[-48px]'>
@@ -56,6 +64,8 @@ export function Home() {
           data={upcoming}
           error={upcomingError}
         />
+
+        <div className='mt-2'></div>
 
         <FeaturedContent
           genresList={tvShowsGenresList}
@@ -74,6 +84,7 @@ export function Home() {
         <List<IPopularTvShowsResults>
           type={"tv"}
           data={popularTvShowsWithoutFeatured}
+          error={popularTVListError}
         />
 
         <List<ITopRatedTvShowsResults>
@@ -83,10 +94,6 @@ export function Home() {
         />
       </div>
       <PopularPerson personList={personList} />
-      popular[0].id = {popularMovieList ? popularMovieList[0].id : "Sem ID"}
-      popularTVList[0].id = {popularTVList ? popularTVList[0].id : "Sem ID"}
-      featuredPopularTvShow ={" "}
-      {featuredPopularTvShow ? featuredPopularTvShow.name : "Sem item"}
     </div>
   );
 }
