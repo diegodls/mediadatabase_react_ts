@@ -22,7 +22,7 @@ export function ListItem({
     >
       <NavLink to={url || ""} end className='h-full'>
         <div className='w-full h-12 flex flex-col justify-end absolute z-20 bottom-0 translate-y-12 group-hover:translate-y-0 transition-all ease-in opacity-0 group-hover:opacity-100'>
-          <p className='font-bold pl-1 z-20 line-clamp-1 overflow-hidden scale-90'>
+          <p className='font-bold pl-1 z-20 line-clamp-1 overflow-hidden scale-90 relative bottom-1'>
             {title}
           </p>
 
