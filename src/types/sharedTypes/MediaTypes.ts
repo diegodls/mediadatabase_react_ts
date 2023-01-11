@@ -1,1 +1,2 @@
-export type MediaTypes = "movie" | "tv" | "person";
+export type MediaTypes = "movie" | "person" | "tv";
+export type TrendingMediaTypes = "all" | MediaTypes;

@@ -1,8 +1,4 @@
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
-
-export type ITrendingMoviesType = "all" | "movie" | "person" | "tv";
-export type ITrendingMoviesTime = "day" | "week";
-
 export interface ITrendingMovies {
   page: number;
   results: ITrendingMoviesResult[];
