@@ -1,9 +1,7 @@
-import { ArrowCircleLeft, ArrowCircleRight } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import { IGenres } from "../interfaces/IGenres";
 import { ITrendingMoviesResult } from "../interfaces/ITrendingMovies";
 import { FeaturedContent } from "./FeaturedContent";
-import { Loading } from "./Loading";
 
 let count = 0;
 
@@ -76,35 +74,13 @@ export function TrendingMovie({
   }, [slideArray]);
 
   return (
-    <section
-      ref={slideMouseOverRef}
-      className={`w-full h-full flex flex-col overflow-hidden relative z-0`}
-    >
-      {slideArray && slideArray?.length > 0 ? (
-        <>
-          <div
-            className={`w-full h-full flex flex-col overflow-hidden relative z-0`}
-          >
-            <div className='w-full top-1/2 transform -translate-y-1/2 px-3 flex items-center justify-between absolute z-50'>
-              <button onClick={handlePrev}>
-                <ArrowCircleLeft
-                  size={32}
-                  weight='bold'
-                  className='bg-customColors-background/60 rounded-full drop-shadow-2xl'
-                />
-              </button>
-              <button onClick={handleNext}>
-                <ArrowCircleRight
-                  size={32}
-                  weight='bold'
-                  className='bg-customColors-background/60 rounded-full drop-shadow-2xl'
-                />
-              </button>
-            </div>
-
+    <section ref={slideMouseOverRef} className={`flex relative`}>
+      <div className={`w-full flex flex-col overflow-hidden relative z-0`}>
+        {slideArray && slideArray?.length > 0 ? (
+          <div className={`w-full flex flex-col overflow-hidden relative z-50`}>
             <div
               ref={slideAnimationRef}
-              className='w-full h-full overflow-hidden flex justify-center items-center relative select-none'
+              className='w-full overflow-hidden flex justify-center items-center relative select-none'
             >
               <FeaturedContent
                 genresList={movieGenresList}
@@ -118,28 +94,28 @@ export function TrendingMovie({
                 vote_average={slideArray[currentIndex]?.vote_average}
                 type={slideArray[currentIndex]?.media_type}
                 showReadMore={true}
+                handlePrev={handlePrev}
+                handleNext={handleNext}
               />
             </div>
           </div>
-        </>
-      ) : (
-        <div
-          className={`w-full max-h-[30rem] flex items-center justify-center overflow-hidden`}
-        >
-          <Loading stroke='#cfcfcf58' onTop={true} />
-
+        ) : (
           <div
-            className={`w-full min-h-[350px] flex items-center justify-center opacity-0 overflow-hidden `}
+            className={`w-full max-h-[30rem] flex items-center justify-center overflow-hidden`}
           >
-            <img
-              className='min-w-full min-h-full flex-shrink-0 select-none relative z-10 opacity-0'
-              src={imageError}
-              alt={`Carregando...`}
-              title={`Carregando...`}
-            />
+            <div
+              className={`w-full min-h-[350px] flex items-center justify-center opacity-0 overflow-hidden `}
+            >
+              <img
+                className='min-w-full min-h-full flex-shrink-0 select-none relative z-10 opacity-0'
+                src={imageError}
+                alt={`Carregando...`}
+                title={`Carregando...`}
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 }
