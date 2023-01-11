@@ -94,6 +94,7 @@ export function TrendingMovie({
                 vote_average={slideArray[currentIndex]?.vote_average}
                 type={slideArray[currentIndex]?.media_type}
                 showReadMore={true}
+                showArrows={slideArray.length > 0}
                 handlePrev={handlePrev}
                 handleNext={handleNext}
               />

@@ -20,6 +20,7 @@ export interface FeaturedContentProps {
   type?: MediaTypes;
   showReadMore?: boolean;
   showInfo?: boolean;
+  showArrows?: boolean;
   handlePrev?: () => void;
   handleNext?: () => void;
 }
@@ -38,28 +39,31 @@ export function FeaturedContent({
   type,
   showReadMore,
   showInfo,
+  showArrows = false,
   handlePrev,
   handleNext,
 }: FeaturedContentProps) {
   return (
     <section className='relative '>
       <div className='w-full max-h-[80vh] flex items-center relative overflow-hidden bg-red-500'>
-        <div className='w-full top-1/2 transform -translate-y-1/2 px-3 flex items-center justify-between absolute z-50'>
-          <button onClick={handlePrev}>
-            <ArrowCircleLeft
-              size={32}
-              weight='bold'
-              className='bg-customColors-background/60 rounded-full drop-shadow-2xl'
-            />
-          </button>
-          <button onClick={handleNext}>
-            <ArrowCircleRight
-              size={32}
-              weight='bold'
-              className='bg-customColors-background/60 rounded-full drop-shadow-2xl'
-            />
-          </button>
-        </div>
+        {showArrows ? (
+          <div className='w-full top-1/2 transform -translate-y-1/2 px-3 flex items-center justify-between absolute z-50'>
+            <button onClick={handlePrev}>
+              <ArrowCircleLeft
+                size={32}
+                weight='bold'
+                className='bg-customColors-background/60 rounded-full drop-shadow-2xl'
+              />
+            </button>
+            <button onClick={handleNext}>
+              <ArrowCircleRight
+                size={32}
+                weight='bold'
+                className='bg-customColors-background/60 rounded-full drop-shadow-2xl'
+              />
+            </button>
+          </div>
+        ) : null}
 
         <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-40 hidden md:block' />
 
