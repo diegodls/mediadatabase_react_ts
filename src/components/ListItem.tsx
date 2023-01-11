@@ -27,7 +27,7 @@ export function ListItem({
           </p>
 
           {character ? (
-            <p className='font-bold pl-2 z-20 line-clamp-1 overflow-hidden scale-90'>
+            <p className='font-bold pl-2 z-20 line-clamp-1 overflow-hidden scale-90 relative bottom-2'>
               as {character}
             </p>
           ) : null}
