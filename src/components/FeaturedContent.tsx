@@ -2,6 +2,7 @@ import { IGenres } from "../interfaces/IGenres";
 import { API_BASEURL_IMAGE_1280 } from "../utils/constants";
 import { FeaturedContentDescription } from "./FeaturedContentDescription";
 
+import { ArrowCircleLeft, ArrowCircleRight } from "phosphor-react";
 import backdrop_path_error from "../assets/img/image-error.png";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 
@@ -19,6 +20,8 @@ export interface FeaturedContentProps {
   type?: MediaTypes;
   showReadMore?: boolean;
   showInfo?: boolean;
+  handlePrev?: () => void;
+  handleNext?: () => void;
 }
 
 export function FeaturedContent({
@@ -35,13 +38,32 @@ export function FeaturedContent({
   type,
   showReadMore,
   showInfo,
+  handlePrev,
+  handleNext,
 }: FeaturedContentProps) {
   return (
-    <section className='relative'>
-      <div className='w-full max-h-[80vh] flex items-center relative overflow-hidden'>
+    <section className='relative '>
+      <div className='w-full max-h-[80vh] flex items-center relative overflow-hidden bg-red-500'>
+        <div className='w-full top-1/2 transform -translate-y-1/2 px-3 flex items-center justify-between absolute z-50'>
+          <button onClick={handlePrev}>
+            <ArrowCircleLeft
+              size={32}
+              weight='bold'
+              className='bg-customColors-background/60 rounded-full drop-shadow-2xl'
+            />
+          </button>
+          <button onClick={handleNext}>
+            <ArrowCircleRight
+              size={32}
+              weight='bold'
+              className='bg-customColors-background/60 rounded-full drop-shadow-2xl'
+            />
+          </button>
+        </div>
+
         <div className='w-full h-full top-0 bg-gradient-to-r from-customColors-background via-transparent absolute z-40 hidden md:block' />
 
-        <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-50' />
+        <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-40' />
 
         <img
           className='w-full h-auto flex-shrink-0 select-none bg-cover absolute z-20'
