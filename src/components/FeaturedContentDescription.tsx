@@ -1,6 +1,7 @@
 import { Star } from "phosphor-react";
 import { NavLink } from "react-router-dom";
 import { FeaturedContentProps } from "./FeaturedContent";
+import { Section } from "./Section";
 
 export function FeaturedContentDescription({
   genresList,
@@ -41,22 +42,23 @@ export function FeaturedContentDescription({
   }
 
   return (
-    <div className='mt-2 px-4 md:max-w-[40%] md:px-0 md:mt-0 md:ml-16 md:left-0 md:top-1/2 md:transform md:-translate-y-1/2 md:absolute md:z-50 md:overflow-hidden'>
-      {title ? (
-        <h1
-          aria-label={`${mediaType}: ${title}`}
-          title={`${mediaType}: ${title}`}
-          className='md:text-4xl font-bold wrap-text text-2xl'
-        >
-          {title}
-        </h1>
-      ) : null}
-      <div className='ml-2'>
+    <Section>
+      <div className='md:w-[40%] md:px-2 md:mt-0 md:ml-16 md:left-0 md:top-1/2 md:transform md:-translate-y-1/2 md:absolute md:z-50 md:overflow-hidden'>
+        {title ? (
+          <h1
+            aria-label={`${mediaType}: ${title}`}
+            title={`${mediaType}: ${title}`}
+            className='md:text-4xl font-bold wrap-text text-2xl'
+          >
+            {title}
+          </h1>
+        ) : null}
+
         {subTitle && title != subTitle ? (
           <p
             aria-label={`Nome original do ${mediaType}: ${title} é ${subTitle}`}
             title={`Nome original do ${mediaType}: ${title} é ${subTitle}`}
-            className='font-bold wrap-text text-md'
+            className='font-bold wrap-text text-md line-clamp-1'
           >
             {subTitle}
           </p>
@@ -123,7 +125,6 @@ export function FeaturedContentDescription({
             </NavLink>
           ) : null}
         </div>
-
         {genresList && genresList.genres.length > 0 ? (
           <ul
             aria-label={`Lista dos gêneros do ${mediaType}: ${title}`}
@@ -144,6 +145,6 @@ export function FeaturedContentDescription({
           </ul>
         ) : null}
       </div>
-    </div>
+    </Section>
   );
 }
