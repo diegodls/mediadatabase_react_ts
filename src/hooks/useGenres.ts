@@ -1,45 +1,39 @@
 import { useEffect, useState } from "react";
-import { IGenres } from "../interfaces/IGenres";
 
+import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 import { service } from "../services/api";
-import { MediaTypes } from "../types/sharedTypes/MediaTypes";
+import { GenresMediaTypes } from "../types/sharedTypes/MediaTypes";
 
-export function useGenres() {
-  const [movieGenresList, setMovieGenresList] = useState<IGenres>();
-  const [tvShowsGenresList, setTvShowsGenresList] = useState<IGenres>();
+export function useGenres<T>(type: GenresMediaTypes) {
+  const [genresList, setGenresList] = useState<T>();
+  const [genresListError, setGenresListError] = useState<IErrorFetchContent>();
+  const [loadingGenresList, setLoadingGenresList] = useState<boolean>(true);
 
-  async function getGenre(type: MediaTypes): Promise<IGenres> {
-    const genresData: IGenres = await service
-      .get<Promise<IGenres>>(`genre/${type}/list`)
+  async function getGenres() {
+    setLoadingGenresList(true);
+    return await service
+      .get<T>(`genre/${type}/list`)
       .then((response) => {
-        return response.data;
+        if (response.data) {
+          setGenresList(response.data);
+        }
+      })
+      .catch((error) => {
+        setGenresListError(error);
+      })
+      .finally(() => {
+        setLoadingGenresList(false);
       });
-    return genresData;
-  }
-
-  async function fetchMovieGenres() {
-    const genres = await getGenre("movie");
-
-    if (genres) {
-      setMovieGenresList(genres);
-    }
-  }
-
-  async function fetchTVGenres() {
-    const genres = await getGenre("tv");
-
-    if (genres) {
-      setTvShowsGenresList(genres);
-    }
   }
 
   useEffect(() => {
-    fetchMovieGenres();
-    fetchTVGenres();
+    getGenres();
   }, []);
 
   return {
-    movieGenresList,
-    tvShowsGenresList,
+    genresList,
+    genresListError,
+    loadingGenresList,
+    getGenres,
   };
 }

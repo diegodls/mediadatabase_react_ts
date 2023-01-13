@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IMovieOverview } from "../interfaces/IMovieOverview";
-import { MediaTypes } from "./../types/sharedTypes/MediaTypes";
+import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 import { service } from "../services/api";

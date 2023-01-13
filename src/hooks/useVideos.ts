@@ -21,7 +21,6 @@ export function useGetVideos(type: MediaTypes, contentID?: string) {
         success: false,
         status_code: 404,
       });
-      console.log("Erro overview sem ID");
 
       return;
     }

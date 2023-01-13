@@ -3,8 +3,6 @@ import { IPerson, IPersonApiReturn } from "../interfaces/IPerson";
 import { service } from "../services/api";
 
 export function usePopularPersons() {
-  console.log(`${"#".repeat(10)} - usePopularPersons`);
-
   const [personList, setPersonList] = useState<IPerson[]>();
 
   async function getPopularPersons(): Promise<IPerson[]> {
@@ -19,9 +17,6 @@ export function usePopularPersons() {
 
   async function fetchOverview() {
     const popularPersons = await getPopularPersons();
-
-    console.log(`${"#".repeat(20)} - popularPersons`);
-    console.log(popularPersons);
 
     if (popularPersons) {
       let filteredPopularPersons = popularPersons.filter(

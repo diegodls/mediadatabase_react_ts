@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 
-import { IMovieCredits } from "../interfaces/IMovieCredits";
 import { service } from "../services/api";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 
-export function useGetCredits(type: MediaTypes, contentID?: string) {
-  const [credits, setCredits] = useState<IMovieCredits>();
+export function useCredits<T>(type: MediaTypes, contentID?: string) {
+  const [credits, setCredits] = useState<T>();
   const [loadingCredits, setLoadingCredits] = useState<boolean>(true);
   const [creditsError, setCreditsError] = useState<IErrorFetchContent>();
 
-  async function fetchCredits() {
+  async function getCredits() {
     setLoadingCredits(true);
     setCreditsError(undefined);
 
@@ -24,7 +23,7 @@ export function useGetCredits(type: MediaTypes, contentID?: string) {
     }
 
     return await service
-      .get<IMovieCredits>(`/${type}/${contentID}/credits`)
+      .get<T>(`/${type}/${contentID}/credits`)
       .then((response) => {
         if (response.data) {
           setCredits(response.data);
@@ -39,13 +38,13 @@ export function useGetCredits(type: MediaTypes, contentID?: string) {
   }
 
   useEffect(() => {
-    fetchCredits();
+    getCredits();
   }, []);
 
   return {
     credits,
     loadingCredits,
     creditsError,
-    fetchCredits,
+    getCredits,
   };
 }

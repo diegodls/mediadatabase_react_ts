@@ -17,8 +17,6 @@ export function useSimilarContent(type: MediaTypes, contentID?: string) {
     useState<IErrorFetchContent>();
 
   async function fetchSimilarContent() {
-    console.log(`Buscando o item: ${contentID}`);
-
     setLoadingSimilarContent(true);
     setSimilarContentError(undefined);
 
@@ -28,7 +26,6 @@ export function useSimilarContent(type: MediaTypes, contentID?: string) {
         success: false,
         status_code: 404,
       });
-      console.log("Erro overview sem ID");
 
       return;
     }

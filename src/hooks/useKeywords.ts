@@ -3,7 +3,7 @@ import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 import { service } from "../services/api";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 
-export function useGetKeywords<T>(type: MediaTypes, contentID?: string) {
+export function useKeywords<T>(type: MediaTypes, contentID?: string) {
   const [keywords, setKeywords] = useState<T>();
   const [loadingKeywords, setLoadingKeywords] = useState<boolean>(true);
   const [keywordsError, setKeywordsError] = useState<IErrorFetchContent>();
