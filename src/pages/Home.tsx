@@ -3,97 +3,116 @@ import { List } from "../components/List";
 import { Loading } from "../components/Loading";
 import { PopularPerson } from "../components/PopularPerson";
 import { TrendingMovie } from "../components/TrendingMovie";
-import { useGenres } from "../hooks/useGenres";
-import { useGetPopular } from "../hooks/useGetPopular";
-import { useGetTrending } from "../hooks/useGetTrending";
-import { usePopularPersons } from "../hooks/usePopularPersons";
-import { useTopRatedTvShows } from "../hooks/useTopRatedTvShows";
-import { useGetUpcoming } from "../hooks/useUpcomingMovies";
-import { IPopularMoviesResults } from "../interfaces/IPopularMovies";
+import { useFetchData } from "../hooks/useFetchData";
+import { usePopular } from "../hooks/usePopular";
+import { IGenres } from "../interfaces/IGenres";
+import { IPersonApiReturn } from "../interfaces/IPerson";
+import {
+  IPopularMoviesApiReturn,
+  IPopularMoviesResults,
+} from "../interfaces/IPopularMovies";
 import { IPopularTvShowsResults } from "../interfaces/IPopularTvShows";
-import { ITopRatedTvShowsResults } from "../interfaces/ITopRatedTvShows";
-import { IUpcomingMoviesResults } from "../interfaces/IUpcomingMovies";
+import {
+  ITopRatedTvShowsApiReturn,
+  ITopRatedTvShowsResults,
+} from "../interfaces/ITopRatedTvShows";
+import { ITrendingMovies } from "../interfaces/ITrendingMovies";
+import {
+  IUpcomingMoviesApiReturn,
+  IUpcomingMoviesResults,
+} from "../interfaces/IUpcomingMovies";
 
 export function Home() {
-  const { trending, loadingTrending, getTrending } = useGetTrending(
-    "movie",
-    "week"
-  );
+  const { data: trendingMovie, loadingData: loadingTrendingMovie } =
+    useFetchData<ITrendingMovies>("/trending/movie/week");
 
-  const { popularList: popularMovieList, popularError: popularMovieListError } =
-    useGetPopular<IPopularMoviesResults>("movie");
+  const { data: popularMovieList, dataError: popularMovieListError } =
+    useFetchData<IPopularMoviesApiReturn>(`movie/popular`);
 
   const {
-    popularItemFeatured: featuredPopularTvShow,
-    popularListWithoutItemFeatured: popularTvShowsWithoutFeatured,
-    popularError: popularTVListError,
-  } = useGetPopular<IPopularTvShowsResults>("tv", true);
+    dataItemFeatured: featuredPopularTvShow,
+    dataWithoutItemFeatured: popularTvShowsWithoutFeatured,
+    dataError: popularTVListError,
+  } = usePopular<IPopularTvShowsResults>("tv", { splitFeaturedItem: true });
 
-  const { upcoming, upcomingError } = useGetUpcoming("movie");
+  const { data: upcomingMovies, dataError: upcomingMoviesError } =
+    useFetchData<IUpcomingMoviesApiReturn>(`movie/upcoming`);
 
-  const { topRatedTvShows } = useTopRatedTvShows();
+  const { data: topRatedTvShow, dataError: topRatedTvShowError } =
+    useFetchData<ITopRatedTvShowsApiReturn>("tv/top_rated");
 
-  const { personList } = usePopularPersons();
+  const { data: popularPersonList } =
+    useFetchData<IPersonApiReturn>(`person/popular`);
 
-  const { tvShowsGenresList, movieGenresList } = useGenres();
+  const { data: movieGenresList } = useFetchData<IGenres>(`genre/movie/list`);
+
+  const { data: tvShowGenresList } = useFetchData<IGenres>(`genre/tv/list`);
+
+  const trendingMovieResultsExists =
+    trendingMovie?.results && trendingMovie?.results.length > 0;
 
   return (
     <div
       className='w-full flex flex-col items-center'
       style={{
-        height: `${loadingTrending ? "100vh" : ""}`,
-        overflow: `${loadingTrending ? "hidden" : ""}`,
+        height: `${!trendingMovieResultsExists ? "100vh" : ""}`,
+        overflow: `${!trendingMovieResultsExists ? "hidden" : ""}`,
       }}
     >
-      {loadingTrending ? <Loading onTop={true} /> : null}
+      {!trendingMovieResultsExists || loadingTrendingMovie ? (
+        <Loading onTop={true} />
+      ) : null}
 
       <TrendingMovie
-        trendingMovies={trending}
+        trendingMovies={trendingMovie?.results}
         movieGenresList={movieGenresList}
       />
+
       <div className='relative md:mt-[-48px]'>
         <List<IPopularMoviesResults>
           type={"movie"}
-          data={popularMovieList}
+          data={popularMovieList?.results}
           error={popularMovieListError}
         />
 
         <List<IUpcomingMoviesResults>
           title='Próximos Filmes a Serem Lançados'
           type={"movie"}
-          data={upcoming}
-          error={upcomingError}
+          data={upcomingMovies?.results}
+          error={upcomingMoviesError}
         />
 
-        <div className='mt-2'></div>
+        <div className='mt-2'>
+          <FeaturedContent
+            genresList={tvShowGenresList}
+            contentGenresList={featuredPopularTvShow?.genre_ids}
+            contentID={featuredPopularTvShow?.id}
+            title={featuredPopularTvShow?.name}
+            subTitle={featuredPopularTvShow?.original_name}
+            release_date={featuredPopularTvShow?.first_air_date}
+            backdrop_path={featuredPopularTvShow?.backdrop_path}
+            overview={featuredPopularTvShow?.overview}
+            vote_average={featuredPopularTvShow?.vote_average}
+            type={"tv"}
+            showReadMore={true}
+          />
 
-        <FeaturedContent
-          genresList={tvShowsGenresList}
-          contentGenresList={featuredPopularTvShow?.genre_ids}
-          contentID={featuredPopularTvShow?.id}
-          title={featuredPopularTvShow?.name}
-          subTitle={featuredPopularTvShow?.original_name}
-          release_date={featuredPopularTvShow?.first_air_date}
-          backdrop_path={featuredPopularTvShow?.backdrop_path}
-          overview={featuredPopularTvShow?.overview}
-          vote_average={featuredPopularTvShow?.vote_average}
-          type={"tv"}
-          showReadMore={true}
-        />
+          <List<IPopularTvShowsResults>
+            type={"tv"}
+            data={popularTvShowsWithoutFeatured}
+            error={popularTVListError}
+          />
 
-        <List<IPopularTvShowsResults>
-          type={"tv"}
-          data={popularTvShowsWithoutFeatured}
-          error={popularTVListError}
-        />
+          <List<ITopRatedTvShowsResults>
+            title='Series Melhores Avaliadas'
+            type={"tv"}
+            data={topRatedTvShow?.results}
+            error={topRatedTvShowError}
+          />
+        </div>
 
-        <List<ITopRatedTvShowsResults>
-          title='Series Melhores Avaliadas'
-          type={"tv"}
-          data={topRatedTvShows}
-        />
+        <PopularPerson personList={popularPersonList?.results} />
       </div>
-      <PopularPerson personList={personList} />
     </div>
   );
 }

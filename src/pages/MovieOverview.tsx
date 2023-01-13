@@ -8,38 +8,54 @@ import { Summary } from "../components/Summary";
 import { List } from "../components/List";
 import { MovieVideos } from "../components/MovieVideos";
 import { SimilarMovies } from "../components/SimilarMovies";
-import { useGenres } from "../hooks/useGenres";
-import { useGetCredits } from "../hooks/useGetCredits";
-import { useGetKeywords } from "../hooks/useGetKeywords";
-import { useGetOverview } from "../hooks/useGetOverview";
-import { useSimilarContent } from "../hooks/useGetSimilarContent";
-import { useGetVideos } from "../hooks/useGetVideos";
+import { useFetchData } from "../hooks/useFetchData";
+import { IGenres } from "../interfaces/IGenres";
 import { IKeywords } from "../interfaces/IKeywords";
+import { IMovieCredits } from "../interfaces/IMovieCredits";
+import { IMovieOverview } from "../interfaces/IMovieOverview";
+import { IMovieVideos } from "../interfaces/IMovieVideos";
+import { ISimilarMovies } from "../interfaces/ISimilarMovies";
 
 export function MovieOverview() {
   let { movieId } = useParams();
-  const { overview, loadingOverview, overviewError, fetchOverview } =
-    useGetOverview("movie", movieId);
-  const { keywords, keywordsError, fetchKeywords } = useGetKeywords<IKeywords>(
-    "movie",
-    movieId
-  );
-  const { credits, creditsError, fetchCredits } = useGetCredits(
-    "movie",
-    movieId
-  );
-  const { videos, videosError, fetchVideos } = useGetVideos("movie", movieId);
 
-  const { similarContent, similarContentError, fetchSimilarContent } =
-    useSimilarContent("movie", movieId);
+  const {
+    data: overview,
+    loadingData: loadingOverview,
+    fetchData: fetchOverview,
+  } = useFetchData<IMovieOverview>(`movie/${movieId}`);
 
-  const { movieGenresList } = useGenres();
+  const {
+    data: keywords,
+    dataError: keywordsError,
+    fetchData: fetchKeywords,
+  } = useFetchData<IKeywords>(`movie/${movieId}/keywords`);
+
+  const {
+    data: credits,
+    dataError: creditsError,
+    fetchData: getCredits,
+  } = useFetchData<IMovieCredits>(`movie/${movieId}/credits`);
+
+  const {
+    data: videos,
+    dataError: videosError,
+    fetchData: fetchVideos,
+  } = useFetchData<IMovieVideos>(`movie/${movieId}/videos`);
+
+  const {
+    data: similarContent,
+    dataError: similarContentError,
+    fetchData: fetchSimilarContent,
+  } = useFetchData<ISimilarMovies>(`movie/${movieId}/similar`);
+
+  const { data: movieGenresList } = useFetchData<IGenres>(`genre/movie/list`);
 
   function refetchData(contentID: string | undefined = undefined) {
     if (!contentID) return;
     fetchOverview();
     fetchKeywords();
-    fetchCredits();
+    getCredits();
     fetchVideos();
     fetchSimilarContent();
   }
@@ -81,7 +97,10 @@ export function MovieOverview() {
 
           <MovieVideos data={videos} error={videosError} />
 
-          <SimilarMovies data={similarContent} error={similarContentError} />
+          <SimilarMovies
+            data={similarContent?.results}
+            error={similarContentError}
+          />
         </div>
       )}
     </div>
