@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 import { IRecommendedResult } from "../interfaces/IRecommended";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
@@ -37,6 +37,18 @@ export function Recommended<T>({ data, error }: IRecommendedProps<T>) {
       }, 250);
     }
   }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    setTimeout(() => {
+      handleResize();
+    }, 250);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <Section title={"Você também pode gostar"}>
