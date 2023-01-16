@@ -68,7 +68,7 @@ export function Home() {
         movieGenresList={movieGenresList}
       />
 
-      <div className='relative md:mt-[-48px]'>
+      <div className='md:mt-[-48px]'>
         <List<IPopularMoviesResults>
           type={"movie"}
           data={popularMovieList?.results}
@@ -76,7 +76,7 @@ export function Home() {
         />
 
         <List<IUpcomingMoviesResults>
-          title='Próximos Filmes a Serem Lançados'
+          title='Em breve nos cinemas'
           type={"movie"}
           data={upcomingMovies?.results}
           error={upcomingMoviesError}
@@ -96,22 +96,23 @@ export function Home() {
             type={"tv"}
             showReadMore={true}
           />
+          <div className='md:mt-[-48px] z-30'>
+            <List<IPopularTvShowsResults>
+              type={"tv"}
+              data={popularTvShowsWithoutFeatured}
+              error={popularTVListError}
+            />
 
-          <List<IPopularTvShowsResults>
-            type={"tv"}
-            data={popularTvShowsWithoutFeatured}
-            error={popularTVListError}
-          />
+            <List<ITopRatedTvShowsResults>
+              title='Series Melhores Avaliadas'
+              type={"tv"}
+              data={topRatedTvShow?.results}
+              error={topRatedTvShowError}
+            />
+          </div>
 
-          <List<ITopRatedTvShowsResults>
-            title='Series Melhores Avaliadas'
-            type={"tv"}
-            data={topRatedTvShow?.results}
-            error={topRatedTvShowError}
-          />
+          <PopularPerson personList={popularPersonList?.results} />
         </div>
-
-        <PopularPerson personList={popularPersonList?.results} />
       </div>
     </div>
   );
