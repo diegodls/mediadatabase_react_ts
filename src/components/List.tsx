@@ -8,7 +8,7 @@ import { ListItemSkeleton } from "./ListItemSkeleton";
 import { Section } from "./Section";
 
 interface IListRowProps<T> {
-  data?: T[];
+  data: T[] | undefined;
   type?: MediaTypes;
   title?: string;
   error?: IErrorFetchContent;
