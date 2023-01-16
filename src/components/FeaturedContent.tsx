@@ -44,8 +44,8 @@ export function FeaturedContent({
   handleNext,
 }: FeaturedContentProps) {
   return (
-    <section className='relative '>
-      <div className='w-full max-h-[80vh] flex items-center relative overflow-hidden bg-red-500'>
+    <section className='relative z-0'>
+      <div className='w-full max-h-[80vh] flex items-center relative overflow-hidden'>
         {showArrows ? (
           <div className='w-full top-1/2 transform -translate-y-1/2 px-3 flex items-center justify-between absolute z-50'>
             <button onClick={handlePrev}>
