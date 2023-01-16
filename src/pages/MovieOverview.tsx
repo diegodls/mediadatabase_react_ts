@@ -2,19 +2,22 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FeaturedContent } from "../components/FeaturedContent";
 import { KeywordList } from "../components/KeywordsList";
-import { Loading } from "../components/Loading";
-import { Summary } from "../components/Summary";
-
 import { List } from "../components/List";
+import { Loading } from "../components/Loading";
 import { MovieVideos } from "../components/MovieVideos";
-import { SimilarMovies } from "../components/SimilarMovies";
+import { Recommended } from "../components/Recommended";
+import { Summary } from "../components/Summary";
 import { useFetchData } from "../hooks/useFetchData";
+
 import { IGenres } from "../interfaces/IGenres";
 import { IKeywords } from "../interfaces/IKeywords";
 import { IMovieCredits } from "../interfaces/IMovieCredits";
 import { IMovieOverview } from "../interfaces/IMovieOverview";
 import { IMovieVideos } from "../interfaces/IMovieVideos";
-import { ISimilarMovies } from "../interfaces/ISimilarMovies";
+import {
+  IRecommendedApiReturn,
+  IRecommendedResult,
+} from "../interfaces/IRecommended";
 
 export function MovieOverview() {
   let { movieId } = useParams();
@@ -44,10 +47,10 @@ export function MovieOverview() {
   } = useFetchData<IMovieVideos>(`movie/${movieId}/videos`);
 
   const {
-    data: similarContent,
-    dataError: similarContentError,
-    fetchData: fetchSimilarContent,
-  } = useFetchData<ISimilarMovies>(`movie/${movieId}/similar`);
+    data: recommendedContent,
+    dataError: recommendedContentError,
+    fetchData: fetchRecommendedContent,
+  } = useFetchData<IRecommendedApiReturn>(`movie/${movieId}/recommendations`);
 
   const { data: movieGenresList } = useFetchData<IGenres>(`genre/movie/list`);
 
@@ -57,7 +60,7 @@ export function MovieOverview() {
     fetchKeywords();
     getCredits();
     fetchVideos();
-    fetchSimilarContent();
+    fetchRecommendedContent();
   }
 
   const genres_id: number[] | undefined = overview?.genres.map((genre) => {
@@ -97,9 +100,9 @@ export function MovieOverview() {
 
           <MovieVideos data={videos} error={videosError} />
 
-          <SimilarMovies
-            data={similarContent?.results}
-            error={similarContentError}
+          <Recommended<IRecommendedResult>
+            data={recommendedContent?.results}
+            error={recommendedContentError}
           />
         </div>
       )}
