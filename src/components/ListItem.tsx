@@ -32,7 +32,7 @@ export function ListItem({
             </p>
           ) : null}
 
-          <span className='w-full h-12 bg-gradient-to-t from-black absolute z-10' />
+          <span className='w-full h-48 bg-gradient-to-t from-black absolute z-10 bottom-[-2rem]' />
         </div>
 
         <img
@@ -41,7 +41,7 @@ export function ListItem({
               ? API_BASEURL_IMAGE_200 + poster_path
               : "https://cdn.w600.comps.canstockphoto.com.br/projetos-poster-glitched-tipogr%C3%A1fico-vetor-clip-arte_csp40896763.jpg"
           }
-          className='h-full'
+          className='h-full max-h-[16rem]'
         />
       </NavLink>
     </li>
