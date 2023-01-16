@@ -1,17 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
-import { ISimilarMoviesResult } from "../interfaces/ISimilarMovies";
+import { IRecommendedResult } from "../interfaces/IRecommended";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 import { ErrorFetchContent } from "./ErrorFetchContent";
 import { ListItem } from "./ListItem";
 import { Section } from "./Section";
 
-interface ISimilarMoviesProps {
-  data?: ISimilarMoviesResult[];
+interface IRecommendedProps<T> {
+  data: (T[] & IRecommendedResult[]) | IRecommendedResult[] | undefined;
   error?: IErrorFetchContent;
 }
 
-export function SimilarMovies({ data, error }: ISimilarMoviesProps) {
+export function Recommended<T>({ data, error }: IRecommendedProps<T>) {
   const listRef = useRef<HTMLUListElement>(null);
   const listHeightShowSize = 208; // h-52 or 13rem
   const componentType: MediaTypes = "movie";
@@ -38,18 +38,6 @@ export function SimilarMovies({ data, error }: ISimilarMoviesProps) {
     }
   }
 
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-
-    setTimeout(() => {
-      handleResize();
-    }, 250);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
     <Section title={"Você também pode gostar"}>
       <ErrorFetchContent error={error}>
@@ -58,7 +46,7 @@ export function SimilarMovies({ data, error }: ISimilarMoviesProps) {
             <div
               className={`w-full ${
                 isCollapsed ? "max-h-auto" : "max-h-52"
-              } justify-center overflow-hidden `}
+              } justify-center overflow-hidden relative`}
             >
               <ul
                 ref={listRef}
@@ -75,9 +63,18 @@ export function SimilarMovies({ data, error }: ISimilarMoviesProps) {
                   );
                 })}
               </ul>
+              <div
+                className={`w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-40 ${
+                  isCollapsed ? "hidden" : ""
+                }`}
+              />
             </div>
             {showMore ? (
-              <div className='w-full flex justify-center items-center '>
+              <div
+                className={`w-full h-12 flex justify-center items-center relative ${
+                  isCollapsed ? "mt-2" : "mt-[-2rem]"
+                }`}
+              >
                 <button
                   aria-label={`${
                     isCollapsed ? "Mostrar Menos" : "Mostrar Mais"
@@ -85,7 +82,7 @@ export function SimilarMovies({ data, error }: ISimilarMoviesProps) {
                   title={`${
                     isCollapsed ? "Mostrar Menos" : "Mostrar Mais"
                   } filmes similares`}
-                  className={`mt-2 px-4 py-2 rounded flex bg-black/20 border-2 border-customColors-red-500`}
+                  className={`px-4 py-2 rounded flex bg-customColors-background border-2 border-customColors-red-500  absolute z-40`}
                   onClick={() => {
                     handleCollapse();
                   }}
