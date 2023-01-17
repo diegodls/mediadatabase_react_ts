@@ -1,16 +1,41 @@
 import { IPerson } from "../interfaces/IPerson";
 import { API_BASEURL_IMAGE_200 } from "../utils/constants";
 
-import profile_picture_not_found from "../assets/img/profile_picture_not_found.png";
+import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 import { Section } from "./Section";
+
+import profile_picture_not_found from "../assets/img/profile_picture_not_found.png";
 interface PopularPersonProps {
   personList: IPerson[] | undefined;
+  featuredPerson: IPerson | undefined;
+  dataError?: IErrorFetchContent;
+  loadingData?: boolean;
 }
-export function PopularPerson({ personList }: PopularPersonProps) {
+export function PopularPerson({
+  personList,
+  featuredPerson,
+  dataError,
+  loadingData,
+}: PopularPersonProps) {
   return (
     <>
       {personList && personList?.length > 0 ? (
         <Section title='Populares'>
+          <div className={`w-full h-[60vh] flex bg-red-600`}>
+            <img
+              src={`${API_BASEURL_IMAGE_200}${featuredPerson?.profile_path}`}
+              alt={`Foto de ${featuredPerson?.name}`}
+              className='h-full'
+            />
+            <div>
+              <p>{featuredPerson?.name}</p>
+              <p>{featuredPerson?.known_for.length}</p>
+              <p>{featuredPerson?.known_for[0].name}</p>
+              <p>{featuredPerson?.known_for[0].media_type}</p>
+              <p>{featuredPerson?.known_for[0].original_name}</p>
+              <p>{featuredPerson?.known_for[0].original_title}</p>
+            </div>
+          </div>
           <ul className='w-full flex flex-row flex-wrap gap-2 justify-around'>
             {personList.slice(0, 5).map((person: IPerson, _) => (
               <li
