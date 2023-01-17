@@ -89,6 +89,7 @@ export function MovieOverview() {
             overview={overview?.overview}
             vote_average={overview?.vote_average}
             type={"movie"}
+            showInfo={false}
             showReadMore={false}
           />
 
@@ -96,7 +97,12 @@ export function MovieOverview() {
 
           <KeywordList data={keywords} error={keywordsError} />
 
-          <List title='Elenco' data={credits?.cast} error={creditsError} />
+          <List
+            title='Elenco'
+            type='person'
+            data={credits?.cast}
+            error={creditsError}
+          />
 
           <MovieVideos data={videos} error={videosError} />
 
