@@ -17,7 +17,7 @@ export interface IPerson {
 }
 
 export interface KnownFor {
-  backdrop_path: string;
+  backdrop_path: string | null;
   first_air_date?: string;
   genre_ids: number[];
   id: number;
@@ -27,7 +27,7 @@ export interface KnownFor {
   original_language: string;
   original_name?: string;
   overview: string;
-  poster_path?: string;
+  poster_path?: string | null;
   vote_average: number;
   vote_count: number;
   adult?: boolean;
