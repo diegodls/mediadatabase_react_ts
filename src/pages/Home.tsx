@@ -5,8 +5,8 @@ import { PopularPerson } from "../components/PopularPerson";
 import { TrendingMovie } from "../components/TrendingMovie";
 import { useFetchData } from "../hooks/useFetchData";
 import { usePopular } from "../hooks/usePopular";
+import { usePopularPerson } from "../hooks/usePopularPerson";
 import { IGenres } from "../interfaces/IGenres";
-import { IPersonApiReturn } from "../interfaces/IPerson";
 import {
   IPopularMoviesApiReturn,
   IPopularMoviesResults,
@@ -41,8 +41,12 @@ export function Home() {
   const { data: topRatedTvShow, dataError: topRatedTvShowError } =
     useFetchData<ITopRatedTvShowsApiReturn>("tv/top_rated");
 
-  const { data: popularPersonList } =
-    useFetchData<IPersonApiReturn>(`person/popular`);
+  const {
+    slicedPersonList,
+    featuredPerson,
+    dataError: popularPersonListError,
+    loadingData: loadingPopularPersonList,
+  } = usePopularPerson(`person/popular`);
 
   const { data: movieGenresList } = useFetchData<IGenres>(`genre/movie/list`);
 
@@ -53,7 +57,7 @@ export function Home() {
 
   return (
     <div
-      className='w-full flex flex-col items-center'
+      className='w-full h-full flex flex-col items-center'
       style={{
         height: `${!trendingMovieResultsExists ? "100vh" : ""}`,
         overflow: `${!trendingMovieResultsExists ? "hidden" : ""}`,
@@ -111,7 +115,12 @@ export function Home() {
             />
           </div>
 
-          <PopularPerson personList={popularPersonList?.results} />
+          <PopularPerson
+            personList={slicedPersonList}
+            featuredPerson={featuredPerson}
+            dataError={popularPersonListError}
+            loadingData={loadingPopularPersonList}
+          />
         </div>
       </div>
     </div>
