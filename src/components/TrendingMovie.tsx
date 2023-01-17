@@ -76,7 +76,7 @@ export function TrendingMovie({
   return (
     <section
       ref={slideMouseOverRef}
-      className={`flex relative overflow-hidden`}
+      className={`w-full min-h-[350px] flex relative overflow-hidden`}
     >
       <div className={`w-full flex flex-col overflow-hidden relative z-0`}>
         {slideArray && slideArray?.length > 0 ? (
