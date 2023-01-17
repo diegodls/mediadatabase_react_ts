@@ -1,9 +1,9 @@
 export function removeItemFromArray<T>(
-  value: T,
+  item: T,
   arr?: Array<T>
-): Array<T> | void {
+): Array<T> | undefined {
   if (arr) {
-    const index = arr.indexOf(value);
+    const index = arr.indexOf(item);
 
     if (index > -1) {
       arr.splice(index, 1);
