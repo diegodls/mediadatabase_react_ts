@@ -74,13 +74,16 @@ export function TrendingMovie({
   }, [slideArray]);
 
   return (
-    <section ref={slideMouseOverRef} className={`flex relative`}>
+    <section
+      ref={slideMouseOverRef}
+      className={`flex relative overflow-hidden`}
+    >
       <div className={`w-full flex flex-col overflow-hidden relative z-0`}>
         {slideArray && slideArray?.length > 0 ? (
-          <div className={`w-full flex flex-col overflow-hidden relative z-50`}>
+          <div className={`w-full flex-col overflow-hidden relative z-50`}>
             <div
               ref={slideAnimationRef}
-              className='w-full overflow-hidden flex justify-center items-center relative select-none'
+              className='w-full overflow-hidden  justify-center items-center relative select-none'
             >
               <FeaturedContent
                 genresList={movieGenresList}
