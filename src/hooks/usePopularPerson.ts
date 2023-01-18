@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 import { IPerson, IPersonApiReturn } from "../interfaces/IPerson";
+import { IPersonDetails } from "../interfaces/IPersonDetails";
 import { removeItemFromArray } from "../utils/removeItemFromArray";
 import { useFetchData } from "./useFetchData";
 
@@ -15,6 +16,12 @@ export function usePopularPerson(url: string) {
   const [featuredPerson, setFeaturedPerson] = useState<IPerson>();
   const [loadingData, setLoadingData] = useState<boolean>(true);
   const [dataError, setDataError] = useState<IErrorFetchContent>();
+
+  const {
+    data: featuredPersonDetails,
+    dataError: featuredPersonDetailsError,
+    fetchData: fetchFeaturedPersonDetailsData,
+  } = useFetchData<IPersonDetails>(`person/${featuredPerson?.id}`);
 
   function sliceList() {
     if (!popularPersonList || popularPersonList.results.length <= 0) {
@@ -35,7 +42,7 @@ export function usePopularPerson(url: string) {
     let tempFeaturedItem: IPerson | undefined = undefined;
 
     let listQuantity: number = 6; //5 to list + 1 featured
-    let itemListItemNumber: number = 0; //5 to list + 1 featured
+    let itemListItemNumber: number = 0;
 
     let randomIntervalList: number =
       popularPersonListLength > 0
@@ -57,22 +64,11 @@ export function usePopularPerson(url: string) {
 
     tempFeaturedItem = tempArray[itemListItemNumber];
 
-    let temptemp = tempArray;
-
     tempArray = removeItemFromArray<IPerson>(tempFeaturedItem, tempArray);
 
     setFeaturedPerson(tempFeaturedItem);
 
     setSlicedPersonList(tempArray);
-
-    console.log(`${"#".repeat(100)}> usePopularPerson`);
-    console.log(`tempArray: ${tempArray?.length}`);
-    console.log(tempArray);
-    console.log(`tempFeaturedItem: ${tempFeaturedItem?.name}`);
-    console.log(`itemListItemNumber: ${itemListItemNumber}`);
-    console.log(`randomIntervalList: ${randomIntervalList}`);
-    console.log(`temptemp: ${temptemp?.length}`);
-    console.log(temptemp);
   }
 
   useEffect(() => {
@@ -91,9 +87,17 @@ export function usePopularPerson(url: string) {
     sliceList();
   }, [popularPersonList]);
 
+  useEffect(() => {
+    if (featuredPerson?.id) {
+      fetchFeaturedPersonDetailsData();
+    }
+  }, [featuredPerson?.id]);
+
   return {
     slicedPersonList,
     featuredPerson,
+    featuredPersonDetails,
+    featuredPersonDetailsError,
     loadingData,
     dataError,
     sliceList,

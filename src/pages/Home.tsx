@@ -45,6 +45,7 @@ export function Home() {
     slicedPersonList,
     featuredPerson,
     dataError: popularPersonListError,
+    featuredPersonDetails,
     loadingData: loadingPopularPersonList,
   } = usePopularPerson(`person/popular`);
 
@@ -117,6 +118,7 @@ export function Home() {
 
           <PopularPerson
             personList={slicedPersonList}
+            featuredPersonDetails={featuredPersonDetails}
             featuredPerson={featuredPerson}
             dataError={popularPersonListError}
             loadingData={loadingPopularPersonList}
