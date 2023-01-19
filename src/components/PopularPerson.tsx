@@ -29,58 +29,67 @@ export function PopularPerson({
       {personList && personList?.length > 0 ? (
         <Section title='Populares'>
           <div
-            className={`w-full h-[40vh] md:h-[60vh] max-h-[600px] flex rounded-md bg-neutral-900 overflow-hidden`}
+            className={`w-full h-[40vh] sm:h-[60vh] max-h-[600px] sm:min-h-[350px] flex rounded-md bg-neutral-900 relative overflow-hidden`}
           >
             <img
               src={`${API_BASEURL_IMAGE_400}${featuredPerson?.profile_path}`}
               alt={`Foto de ${featuredPerson?.name}`}
               className='h-full'
             />
+
             <div className='w-full p-2'>
-              <div className='w-full h-full flex flex-col justify-evenly'>
+              <div className='w-full h-full flex flex-col justify-around'>
                 <div>
-                  <h1 className='min-h-fit font-bold text-xl sm:text-2xl md:text-3xl'>
+                  <h1 className='font-bold text-xl sm:text-2xl md:text-3xl'>
                     {featuredPerson?.name}
                   </h1>
-                  <p className='min-h-fit'>{featuredPersonDetails?.birthday}</p>
+                  <p>{featuredPersonDetails?.birthday}</p>
                 </div>
 
-                <p className='line-clamp-1 sm:line-clamp-2 md:line-clamp-3 min-h-fit'>
-                  {featuredPersonDetails?.biography}
-                </p>
+                <div>
+                  <p className='line-clamp-1 sm:line-clamp-2 hidden sm:block '>
+                    {featuredPersonDetails?.biography}
+                  </p>
+                </div>
+
+                <div className='hidden sm:flex sm:flex-col '>
+                  <h2 className='min-h-fit font-bold text-md sm:text-lg md:text-xl'>
+                    Atuou em:
+                  </h2>
+
+                  <ul className='w-full h-full flex items-center justify-evenly gap-2'>
+                    {featuredPerson?.known_for.slice(0, 3).map((item) =>
+                      item.backdrop_path ? (
+                        <li
+                          key={item.id}
+                          className='rounded-sm overflow-hidden relative'
+                        >
+                          <p className='bg-black px-2 line-clamp-1 absolute overflow-hidden'>
+                            {item.title ||
+                              item.original_title ||
+                              item.original_name ||
+                              item.name}
+                          </p>
+
+                          <img
+                            src={`${API_BASEURL_IMAGE_400}${item.backdrop_path}`}
+                            alt={`Foto de ${featuredPerson?.name}`}
+                            className='h-full rounded-sm'
+                          />
+                        </li>
+                      ) : null
+                    )}
+                  </ul>
+                </div>
 
                 <NavLink
                   to={`person/${featuredPerson?.id}`}
                   className='w-fit flex items-center justify-center px-2 bg-customColors-red-500 rounded self-end'
                 >
-                  <p className='p-1 min-h-fit m-auto text-white'>Leia Mais</p>
+                  <p className='p-1 min-h-fit m-auto font-bold text-white'>
+                    Leia Mais
+                  </p>
                 </NavLink>
-                <div className='hidden md:flex md:flex-col'>
-                  <h2 className='min-h-fit font-bold text-md sm:text-lg md:text-xl'>
-                    Atuou em:
-                  </h2>
-                  <ul className='w-full flex gap-2'>
-                    {featuredPerson?.known_for.slice(0, 3).map((item) => (
-                      <li key={item.id} className='rounded-sm'>
-                        <p className='line-clamp-1'>
-                          {item.title || item.original_title}
-                        </p>
-
-                        {item.backdrop_path ? (
-                          <img
-                            src={`${API_BASEURL_IMAGE_400}${item.backdrop_path}`}
-                            alt={`Foto de ${featuredPerson?.name}`}
-                          />
-                        ) : (
-                          <img
-                            src={`${profile_picture_not_found}`}
-                            alt={`Foto de ${item.name} não foi encontrada.`}
-                          />
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
               </div>
             </div>
           </div>
@@ -90,7 +99,7 @@ export function PopularPerson({
               <li
                 key={person.id}
                 title={`Visitar o perfil de ${person.name}`}
-                className='flex flex-col items-center bg-neutral-800 rounded-md transform scale-90 hover:scale-100 hover:drop-shadow-xl hover:z-10 hover:bg-zinc-800 cursor-pointer transition-all overflow-hidden'
+                className='w-40 flex flex-col items-center bg-neutral-800 rounded-md transform scale-90 hover:scale-100 hover:drop-shadow-xl hover:z-10 hover:bg-zinc-800 cursor-pointer transition-all overflow-hidden'
               >
                 <div className='h-full'>
                   {person.profile_path ? (
@@ -107,7 +116,9 @@ export function PopularPerson({
                     />
                   )}
                 </div>
-                <p className='font-bold line-clamp-1'>{person.name}</p>
+                <div className='py-1'>
+                  <p className='font-bold line-clamp-1'>{person.name}</p>
+                </div>
               </li>
             ))}
           </ul>
