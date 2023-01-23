@@ -10,6 +10,7 @@ import { Section } from "./Section";
 import { NavLink } from "react-router-dom";
 import profile_picture_not_found from "../assets/img/profile_picture_not_found.png";
 import { IPersonDetails } from "../interfaces/IPersonDetails";
+import { ListItem } from "./ListItem";
 interface PopularPersonProps {
   personList: IPerson[] | undefined;
   featuredPerson: IPerson | undefined;
@@ -54,31 +55,26 @@ export function PopularPerson({
 
                 <div className='hidden sm:flex sm:flex-col '>
                   <h2 className='min-h-fit font-bold text-md sm:text-lg md:text-xl'>
-                    Atuou em:
+                    Atuou em: {featuredPerson?.known_for.length}
                   </h2>
 
-                  <ul className='w-full h-full flex items-center justify-evenly gap-2'>
-                    {featuredPerson?.known_for.slice(0, 3).map((item) =>
-                      item.backdrop_path ? (
-                        <li
-                          key={item.id}
-                          className='rounded-sm overflow-hidden relative'
-                        >
-                          <p className='bg-black px-2 line-clamp-1 absolute overflow-hidden'>
-                            {item.title ||
+                  <ul className='w-full h-full flex items-center justify-evenly'>
+                    {featuredPerson?.known_for
+                      .slice(0, 3)
+                      .map((item) =>
+                        item.backdrop_path ? (
+                          <ListItem
+                            key={item.id}
+                            poster_path={item.poster_path}
+                            title={
+                              item.title ||
                               item.original_title ||
                               item.original_name ||
-                              item.name}
-                          </p>
-
-                          <img
-                            src={`${API_BASEURL_IMAGE_400}${item.backdrop_path}`}
-                            alt={`Foto de ${featuredPerson?.name}`}
-                            className='h-full rounded-sm'
+                              item.name
+                            }
                           />
-                        </li>
-                      ) : null
-                    )}
+                        ) : null
+                      )}
                   </ul>
                 </div>
 
