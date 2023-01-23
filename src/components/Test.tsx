@@ -1,14 +1,24 @@
 export function Test() {
-  const imageError =
-    "https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png";
-  return (
-    <div className='w-full h-full flex flex-col items-center justify-center p-11 bg-red-500'>
-      <div className='w-full h-[400px] bg-green-500'>
-        <h1>AAAAAAAAAA</h1>
-      </div>
+  const imageError = "https://source.unsplash.com/random/800x600";
 
-      <div className='w-full h-[400px] bg-blue-500'>
-        <h1>BBBBBBBBBB</h1>
+  const imageRandom = "https://source.unsplash.com/random/800x600";
+  return (
+    <div className='w-full h-[500px] mt-12 flex flex-col items-center p-2 bg-red-500'>
+      <p className=''>
+        Mussum Ipsum, cacilds vidis litro abertis. Posuere libero varius. Nullam
+        a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Atirei o pau no
+        gatis, per gatis num morreus. Copo furadis é disculpa de bebadis, arcu
+        quam euismod magna. Si num tem leite então bota uma pinga aí cumpadi!
+        Diuretics paradis num copo é motivis de denguis. Todo mundo vê os porris
+        que eu tomo, mas ninguém vê os tombis que eu levo! Mais vale um bebadis
+        conhecidiss, que um alcoolatra anonimis. Casamentiss faiz malandris se
+        pirulitá. A ordem dos tratores não altera o pão duris. Nullam volutpat
+        risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio.
+        Per aumento de cachacis, eu reclamis. Nec orci ornare consequat.
+        Praesent lacinia ultrices consectetur. Sed non ipsum felis.
+      </p>
+      <div className='w-full flex-1 relative overflow-auto bg-green-800'>
+        <img src={imageRandom} alt='teste' className='h-full' />
       </div>
     </div>
   );
