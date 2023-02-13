@@ -55,8 +55,6 @@ export function List<T>({
     }
   }
 
-  //data && data?.length > 0
-
   return (
     <Section title={title} titleBg={titleBg}>
       <ErrorFetchContent error={error}>
@@ -68,7 +66,7 @@ export function List<T>({
             onMouseLeave={() => {
               setIsMouseOverList(false);
             }}
-            className='w-full h-48 md:h-64 flex flex-col relative'
+            className='w-full h-64 flex flex-col relative'
           >
             <div className='w-full h-full relative'>
               <button
