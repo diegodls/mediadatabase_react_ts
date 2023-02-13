@@ -30,7 +30,7 @@ export function PopularPerson({
       {personList && personList?.length > 0 ? (
         <Section title='Populares'>
           <div
-            className={`w-full h-[30vh] sm:h-[60vh] max-h-[600px] sm:min-h-[350px] flex rounded-md bg-neutral-900 relative overflow-hidden`}
+            className={`w-full h-[40vh] sm:h-[60vh] max-h-[600px] sm:min-h-[350px] flex rounded-md bg-neutral-900 relative overflow-hidden`}
           >
             <img
               src={`${API_BASEURL_IMAGE_400}${featuredPerson?.profile_path}`}
@@ -38,7 +38,7 @@ export function PopularPerson({
               className='h-full'
             />
 
-            <div className='max-w-[31rem] h-full p-2 flex flex-col overflow-hidden relative'>
+            <div className='w-full h-full p-2 flex flex-col justify-between overflow-hidden relative'>
               <div className=''>
                 <h1 className='font-bold text-xl sm:text-2xl md:text-3xl'>
                   {featuredPerson?.name}
@@ -47,40 +47,37 @@ export function PopularPerson({
               </div>
 
               <div className=''>
-                <p className='line-clamp-1 sm:line-clamp-2'>
+                <p className='line-clamp-3'>
                   {featuredPersonDetails?.biography}
                 </p>
               </div>
 
-              <div className='w-full min-w-min hidden sm:flex sm:flex-col overflow-hidden'>
-                <ul className='h-full flex items-center'>
-                  {featuredPerson?.known_for
-                    .slice(0, 3)
-                    .map((item) =>
-                      item.backdrop_path ? (
-                        <ListItem
-                          key={item.id}
-                          url={`${item.media_type}/${item.id}`}
-                          poster_path={item.poster_path}
-                          title={
-                            item.title ||
-                            item.original_title ||
-                            item.original_name ||
-                            item.name
-                          }
-                        />
-                      ) : null
-                    )}
+              <div className='w-full max-h-56 hidden sm:flex sm:flex-col overflow-hidden'>
+                <ul className='h-full flex flex-wrap items-center'>
+                  {featuredPerson?.known_for.map((item) =>
+                    item.backdrop_path ? (
+                      <ListItem
+                        key={item.id}
+                        url={`${item.media_type}/${item.id}`}
+                        poster_path={item.poster_path}
+                        title={
+                          item.title ||
+                          item.original_title ||
+                          item.original_name ||
+                          item.name
+                        }
+                      />
+                    ) : null
+                  )}
                 </ul>
               </div>
-              <div className='w-full grow flex items-end justify-end'>
+              <div className='w-full grow md:grow-0 flex items-end justify-end'>
                 <NavLink
                   to={`person/${featuredPerson?.id}`}
-                  className='w-fit flex items-center justify-center px-2 bg-customColors-red-500 rounded relative self-end justify-self-end'
+                  className='w-fit flex items-center justify-center px-2 bg-customColors-red-500 rounded relative self-end justify-self-end hover:bg-red-600 hover:text-neutral-300 
+                  drop-shadow-lg shadow-customColors-red-500 transition-all'
                 >
-                  <p className='p-1 min-h-fit m-auto font-bold text-white'>
-                    Leia Mais
-                  </p>
+                  <p className='p-1 min-h-fit m-auto font-bold'>Leia Mais</p>
                 </NavLink>
               </div>
             </div>
