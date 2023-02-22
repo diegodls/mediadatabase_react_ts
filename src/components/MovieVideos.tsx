@@ -41,15 +41,15 @@ export function MovieVideos({ data, error }: MovieVideoProps) {
               className='w-full h-auto aspect-video'
             />
 
-            <div className='w-full h-40 mt-2 bg-emerald-500'>
+            <div className='w-full h-40 mt-2'>
               <ScrollableComponent>
                 <ul
-                  className=' h-full flex flex-row gap-2 items-center relative  bg-blue-400'
+                  className=' h-full flex flex-row gap-2 items-center'
                   role='list'
                 >
                   {data.results.map((movie: IMovieVideoResults) => (
                     <li
-                      className={`min-w-fit h-full  cursor-pointer rounded-md ${
+                      className={`min-w-fit h-full cursor-pointer rounded-md overflow-hidden bg-black scale-95 hover:scale-100 transition-all ${
                         movie.id === featuredMovie.id
                           ? "border-4 border-customColors-red-500"
                           : ""
