@@ -77,7 +77,7 @@ export function MovieOverview() {
       {!overview || loadingOverview ? (
         <Loading />
       ) : (
-        <div className='w-full flex flex-col gap-4'>
+        <div className='w-full flex flex-col gap-4 overflow-x-hidden'>
           <FeaturedContent
             genresList={movieGenresList}
             contentGenresList={genres_id}

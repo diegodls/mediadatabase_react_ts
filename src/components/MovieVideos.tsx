@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 import { IMovieVideoResults, IMovieVideos } from "../interfaces/IMovieVideos";
 import { ErrorFetchContent } from "./ErrorFetchContent";
+import { ScrollableComponent } from "./ScrollableComponent";
 import { Section } from "./Section";
 
 interface MovieVideoProps {
@@ -40,31 +41,33 @@ export function MovieVideos({ data, error }: MovieVideoProps) {
               className='w-full h-auto aspect-video'
             />
 
-            <div className='w-full h-40 flex justify-center'>
-              <ul
-                className='mt-2 flex gap-2 overflow-x-auto overflow-y-hidden overflow-hidden'
-                role='list'
-              >
-                {data.results.map((movie: IMovieVideoResults) => (
-                  <li
-                    className={`in-w-fit h-auto flex-col  cursor-pointer rounded-md ${
-                      movie.id === featuredMovie.id
-                        ? "border-4 border-customColors-red-500"
-                        : ""
-                    }`}
-                    key={movie.key}
-                    onClick={() => {
-                      handleChangeFeaturedMovie(movie);
-                    }}
-                  >
-                    <img
-                      src={`https://i.ytimg.com/vi/${movie.key}/hqdefault.jpg`}
-                      alt={movie.name}
-                      className='h-full rounded-md'
-                    />
-                  </li>
-                ))}
-              </ul>
+            <div className='w-full h-40 mt-2 bg-emerald-500'>
+              <ScrollableComponent>
+                <ul
+                  className=' h-full flex flex-row gap-2 items-center relative  bg-blue-400'
+                  role='list'
+                >
+                  {data.results.map((movie: IMovieVideoResults) => (
+                    <li
+                      className={`min-w-fit h-full  cursor-pointer rounded-md ${
+                        movie.id === featuredMovie.id
+                          ? "border-4 border-customColors-red-500"
+                          : ""
+                      }`}
+                      key={movie.key}
+                      onClick={() => {
+                        handleChangeFeaturedMovie(movie);
+                      }}
+                    >
+                      <img
+                        src={`https://i.ytimg.com/vi/${movie.key}/hqdefault.jpg`}
+                        alt={movie.name}
+                        className='h-full rounded-md'
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </ScrollableComponent>
             </div>
           </div>
         ) : (
