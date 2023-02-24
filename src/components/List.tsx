@@ -100,7 +100,9 @@ export function List<T>({
                       title={item.title || item.name}
                       character={item.character ? item.character : null}
                       poster_path={item.poster_path || item.profile_path}
-                      key={item.id}
+                      key={`${item.id}${item.name ? "-" + item.name : ""}${
+                        item.character ? "-" + item.character : ""
+                      }`}
                       url={`/${type}/${item.id}`}
                     />
                   );
