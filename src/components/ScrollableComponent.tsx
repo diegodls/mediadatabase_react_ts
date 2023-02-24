@@ -19,6 +19,7 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
     e.preventDefault();
+
     if (!listRef.current) return;
     listRef.current.scrollLeft -= listRef.current
       ? listRef.current?.offsetWidth
@@ -63,24 +64,10 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
             setIsMouseOverList(true);
           }}
           onMouseLeave={() => {
-            setIsMouseOverList(true);
+            setIsMouseOverList(false);
           }}
           className='w-full h-full flex flex-col relative'
         >
-          <div className='w-full flex  gap-2 bg-yellow-500 text-black'>
-            <p className='whitespace-nowrap'>
-              clientWidth: {listRef.current?.clientWidth}
-            </p>
-            <p className='whitespace-nowrap'>
-              scrollWidth: {listRef.current?.scrollWidth}
-            </p>
-            <p className='whitespace-nowrap'>
-              offsetWidth: {listRef.current?.offsetWidth}
-            </p>
-            <p className='whitespace-nowrap'>
-              scrollLeft: {listRef.current?.scrollLeft}
-            </p>
-          </div>
           <div className='w-full h-full overflow-hidden'>
             {isScrollable ? (
               <>
@@ -108,12 +95,12 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
             ) : null}
 
             <div
-              className={`w-full h-full scroll-smooth bg-green-500 overflow-hidden ${
+              className={`w-full h-full scroll-smooth overflow-hidden ${
                 !isScrollable ? "flex justify-center" : ""
               }`}
               ref={listRef}
             >
-              <div className='w-auto h-full mx-9 bg-blue-500'>{children}</div>
+              <div className='w-auto h-full'>{children}</div>
             </div>
           </div>
         </div>
