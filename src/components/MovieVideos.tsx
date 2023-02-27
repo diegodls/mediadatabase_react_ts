@@ -30,7 +30,7 @@ export function MovieVideos({ data, error }: MovieVideoProps) {
     <Section title={"Vídeos"}>
       <ErrorFetchContent error={error}>
         {data && data.results.length > 0 ? (
-          <div className='w-full '>
+          <div className='w-full'>
             <iframe
               title={`${featuredMovie.name}`}
               src={`https://www.youtube.com/embed/${featuredMovie.key}`}
@@ -44,7 +44,7 @@ export function MovieVideos({ data, error }: MovieVideoProps) {
             <div className='w-full h-40 mt-2'>
               <ScrollableComponent>
                 <ul
-                  className=' h-full flex flex-row gap-2 items-center'
+                  className='h-full flex flex-row gap-2 items-center'
                   role='list'
                 >
                   {data.results.map((movie: IMovieVideoResults) => (
