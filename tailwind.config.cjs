@@ -8,7 +8,11 @@ module.exports = {
     maxWidth: {
       CustomMaxWidth: "1280px",
     },
+
     extend: {
+      height: {
+        "list-md": "15rem",
+      },
       colors: {
         "customColors-background": "#131313",
         "customColors-red-500": "#cc0000",
