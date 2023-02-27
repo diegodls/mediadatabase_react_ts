@@ -1,32 +1,51 @@
+import { useState } from "react";
+
+import { useFetchData } from "../hooks/useFetchData";
+import { usePopularPerson } from "../hooks/usePopularPerson";
+import { IMovieVideoResults, IMovieVideos } from "../interfaces/IMovieVideos";
+import { ScrollableComponent } from "./ScrollableComponent";
+
 export function Test() {
-  const imageRandomMock =
-    "https://images.unsplash.com/photo-1672420877594-99a77c4dff5c?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY3NDQ5Nzk4MQ&ixlib=rb-4.0.3&q=80&w=800";
+  const {
+    data: videos,
+    dataError: videosError,
+    fetchData: fetchVideos,
+  } = useFetchData<IMovieVideos>(`movie/505642/videos`);
 
-  const imageRandom = "https://source.unsplash.com/random/800x600";
+  const {
+    slicedPersonList,
+    featuredPerson,
+    dataError: popularPersonListError,
+    featuredPersonDetails,
+    loadingData: loadingPopularPersonList,
+  } = usePopularPerson(`person/popular`);
 
-  const actualImage = imageRandomMock;
+  const [featuredMovie, SetFeaturedMovie] = useState<IMovieVideoResults>(
+    videos?.results[0] || ({} as IMovieVideoResults)
+  );
+
   return (
-    <div className='w-full flex flex-col items-center overflow-hidden'>
-      <div className='overflow-hidden relative '>
-        <img src={actualImage} alt='teste' className='w-[200px] h-[200px]' />
-        <p className=''>
-          Mussum Ipsum, cacilds vidis litro abertis. Posuere libero varius.
-          Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Atirei
-          o pau no gatis, per gatis num morreus. Copo furadis é disculpa de
-          bebadis, arcu quam euismod magna. Si num tem leite então bota uma
-          pinga aí cumpadi! Diuretics paradis num copo é motivis de denguis.
-          Todo mundo vê os porris que eu tomo, mas ninguém vê os tombis que eu
-          levo! Mais vale um bebadis conhecidiss, que um alcoolatra anonimis.
-          Casamentiss faiz malandris se pirulitá. A ordem dos tratores não
-          altera o pão duris. Nullam volutpat risus nec leo commodo, ut interdum
-          diam laoreet. Sed non consequat odio. Per aumento de cachacis, eu
-          reclamis. Nec orci ornare consequat. Praesent lacinia ultrices
-          consectetur. Sed non ipsum felis.
-        </p>
-      </div>
-      <div className='flex-1 relative overflow-auto bg-green-800'>
-        <img src={actualImage} alt='teste' className='h-full' />
-      </div>
+    <div className='w-full h-52 mt-12 bg-yellow-400'>
+      <ScrollableComponent>
+        <ul className='h-full flex flex-row gap-2 items-center' role='list'>
+          {videos?.results.map((movie: IMovieVideoResults) => (
+            <li
+              className={`min-w-fit h-full cursor-pointer rounded-md overflow-hidden bg-black scale-95 hover:scale-100 transition-all ${
+                movie.id === featuredMovie.id
+                  ? "border-4 border-customColors-red-500"
+                  : ""
+              }`}
+              key={movie.key}
+            >
+              <img
+                src={`https://i.ytimg.com/vi/${movie.key}/hqdefault.jpg`}
+                alt={movie.name}
+                className='h-full rounded-md'
+              />
+            </li>
+          ))}
+        </ul>
+      </ScrollableComponent>
     </div>
   );
 }
