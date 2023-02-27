@@ -95,7 +95,7 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
             ) : null}
 
             <div
-              className={`w-full h-full scroll-smooth overflow-hidden ${
+              className={`w-full h-full overflow-x-scroll hide-scrollbar scroll-smooth overflow-hidden ${
                 !isScrollable ? "flex justify-center" : ""
               }`}
               ref={listRef}
