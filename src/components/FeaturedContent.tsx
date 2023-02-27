@@ -69,12 +69,14 @@ export function FeaturedContent({
 
         <div className='w-full h-12 bottom-0 bg-gradient-to-t from-customColors-background absolute z-40' />
 
-        <img
-          className='w-full h-auto flex-shrink-0 select-none bg-cover absolute z-20'
-          src={API_BASEURL_IMAGE_1280 + backdrop_path}
-          alt={title}
-          title={title}
-        />
+        {backdrop_path ? (
+          <img
+            className='w-full h-auto flex-shrink-0 select-none bg-cover absolute z-20'
+            src={API_BASEURL_IMAGE_1280 + backdrop_path}
+            alt={title}
+            title={title}
+          />
+        ) : null}
 
         <img
           className='min-w-full min-h-full flex-shrink-0 select-none relative z-10'
