@@ -12,6 +12,8 @@ export function useFetchData<T>(url: string) {
     setLoadingData(true);
     setDataError(undefined);
 
+    let isCUrrentUrl: boolean = true;
+
     if (!url || url === undefined || url.length <= 0) {
       setDataError({
         status_message: "É necessário informar a URL do conteúdo!",
@@ -21,10 +23,10 @@ export function useFetchData<T>(url: string) {
       return;
     }
 
-    return await service
+    await service
       .get<T>(`${url}`)
       .then((response) => {
-        if (response.data) {
+        if (response.data && isCUrrentUrl) {
           setData(response.data);
         }
       })
@@ -34,6 +36,10 @@ export function useFetchData<T>(url: string) {
       .finally(() => {
         setLoadingData(false);
       });
+
+    return () => {
+      isCUrrentUrl = false;
+    };
   }
 
   useEffect(() => {
