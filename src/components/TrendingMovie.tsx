@@ -83,7 +83,7 @@ export function TrendingMovie({
           <div className={`w-full flex-col overflow-hidden relative z-50`}>
             <div
               ref={slideAnimationRef}
-              className='w-full overflow-hidden  justify-center items-center relative select-none'
+              className='w-full overflow-hidden justify-center items-center relative select-none'
             >
               <FeaturedContent
                 genresList={movieGenresList}
