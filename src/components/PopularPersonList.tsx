@@ -3,13 +3,11 @@ import { IPerson } from "../interfaces/IPerson";
 import { ListItem } from "./ListItem";
 import { ScrollableComponent } from "./ScrollableComponent";
 
-interface PopularPersonKnowListProps {
+interface PopularPersonListProps {
   personList: IPerson[] | undefined;
 }
 
-export function PopularPersonKnowList({
-  personList,
-}: PopularPersonKnowListProps) {
+export function PopularPersonList({ personList }: PopularPersonListProps) {
   return (
     <div className='w-full h-list-md mt-2'>
       <ScrollableComponent>
