@@ -2,16 +2,20 @@
 
 const plugin = require("tailwindcss/plugin");
 
+const maxHeightListMD = "15rem";
+
 module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
     maxWidth: {
       CustomMaxWidth: "1280px",
     },
-
+    maxHeight: {
+      "list-md": maxHeightListMD,
+    },
     extend: {
       height: {
-        "list-md": "15rem",
+        "list-md": maxHeightListMD,
       },
       colors: {
         "customColors-background": "#131313",
