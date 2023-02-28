@@ -13,7 +13,7 @@ export function PopularPersonDescription({
   featuredPersonDetails,
 }: PopularPersonDescriptionProps) {
   return (
-    <div className='w-full h-full p-2 flex flex-col justify-between overflow-hidden relative'>
+    <div className='w-full h-full p-2 flex flex-col justify-between'>
       <div className=''>
         <h1 className='font-bold text-xl sm:text-2xl md:text-3xl'>
           {featuredPerson?.name}
@@ -25,7 +25,7 @@ export function PopularPersonDescription({
         <p className='line-clamp-3'>{featuredPersonDetails?.biography}</p>
       </div>
 
-      <div className='w-full max-h-list-md hidden sm:flex sm:flex-col overflow-hidden'>
+      <div className='w-full max-h-list hidden sm:flex sm:flex-col overflow-hidden'>
         <ScrollableComponent>
           <ul role='list' className='h-full flex flex-row items-center'>
             {featuredPerson?.known_for.map((item) =>
