@@ -12,7 +12,7 @@ export function useFetchData<T>(url: string) {
     setLoadingData(true);
     setDataError(undefined);
 
-    let isCUrrentUrl: boolean = true;
+    let isCurrentUrl: boolean = true;
 
     if (!url || url === undefined || url.length <= 0) {
       setDataError({
@@ -26,7 +26,7 @@ export function useFetchData<T>(url: string) {
     await service
       .get<T>(`${url}`)
       .then((response) => {
-        if (response.data && isCUrrentUrl) {
+        if (response.data && isCurrentUrl) {
           setData(response.data);
         }
       })
@@ -38,7 +38,7 @@ export function useFetchData<T>(url: string) {
       });
 
     return () => {
-      isCUrrentUrl = false;
+      isCurrentUrl = false;
     };
   }
 
