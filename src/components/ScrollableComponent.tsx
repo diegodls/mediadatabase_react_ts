@@ -15,11 +15,19 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
   const [isMouseOverList, setIsMouseOverList] = useState<boolean>(false);
   const [isScrollable, setIsScrollable] = useState<boolean>(false);
 
+  function handleResizeWindow() {
+    if (!listRef.current) return;
+
+    listRef.current?.scrollWidth > listRef.current?.clientWidth
+      ? setIsScrollable(true)
+      : setIsScrollable(false);
+  }
+
   function handleScrollLeft(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
     e.preventDefault();
-
+    handleResizeWindow();
     if (!listRef.current) return;
     listRef.current.scrollLeft -= listRef.current
       ? listRef.current?.offsetWidth
@@ -30,18 +38,10 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
     e.preventDefault();
-
+    handleResizeWindow();
     if (!listRef.current) return;
 
     listRef.current.scrollLeft += listRef.current?.offsetWidth;
-  }
-
-  function handleResizeWindow() {
-    if (!listRef.current) return;
-
-    listRef.current?.scrollWidth > listRef.current?.clientWidth
-      ? setIsScrollable(true)
-      : setIsScrollable(false);
   }
 
   useEffect(() => {
@@ -61,9 +61,11 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
       {children ? (
         <div
           onMouseEnter={() => {
+            handleResizeWindow();
             setIsMouseOverList(true);
           }}
           onMouseLeave={() => {
+            handleResizeWindow();
             setIsMouseOverList(false);
           }}
           className='w-full h-full flex flex-col relative'
