@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 import { IPerson, IPersonApiReturn } from "../interfaces/IPerson";
 import { IPersonDetails } from "../interfaces/IPersonDetails";
 import { removeItemFromArray } from "../utils/removeItemFromArray";
@@ -8,14 +7,12 @@ import { useFetchData } from "./useFetchData";
 export function usePopularPerson(url: string) {
   const {
     data: popularPersonList,
-    dataError: popularPersonListError,
-    loadingData: loadingPopularPersonList,
+    dataError,
+    loadingData,
   } = useFetchData<IPersonApiReturn>(`${url}`);
 
   const [slicedPersonList, setSlicedPersonList] = useState<IPerson[]>();
   const [featuredPerson, setFeaturedPerson] = useState<IPerson>();
-  const [loadingData, setLoadingData] = useState<boolean>(true);
-  const [dataError, setDataError] = useState<IErrorFetchContent>();
 
   const {
     data: featuredPersonDetails,
@@ -25,11 +22,6 @@ export function usePopularPerson(url: string) {
 
   function sliceList() {
     if (!popularPersonList || popularPersonList.results.length <= 0) {
-      setDataError({
-        status_code: 404,
-        status_message: "Não foram encontrados pessoas!",
-        success: false,
-      });
       return;
     }
 
@@ -70,18 +62,6 @@ export function usePopularPerson(url: string) {
 
     setSlicedPersonList(tempArray);
   }
-
-  useEffect(() => {
-    if (popularPersonListError) {
-      setDataError(popularPersonListError);
-    }
-  }, [popularPersonListError]);
-
-  useEffect(() => {
-    if (loadingPopularPersonList) {
-      setLoadingData(loadingPopularPersonList);
-    }
-  }, [loadingPopularPersonList]);
 
   useEffect(() => {
     sliceList();
