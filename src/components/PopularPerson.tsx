@@ -7,11 +7,12 @@ import { IPerson } from "../interfaces/IPerson";
 import { IPersonDetails } from "../interfaces/IPersonDetails";
 
 import { API_BASEURL_IMAGE_400 } from "../utils/constants";
+import { ErrorFetchContent } from "./ErrorFetchContent";
 
 interface PopularPersonProps {
-  personList: IPerson[] | undefined;
-  featuredPerson: IPerson | undefined;
-  featuredPersonDetails: IPersonDetails | undefined;
+  personList?: IPerson[];
+  featuredPerson?: IPerson;
+  featuredPersonDetails?: IPersonDetails;
   dataError?: IErrorFetchContent;
   loadingData?: boolean;
 }
@@ -23,27 +24,29 @@ export function PopularPerson({
   loadingData,
 }: PopularPersonProps) {
   return (
-    <>
-      {personList && personList?.length > 0 ? (
-        <Section title='Populares'>
-          <div
-            className={`w-full h-[40vh] sm:h-[60vh] max-h-[600px] sm:min-h-[350px] flex rounded-md bg-neutral-900 transition-all overflow-hidden`}
-          >
-            <img
-              src={`${API_BASEURL_IMAGE_400}${featuredPerson?.profile_path}`}
-              alt={`Foto de ${featuredPerson?.name}`}
-              className='h-full'
-            />
+    <Section title='Populares'>
+      <ErrorFetchContent error={dataError}>
+        {personList && personList?.length > 0 ? (
+          <div className='w-full'>
+            <div
+              className={`w-full h-[40vh] sm:h-[60vh] max-h-[600px] sm:min-h-[350px] flex rounded-md bg-neutral-900 transition-all`}
+            >
+              <img
+                src={`${API_BASEURL_IMAGE_400}${featuredPerson?.profile_path}`}
+                alt={`Foto de ${featuredPerson?.name}`}
+                className='h-full'
+              />
 
-            <PopularPersonDescription
-              featuredPerson={featuredPerson}
-              featuredPersonDetails={featuredPersonDetails}
-            />
+              <PopularPersonDescription
+                featuredPerson={featuredPerson}
+                featuredPersonDetails={featuredPersonDetails}
+              />
+            </div>
+
+            <PopularPersonList personList={personList} />
           </div>
-
-          <PopularPersonList personList={personList} />
-        </Section>
-      ) : null}
-    </>
+        ) : null}
+      </ErrorFetchContent>
+    </Section>
   );
 }
