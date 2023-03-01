@@ -1,27 +1,21 @@
-import { NavLink } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { INavData } from "../interfaces/INavData";
+import { CustomNavLink } from "./CustomNavLink";
 import { SearchInput } from "./SearchInput";
 
 export function Header() {
-  function CustomNavLink(name: string, path: string) {
-    return (
-      <NavLink
-        to={path}
-        className={({ isActive }) => {
-          return `h-full flex items-center justify-center px-2 hover:bg-customColors-red-500 ${
-            isActive
-              ? "border-b-2 border-customColors-red-500 bg-slate-400/25"
-              : ""
-          }`;
-        }}
-      >
-        {name}
-      </NavLink>
-    );
-  }
+  const location = useLocation();
+  console.log(location.pathname);
+
+  const navData: INavData[] = [
+    { title: "HOME", to: "/" },
+    { title: "MOVIE", to: "/movie" },
+    { title: "TV", to: "/tv" },
+  ];
 
   return (
     <header
-      className={`w-full h-10 flex flex-row items-center justify-center absolute z-50 overflow-hidden transition-all`}
+      className={`w-full h-headerHeight flex flex-row items-center justify-center absolute z-50 overflow-hidden transition-all`}
     >
       <div className='w-full h-full  max-w-CustomMaxWidth  px-2 flex items-center justify-between z-50'>
         <span className='max-w-[4em] sm:max-w-[7em] h-full flex items-center justify-center overflow-hidden'>
@@ -32,9 +26,14 @@ export function Header() {
 
       <div className='h-full w-full flex flex-row items-center justify-center gap-5 absolute z-50'>
         <nav className='h-full flex items-center justify-center'>
-          {CustomNavLink("HOME", "/")}
-          {CustomNavLink("MOVIES", "/movies")}
-          {CustomNavLink("SERIES", "/series")}
+          {navData.map((item, _) => (
+            <CustomNavLink
+              key={`${item.to + item.title}`}
+              title={item.title}
+              to={item.to}
+              currentPath={location.pathname}
+            />
+          ))}
         </nav>
       </div>
 
