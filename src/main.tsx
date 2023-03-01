@@ -5,6 +5,7 @@ import { Test } from "./components/Test";
 import "./main.css";
 import { Details } from "./pages/Details";
 import { Home } from "./pages/Home";
+import { Movie } from "./pages/Movie";
 import { MovieOverview } from "./pages/MovieOverview";
 import { NotFound } from "./pages/NotFound";
 import { Search } from "./pages/Search";
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/details", element: <Details /> },
       { path: "/search", element: <Search /> },
+      { path: "/movie", element: <Movie /> },
       { path: "/movie/:movieId", element: <MovieOverview /> },
       { path: "/tests", element: <Test /> },
     ],
