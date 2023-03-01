@@ -3,6 +3,7 @@
 const plugin = require("tailwindcss/plugin");
 
 const maxHeightListMD = "15rem";
+const headerHeight = "2.5rem"; //40px
 
 module.exports = {
   content: ["./src/**/*.tsx"],
@@ -16,6 +17,10 @@ module.exports = {
     extend: {
       height: {
         "list-md": maxHeightListMD,
+        headerHeight: headerHeight,
+      },
+      margin: {
+        headerHeight: headerHeight,
       },
       colors: {
         "customColors-background": "#131313",
