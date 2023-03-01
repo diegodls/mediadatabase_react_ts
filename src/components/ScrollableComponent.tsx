@@ -77,7 +77,7 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
                   aria-label='Scroll para esquerda'
                   title='Scroll para esquerda'
                   onClick={handleScrollLeft}
-                  className={`w-[${BUTTON_WIDTH}px] h-full flex items-center justify-center bg-black/20 hover:bg-black/80 rounded-r-sm overflow-hidden absolute left-0 z-50 cursor-pointer transition-all select-none ${
+                  className={`w-[${BUTTON_WIDTH}px] h-list-md flex items-center justify-center scale-90 bg-black/20 hover:bg-black/80 rounded-r-sm overflow-hidden absolute left-0 z-50 cursor-pointer transition-all select-none ${
                     isMouseOverList ? "opacity-100" : "opacity-0"
                   }`}
                 >
@@ -87,7 +87,7 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
                   aria-label='Scroll para direita'
                   title='Scroll para direita'
                   onClick={handleScrollRight}
-                  className={`w-[${BUTTON_WIDTH}px] h-full flex items-center justify-center bg-black/50 hover:bg-black/80 rounded-l-sm overflow-hidden absolute right-0 z-50 cursor-pointer transition-all select-none  ${
+                  className={`w-[${BUTTON_WIDTH}px] h-list-md flex items-center justify-center scale-90 bg-black/50 hover:bg-black/80 rounded-l-sm overflow-hidden absolute right-0 z-50 cursor-pointer transition-all select-none  ${
                     isMouseOverList ? "opacity-100" : "opacity-0"
                   }`}
                 >
