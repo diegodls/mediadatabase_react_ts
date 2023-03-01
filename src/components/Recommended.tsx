@@ -12,7 +12,7 @@ interface IRecommendedProps<T> {
 }
 
 export function Recommended<T>({ data, error }: IRecommendedProps<T>) {
-  const listRef = useRef<HTMLUListElement>(null);
+  const seeMoreRef = useRef<HTMLUListElement>(null);
   const listHeightShowSize = 208; // h-52 or 13rem
   const componentType: MediaTypes = "movie";
 
@@ -21,8 +21,8 @@ export function Recommended<T>({ data, error }: IRecommendedProps<T>) {
 
   function handleResize() {
     if (
-      listRef.current?.scrollHeight &&
-      listRef.current?.scrollHeight > listHeightShowSize
+      seeMoreRef.current?.scrollHeight &&
+      seeMoreRef.current?.scrollHeight > listHeightShowSize
     ) {
       setShowMore(true);
     }
@@ -33,7 +33,7 @@ export function Recommended<T>({ data, error }: IRecommendedProps<T>) {
 
     if (!isCollapsed) {
       setTimeout(() => {
-        listRef.current?.scrollIntoView();
+        seeMoreRef.current?.scrollIntoView();
       }, 250);
     }
   }
@@ -57,11 +57,11 @@ export function Recommended<T>({ data, error }: IRecommendedProps<T>) {
           <div className='w-full relative'>
             <div
               className={`w-full ${
-                isCollapsed ? "max-h-auto" : "max-h-52"
+                isCollapsed ? "max-h-auto" : "max-h-list-md"
               } justify-center overflow-hidden relative`}
             >
               <ul
-                ref={listRef}
+                ref={seeMoreRef}
                 className='w-full h-full flex flex-row flex-wrap justify-center relative'
               >
                 {data.map((similarMovie, _) => {
