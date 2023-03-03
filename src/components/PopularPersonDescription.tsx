@@ -46,7 +46,7 @@ export function PopularPersonDescription({
           </ul>
         </ScrollableComponent>
       </div>
-      <div className='w-full grow md:grow-0 flex items-end justify-end'>
+      <div className='w-full mt-2 grow md:grow-0 flex items-end justify-end'>
         <NavLink
           to={`person/${featuredPerson?.id}`}
           className='w-fit flex items-center justify-center px-2 bg-customColors-red-500 rounded relative self-end justify-self-end hover:bg-red-600 hover:text-neutral-300 
