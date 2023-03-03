@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FeaturedContent } from "../components/FeaturedContent";
 import { List } from "../components/List";
 import { Loading } from "../components/Loading";
@@ -55,6 +56,10 @@ export function Home() {
 
   const trendingMovieResultsExists =
     trendingMovie?.results && trendingMovie?.results.length > 0;
+
+  useEffect(() => {
+    document.title = `MDB - Inicio`;
+  }, []);
 
   return (
     <div

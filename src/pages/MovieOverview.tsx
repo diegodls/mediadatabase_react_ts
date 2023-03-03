@@ -72,6 +72,12 @@ export function MovieOverview() {
     window.scrollTo(0, 0);
   }, [movieId]);
 
+  useEffect(() => {
+    if (!overview) return;
+
+    document.title = `MDB - ${overview.title || overview.original_title}`;
+  }, [overview]);
+
   return (
     <div className='w-full'>
       {!overview || loadingOverview ? (
