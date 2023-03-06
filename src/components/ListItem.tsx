@@ -46,6 +46,7 @@ export function ListItem({
               : "https://cdn.w600.comps.canstockphoto.com.br/projetos-poster-glitched-tipogr%C3%A1fico-vetor-clip-arte_csp40896763.jpg"
           }
           className='h-full max-h-[16rem]'
+          loading='lazy'
         />
       </NavLink>
     </li>
