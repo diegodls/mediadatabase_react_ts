@@ -25,19 +25,23 @@ export function ListItem({
         end
         className='group h-full rounded-md cursor-pointer relative overflow-hidden transform transition-all scale-90 hover:scale-100 hover:drop-shadow-xl hover:z-10 focus-visible:scale-100 focus-visible:drop-shadow-xl focus-visible:outline-none focus-visible:ring-0 focus-visible:border-2 focus-visible:border-customColors-red-500'
       >
-        <div className='w-full h-12 flex flex-col justify-end absolute z-20 bottom-0 translate-y-12 transition-all ease-in opacity-0 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100'>
-          <p className='font-bold pl-1 z-20 line-clamp-1 overflow-hidden scale-90 relative bottom-1'>
-            {title}
-          </p>
+        {title || character ? (
+          <div className='w-full h-12 flex flex-col justify-end absolute z-20 bottom-0 translate-y-12 transition-all ease-in opacity-0 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100'>
+            {title ? (
+              <p className='font-bold pl-1 z-20 line-clamp-1 overflow-hidden scale-90 relative bottom-1'>
+                {title}
+              </p>
+            ) : null}
 
-          {character ? (
-            <p className='font-bold pl-2 z-20 line-clamp-1 overflow-hidden scale-90 relative bottom-2'>
-              as {character}
-            </p>
-          ) : null}
+            {character ? (
+              <p className='font-bold pl-2 z-20 line-clamp-1 overflow-hidden scale-90 relative bottom-2'>
+                as {character}
+              </p>
+            ) : null}
 
-          <span className='w-full h-48 bg-gradient-to-t from-black absolute z-10 bottom-[-2rem]' />
-        </div>
+            <span className='w-full h-48 bg-gradient-to-t from-black absolute z-10 bottom-[-2rem]' />
+          </div>
+        ) : null}
 
         <img
           src={
