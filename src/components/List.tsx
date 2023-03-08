@@ -35,7 +35,7 @@ export function List<T>({
       <ErrorFetchContent error={error}>
         {data && data?.length > 0 ? (
           <div className='w-full h-list-md rounded'>
-            <ScrollableComponent>
+            <ScrollableComponent listSize={data?.length}>
               <ul className='h-full flex flex-row items-center' role='list'>
                 {data?.map((item) => {
                   return (
