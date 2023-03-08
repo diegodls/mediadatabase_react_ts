@@ -8,6 +8,7 @@ import { IPersonDetails } from "../interfaces/IPersonDetails";
 
 import { API_BASEURL_IMAGE_400 } from "../utils/constants";
 import { ErrorFetchContent } from "./ErrorFetchContent";
+import { Loading } from "./Loading";
 
 interface PopularPersonProps {
   personList?: IPerson[];
@@ -26,7 +27,11 @@ export function PopularPerson({
   return (
     <Section title='Populares'>
       <ErrorFetchContent error={dataError}>
-        {personList && personList?.length > 0 ? (
+        {personList &&
+        personList?.length > 0 &&
+        featuredPerson &&
+        featuredPerson.known_for?.length > 0 &&
+        featuredPersonDetails ? (
           <div className='w-full'>
             <div
               className={`w-full h-[40vh] sm:h-[60vh] max-h-[600px] sm:min-h-[350px] flex rounded-md bg-neutral-900 transition-all`}
@@ -45,7 +50,9 @@ export function PopularPerson({
 
             <PopularPersonList personList={personList} />
           </div>
-        ) : null}
+        ) : (
+          <Loading />
+        )}
       </ErrorFetchContent>
     </Section>
   );

@@ -10,8 +10,8 @@ interface PopularPersonListProps {
 export function PopularPersonList({ personList }: PopularPersonListProps) {
   return (
     <div className='w-full h-list-md mt-2'>
-      <ScrollableComponent>
-        <ul className='h-full flex flex-row items-center'>
+      <ScrollableComponent listSize={personList?.length}>
+        <ul className='h-full flex flex-row items-center' role='list'>
           {personList?.map((person: IPerson) => (
             <ListItem
               key={person.id}

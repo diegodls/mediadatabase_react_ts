@@ -25,26 +25,28 @@ export function PopularPersonDescription({
         <p className='line-clamp-3'>{featuredPersonDetails?.biography}</p>
       </div>
 
-      <div className='w-full max-h-list hidden sm:flex sm:flex-col overflow-hidden'>
-        <ScrollableComponent>
-          <ul role='list' className='h-full flex flex-row items-center'>
-            {featuredPerson?.known_for.map((item) =>
-              item.backdrop_path ? (
-                <ListItem
-                  key={item.id}
-                  url={`${item.media_type}/${item.id}`}
-                  poster_path={item.poster_path}
-                  title={
-                    item.title ||
-                    item.original_title ||
-                    item.original_name ||
-                    item.name
-                  }
-                />
-              ) : null
-            )}
-          </ul>
-        </ScrollableComponent>
+      <div className='w-full max-h-list hidden sm:flex sm:flex-col overflow-hidden bg-red-500'>
+        {featuredPerson && featuredPerson?.known_for.length > 0 ? (
+          <ScrollableComponent listSize={featuredPerson?.known_for.length}>
+            <ul className='h-full flex flex-row items-center' role='list'>
+              {featuredPerson?.known_for.map((item) =>
+                item.backdrop_path ? (
+                  <ListItem
+                    key={item.id}
+                    url={`${item.media_type}/${item.id}`}
+                    poster_path={item.poster_path}
+                    title={
+                      item.title ||
+                      item.original_title ||
+                      item.original_name ||
+                      item.name
+                    }
+                  />
+                ) : null
+              )}
+            </ul>
+          </ScrollableComponent>
+        ) : null}
       </div>
       <div className='w-full mt-2 grow md:grow-0 flex items-end justify-end'>
         <NavLink

@@ -42,7 +42,7 @@ export function MovieVideos({ data, error }: MovieVideoProps) {
             />
 
             <div className='w-full h-40 mt-2'>
-              <ScrollableComponent>
+              <ScrollableComponent listSize={data.results.length}>
                 <ul
                   className='h-full flex flex-row gap-2 items-center'
                   role='list'
