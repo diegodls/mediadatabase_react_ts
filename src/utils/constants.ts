@@ -85,3 +85,5 @@ export const MovieTypeList = {
     },
   ],
 };
+
+export const SECTION_PADDING_X = 16;
