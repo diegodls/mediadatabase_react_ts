@@ -5,7 +5,7 @@ interface SectionProps {
 }
 export function Section({ title, children, titleBg = true }: SectionProps) {
   return (
-    <section className='w-full px-4 xl:px-0 mt-2'>
+    <section className={`w-full px-4 xl:px-0 mt-2`}>
       {title ? (
         <div
           className={`w-full pl-3 py-1 border-l-4 border-customColors-red-500 ${
