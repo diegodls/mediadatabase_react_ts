@@ -6,12 +6,17 @@ interface IListRowProps {
   children: React.ReactNode;
   title?: string;
   error?: IErrorFetchContent;
+  listSize?: number;
 }
 
-export function ScrollableComponent({ children, title, error }: IListRowProps) {
+export function ScrollableComponent({
+  children,
+  title,
+  error,
+  listSize = 0,
+}: IListRowProps) {
   const listRef = useRef<HTMLDivElement>(null);
   const BUTTON_WIDTH = 36; //in pixels
-  const LIST_ITEM_AMOUNT = 20;
 
   const [isMouseOverList, setIsMouseOverList] = useState<boolean>(false);
   const [isScrollable, setIsScrollable] = useState<boolean>(false);
@@ -26,54 +31,59 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
 
   function handleScroll(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    type: "LEFT" | "RIGHT"
+    direction: "LEFT" | "RIGHT"
   ) {
     e.preventDefault();
     handleResizeWindow();
-
-    console.log("");
-    console.log("handleScroll");
-
     if (!listRef.current) return;
 
-    const ITEM_HEIGHT = listRef.current?.scrollWidth / LIST_ITEM_AMOUNT;
+    const itemsToScrollToBorder = 2;
 
-    const currentDistance = listRef.current?.getBoundingClientRect().x;
+    const itemSize = listRef.current?.scrollWidth / listSize;
 
-    let moveTo = 0;
+    const itemsDisplayed = Math.floor(listRef.current?.clientWidth / itemSize);
 
-    console.log("_____ANTES");
+    const diff =
+      listRef.current?.clientWidth / itemSize -
+      Math.floor(listRef.current?.clientWidth / itemSize);
+
+    let moveTo = itemSize * itemsDisplayed;
+
+    console.log(`items: ${itemsDisplayed} | moveTo: ${moveTo} | diff: ${diff}`);
+
+    const isInLeftBorder: boolean =
+      listRef.current.scrollLeft <= itemSize * itemsToScrollToBorder;
+
+    const shouldScrollToAllTheLeft = isInLeftBorder && direction === "LEFT";
+
+    const isInRightBorder: boolean =
+      listRef.current.scrollWidth -
+        listRef.current.scrollLeft -
+        listRef.current.clientWidth <=
+      itemSize * itemsToScrollToBorder;
+
+    const shouldScrollToAllTheRight = isInRightBorder && direction === "RIGHT";
+
+    if (shouldScrollToAllTheLeft || shouldScrollToAllTheRight) {
+      moveTo = 9999;
+    }
+
+    if (direction === "LEFT") {
+      listRef.current.scrollLeft -= moveTo;
+    }
+
+    if (direction === "RIGHT") {
+      listRef.current.scrollLeft += moveTo;
+    }
+
+    console.log("handleScrollLeft");
     console.log({
-      type,
-      moveTo,
-      ITEM_HEIGHT,
-      currentDistance,
-    });
-
-    if (type === "LEFT") {
-      moveTo = ITEM_HEIGHT + currentDistance;
-      console.log(`_____moveTo LEFT: ${moveTo}`);
-    }
-
-    if (type === "RIGHT") {
-      moveTo = -ITEM_HEIGHT + currentDistance;
-      console.log(`__________moveTo RIGHT: ${moveTo}`);
-    }
-
-    if (moveTo >= 0 || moveTo < currentDistance - ITEM_HEIGHT) {
-      console.log(`__________moveTo 0: ${moveTo}`);
-
-      moveTo = 0;
-    }
-
-    listRef.current.style.transform = `translateX(${moveTo}px)`;
-
-    console.log("_____DEPOIS");
-    console.log({
-      type,
-      moveTo,
-      ITEM_HEIGHT,
-      currentDistance,
+      scrollLeft: listRef.current.scrollLeft,
+      clientWidth: listRef.current?.clientWidth,
+      scrollWidth: listRef.current?.scrollWidth,
+      moveTo: moveTo,
+      itemSize: itemSize,
+      isInRightBorder,
     });
   }
 
@@ -109,7 +119,9 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
                 <button
                   aria-label='Scroll para esquerda'
                   title='Scroll para esquerda'
-                  onClick={(e) => handleScroll(e, "LEFT")}
+                  onClick={(e) => {
+                    handleScroll(e, "LEFT");
+                  }}
                   className={`w-[${BUTTON_WIDTH}px] h-full flex items-center justify-center scale-y-90 bg-black/20 hover:bg-black/80 rounded-r-sm overflow-hidden absolute left-0 z-50 cursor-pointer transition-all select-none ${
                     isMouseOverList ? "opacity-100" : "opacity-0"
                   }`}
@@ -119,7 +131,9 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
                 <button
                   aria-label='Scroll para direita'
                   title='Scroll para direita'
-                  onClick={(e) => handleScroll(e, "RIGHT")}
+                  onClick={(e) => {
+                    handleScroll(e, "RIGHT");
+                  }}
                   className={`w-[${BUTTON_WIDTH}px] h-full flex items-center justify-center scale-y-90 bg-black/50 hover:bg-black/80 rounded-l-sm overflow-hidden absolute right-0 z-50 cursor-pointer transition-all select-none  ${
                     isMouseOverList ? "opacity-100" : "opacity-0"
                   }`}
@@ -130,16 +144,12 @@ export function ScrollableComponent({ children, title, error }: IListRowProps) {
             ) : null}
 
             <div
-              className={`w-full h-full hide-scrollbar scroll-smooth overflow-hidden overflow-x-scroll ${
+              className={`w-full h-full overflow-x-scroll hide-scrollbar scroll-smooth overflow-hidden ${
                 !isScrollable ? "flex justify-center" : ""
               }`}
+              ref={listRef}
             >
-              <div
-                className='w-auto h-full hide-scrollbar scroll-smooth transition-all'
-                ref={listRef}
-              >
-                {children}
-              </div>
+              <div className='w-auto h-full'>{children}</div>
             </div>
           </div>
         </div>
