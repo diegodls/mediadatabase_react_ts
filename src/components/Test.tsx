@@ -1,21 +1,22 @@
-import { useFetchData } from "../hooks/useFetchData";
-import {
-  IRecommendedApiReturn,
-  IRecommendedResult,
-} from "../interfaces/IRecommended";
-import { Recommended } from "./Recommended";
+import { usePopularPerson } from "../hooks/usePopularPerson";
+import { PopularPerson } from "./PopularPerson";
 
 export function Test() {
   const {
-    data: recommendedContent,
-    dataError: recommendedContentError,
-    fetchData: fetchRecommendedContent,
-  } = useFetchData<IRecommendedApiReturn>(`movie/505642/recommendations`);
+    slicedPersonList,
+    featuredPerson,
+    dataError: popularPersonListError,
+    featuredPersonDetails,
+    loadingData: loadingPopularPersonList,
+  } = usePopularPerson(`person/popular`);
 
   return (
-    <Recommended<IRecommendedResult>
-      data={recommendedContent?.results}
-      error={recommendedContentError}
+    <PopularPerson
+      personList={slicedPersonList}
+      featuredPersonDetails={featuredPersonDetails}
+      featuredPerson={featuredPerson}
+      dataError={popularPersonListError}
+      loadingData={loadingPopularPersonList}
     />
   );
 }
