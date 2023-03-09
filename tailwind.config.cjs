@@ -4,6 +4,7 @@ const plugin = require("tailwindcss/plugin");
 
 const maxHeightListMD = "15rem";
 const headerHeight = "2.5rem"; //40px
+const layoutX = "1rem";
 
 module.exports = {
   content: ["./src/**/*.tsx"],
@@ -21,6 +22,10 @@ module.exports = {
       },
       margin: {
         headerHeight: headerHeight,
+        layoutX: layoutX,
+      },
+      padding: {
+        layoutX: layoutX,
       },
       colors: {
         "customColors-background": "#131313",
