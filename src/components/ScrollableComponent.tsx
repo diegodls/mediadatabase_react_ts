@@ -7,6 +7,7 @@ interface IListRowProps {
   title?: string;
   error?: IErrorFetchContent;
   listSize?: number;
+  center?: boolean;
 }
 
 export function ScrollableComponent({
@@ -14,6 +15,7 @@ export function ScrollableComponent({
   title,
   error,
   listSize = 0,
+  center = true,
 }: IListRowProps) {
   const listRef = useRef<HTMLDivElement>(null);
   const BUTTON_WIDTH = 36; //in pixels
@@ -75,16 +77,6 @@ export function ScrollableComponent({
     if (direction === "RIGHT") {
       listRef.current.scrollLeft += moveTo;
     }
-
-    console.log("handleScrollLeft");
-    console.log({
-      scrollLeft: listRef.current.scrollLeft,
-      clientWidth: listRef.current?.clientWidth,
-      scrollWidth: listRef.current?.scrollWidth,
-      moveTo: moveTo,
-      itemSize: itemSize,
-      isInRightBorder,
-    });
   }
 
   useEffect(() => {
@@ -111,9 +103,9 @@ export function ScrollableComponent({
             handleResizeWindow();
             setIsMouseOverList(false);
           }}
-          className='w-full h-full flex flex-col relative'
+          className='w-full flex flex-col relative'
         >
-          <div className='w-full h-full overflow-hidden'>
+          <div className='w-full overflow-hidden'>
             {isScrollable ? (
               <>
                 <button
@@ -144,8 +136,8 @@ export function ScrollableComponent({
             ) : null}
 
             <div
-              className={`w-full h-full overflow-x-scroll hide-scrollbar scroll-smooth overflow-hidden ${
-                !isScrollable ? "flex justify-center" : ""
+              className={`w-full overflow-x-scroll hide-scrollbar scroll-smooth overflow-hidden ${
+                !isScrollable && center ? "flex justify-center" : ""
               }`}
               ref={listRef}
             >
