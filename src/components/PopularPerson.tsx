@@ -28,13 +28,13 @@ export function PopularPerson({
     <Section title='Populares'>
       <ErrorFetchContent error={dataError}>
         {personList &&
-        personList?.length > 0 &&
+        personList.length > 0 &&
         featuredPerson &&
-        featuredPerson.known_for?.length > 0 &&
+        featuredPerson.known_for.length > 0 &&
         featuredPersonDetails ? (
           <div className='w-full'>
             <div
-              className={`w-full h-[40vh] sm:h-[60vh] max-h-[600px] sm:min-h-[350px] flex rounded-md bg-neutral-900 transition-all`}
+              className={`w-full h-[40vh] sm:h-[60vh] max-h-[600px] sm:min-h-[350px] flex rounded-md bg-neutral-900 transition-all overflow-hidden`}
             >
               <img
                 src={`${API_BASEURL_IMAGE_400}${featuredPerson?.profile_path}`}
@@ -51,7 +51,7 @@ export function PopularPerson({
             <PopularPersonList personList={personList} />
           </div>
         ) : (
-          <Loading />
+          <Loading onTop={false} />
         )}
       </ErrorFetchContent>
     </Section>
