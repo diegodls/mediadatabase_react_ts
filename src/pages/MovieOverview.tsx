@@ -5,10 +5,10 @@ import { KeywordList } from "../components/KeywordsList";
 import { List } from "../components/List";
 import { Loading } from "../components/Loading";
 import { MovieVideos } from "../components/MovieVideos";
-import { Recommended } from "../components/Recommended";
 import { Summary } from "../components/Summary";
 import { useFetchData } from "../hooks/useFetchData";
 
+import { Recommended } from "../components/Recommended";
 import { IGenres } from "../interfaces/IGenres";
 import { IKeywords } from "../interfaces/IKeywords";
 import { IMovieCredits } from "../interfaces/IMovieCredits";
