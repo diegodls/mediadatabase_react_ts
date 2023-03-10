@@ -2,7 +2,8 @@
 
 const plugin = require("tailwindcss/plugin");
 
-const maxHeightListMD = "15rem";
+const listSM = "10rem";
+const listMD = "15rem";
 const headerHeight = "2.5rem"; //40px
 const layoutX = "1rem";
 
@@ -13,11 +14,13 @@ module.exports = {
       CustomMaxWidth: "1280px",
     },
     maxHeight: {
-      "list-md": maxHeightListMD,
+      "list-sm": listSM,
+      "list-md": listMD,
     },
     extend: {
       height: {
-        "list-md": maxHeightListMD,
+        "list-sm": listSM,
+        "list-md": listMD,
         headerHeight: headerHeight,
       },
       margin: {
