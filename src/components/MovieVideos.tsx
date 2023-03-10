@@ -41,18 +41,18 @@ export function MovieVideos({ data, error }: MovieVideoProps) {
               className='w-full h-auto aspect-video'
             />
 
-            <div className='w-full h-40 mt-2'>
+            <div className='w-full max-h-list-sm flex items-center mt-2 bg-red-400'>
               <ScrollableComponent listSize={data.results.length}>
                 <ul
-                  className='h-full flex flex-row gap-2 items-center'
+                  className='h-full flex flex-row items-center bg-sky-400'
                   role='list'
                 >
                   {data.results.map((movie: IMovieVideoResults) => (
                     <li
-                      className={`min-w-fit h-full cursor-pointer rounded-md overflow-hidden bg-black scale-95 hover:scale-100 transition-all ${
+                      className={`min-w-fit h-full flex flex-col rounded-md box-border cursor-pointer overflow-hidden scale-95 hover:scale-100 transition-all ${
                         movie.id === featuredMovie.id
-                          ? "border-4 border-customColors-red-500"
-                          : ""
+                          ? "bg-black border-4 border-customColors-red-500"
+                          : " border-4 border-transparent"
                       }`}
                       key={movie.key}
                       onClick={() => {
@@ -62,7 +62,8 @@ export function MovieVideos({ data, error }: MovieVideoProps) {
                       <img
                         src={`https://i.ytimg.com/vi/${movie.key}/hqdefault.jpg`}
                         alt={movie.name}
-                        className='h-full rounded-md'
+                        className='max-h-list-sm rounded-md object-cover'
+                        loading='lazy'
                       />
                     </li>
                   ))}
