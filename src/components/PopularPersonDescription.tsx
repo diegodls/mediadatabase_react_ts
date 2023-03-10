@@ -13,21 +13,26 @@ export function PopularPersonDescription({
   featuredPersonDetails,
 }: PopularPersonDescriptionProps) {
   return (
-    <div className='w-full h-full p-2 flex flex-col justify-between'>
-      <div className=''>
+    <div className='w-full h-full p-2 gap-1 flex flex-col'>
+      <div className='sm:flex sm:items-end transition-all'>
         <h1 className='font-bold text-xl sm:text-2xl md:text-3xl'>
           {featuredPerson?.name}
         </h1>
-        <p>{featuredPersonDetails?.birthday}</p>
+        <p className='text-sm sm:ml-layoutX'>
+          {featuredPersonDetails?.birthday}
+        </p>
       </div>
 
-      <div className=''>
-        <p className='line-clamp-3'>{featuredPersonDetails?.biography}</p>
+      <div className='flex overflow-hidden'>
+        <p className='transition-all'>{featuredPersonDetails?.biography}</p>
       </div>
 
-      <div className='w-full max-h-list hidden sm:flex sm:flex-col overflow-hidden bg-red-500'>
+      <div className='w-full max-h-list-md sm:flex sm:items-center sm:justify-center hidden'>
         {featuredPerson && featuredPerson?.known_for.length > 0 ? (
-          <ScrollableComponent listSize={featuredPerson?.known_for.length}>
+          <ScrollableComponent
+            listSize={featuredPerson?.known_for.length}
+            center={false}
+          >
             <ul className='h-full flex flex-row items-center' role='list'>
               {featuredPerson?.known_for.map((item) =>
                 item.backdrop_path ? (
@@ -48,7 +53,7 @@ export function PopularPersonDescription({
           </ScrollableComponent>
         ) : null}
       </div>
-      <div className='w-full mt-2 grow md:grow-0 flex items-end justify-end'>
+      <div className='w-full grow flex items-end justify-end'>
         <NavLink
           to={`person/${featuredPerson?.id}`}
           className='w-fit flex items-center justify-center px-2 bg-customColors-red-500 rounded relative self-end justify-self-end hover:bg-red-600 hover:text-neutral-300 
