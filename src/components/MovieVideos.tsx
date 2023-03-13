@@ -8,9 +8,10 @@ import { Section } from "./Section";
 interface MovieVideoProps {
   data?: IMovieVideos;
   error?: IErrorFetchContent;
+  mediaName: string;
 }
 
-export function MovieVideos({ data, error }: MovieVideoProps) {
+export function MovieVideos({ data, error, mediaName }: MovieVideoProps) {
   const [featuredMovie, SetFeaturedMovie] = useState<IMovieVideoResults>(
     data?.results[0] || ({} as IMovieVideoResults)
   );
@@ -41,20 +42,22 @@ export function MovieVideos({ data, error }: MovieVideoProps) {
               className='w-full h-auto aspect-video'
             />
 
-            <div className='w-full max-h-list-sm flex items-center mt-2 bg-red-400'>
+            <div className='w-full max-h-list-sm flex items-center mt-2'>
               <ScrollableComponent listSize={data.results.length}>
                 <ul
-                  className='h-full flex flex-row items-center bg-sky-400'
+                  className='group h-full flex flex-row items-center'
                   role='list'
                 >
                   {data.results.map((movie: IMovieVideoResults) => (
                     <li
-                      className={`min-w-fit h-full flex flex-col rounded-md box-border cursor-pointer overflow-hidden scale-95 hover:scale-100 transition-all ${
+                      className={`min-w-fit h-full max-h-list-sm flex flex-col rounded-md box-border cursor-pointer overflow-hidden scale-95 hover:scale-100 hover:drop-shadow-lg transition-all ${
                         movie.id === featuredMovie.id
                           ? "bg-black border-4 border-customColors-red-500"
                           : " border-4 border-transparent"
                       }`}
                       key={movie.key}
+                      aria-label={`Assistir ${movie.name} de ${mediaName}`}
+                      title={`Assistir ${movie.name} de ${mediaName}`}
                       onClick={() => {
                         handleChangeFeaturedMovie(movie);
                       }}

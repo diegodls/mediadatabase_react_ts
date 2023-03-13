@@ -110,7 +110,11 @@ export function MovieOverview() {
             error={creditsError}
           />
 
-          <MovieVideos data={videos} error={videosError} />
+          <MovieVideos
+            data={videos}
+            error={videosError}
+            mediaName={overview.title || overview.original_title}
+          />
 
           <Recommended<IRecommendedResult>
             data={recommendedContent?.results}

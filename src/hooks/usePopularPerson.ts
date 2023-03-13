@@ -21,6 +21,8 @@ export function usePopularPerson(url: string) {
   } = useFetchData<IPersonDetails>(`person/${featuredPerson?.id}`);
 
   function sliceList() {
+    console.log("sliceList");
+
     if (!popularPersonList || popularPersonList.results.length <= 0) {
       return;
     }
@@ -64,11 +66,23 @@ export function usePopularPerson(url: string) {
   }
 
   useEffect(() => {
-    sliceList();
+    console.log("*****useEffect sliceList");
+    console.log(popularPersonList);
+
+    if (popularPersonList && popularPersonList.results.length > 0) {
+      console.log("@@@@@@Verificador sliceList");
+
+      sliceList();
+    }
   }, [popularPersonList]);
 
   useEffect(() => {
+    console.log("*****useEffect fetchFeaturedPersonDetailsData");
+    console.log(`UsePopularPerson: ${url} `);
+    console.log(`UsePopularPerson: ${featuredPerson?.id} `);
+
     if (featuredPerson?.id) {
+      console.log("@@@@@@Verificador fetchFeaturedPersonDetailsData");
       fetchFeaturedPersonDetailsData();
     }
   }, [featuredPerson?.id]);

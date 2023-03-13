@@ -39,7 +39,7 @@ export function ListItem({
               </p>
             ) : null}
 
-            <span className='w-full h-48 bg-gradient-to-t from-black absolute z-10 bottom-[-2rem]' />
+            <span className='w-full h-24 bg-gradient-to-t from-black absolute z-10' />
           </div>
         ) : null}
 

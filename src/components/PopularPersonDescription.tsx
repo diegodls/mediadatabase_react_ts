@@ -24,7 +24,9 @@ export function PopularPersonDescription({
       </div>
 
       <div className='flex overflow-hidden'>
-        <p className='transition-all'>{featuredPersonDetails?.biography}</p>
+        <p className='transition-all line-clamp-3'>
+          {featuredPersonDetails?.biography}
+        </p>
       </div>
 
       <div className='w-full max-h-list-md sm:flex sm:items-center sm:justify-center hidden'>
@@ -37,7 +39,7 @@ export function PopularPersonDescription({
               {featuredPerson?.known_for.map((item) =>
                 item.backdrop_path ? (
                   <ListItem
-                    key={item.id}
+                    key={`${item.id}-${item.name}`}
                     url={`${item.media_type}/${item.id}`}
                     poster_path={item.poster_path}
                     title={
