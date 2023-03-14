@@ -35,7 +35,7 @@ export function PopularPerson({
         featuredPerson.known_for.length > 0 &&
         featuredPersonDetails &&
         !loadingPersonDetails ? (
-          <div className='w-full bg-yellow-700'>
+          <div className='w-full'>
             <div
               className={`w-full h-[40vh] sm:h-[60vh] max-h-[600px] sm:min-h-[350px] flex rounded-md bg-neutral-900 transition-all overflow-hidden`}
             >
