@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 
 interface IListRowProps {
-  children: React.ReactNode;
+  children: React.ReactElement;
   title?: string;
   error?: IErrorFetchContent;
   listSize?: number;
@@ -50,8 +50,6 @@ export function ScrollableComponent({
       Math.floor(listRef.current?.clientWidth / itemSize);
 
     let moveTo = itemSize * itemsDisplayed;
-
-    console.log(`items: ${itemsDisplayed} | moveTo: ${moveTo} | diff: ${diff}`);
 
     const isInLeftBorder: boolean =
       listRef.current.scrollLeft <= itemSize * itemsToScrollToBorder;
@@ -103,7 +101,7 @@ export function ScrollableComponent({
             handleResizeWindow();
             setIsMouseOverList(false);
           }}
-          className='w-full flex flex-col relative'
+          className='w-full h-full flex flex-col relative bg-orange-700'
         >
           <div className='w-full overflow-hidden'>
             {isScrollable ? (

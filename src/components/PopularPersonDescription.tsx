@@ -15,21 +15,19 @@ export function PopularPersonDescription({
   return (
     <div className='w-full h-full p-2 gap-1 flex flex-col'>
       <div className='sm:flex sm:items-end transition-all'>
-        <h1 className='font-bold text-xl sm:text-2xl md:text-3xl'>
-          {featuredPerson?.name}
-        </h1>
+        <h1 className='font-bold text-3xl'>{featuredPerson?.name}</h1>
         <p className='text-sm sm:ml-layoutX'>
           {featuredPersonDetails?.birthday}
         </p>
       </div>
 
-      <div className='flex overflow-hidden'>
-        <p className='transition-all line-clamp-3'>
+      <div className=''>
+        <p className='transition-all line-clamp-1'>
           {featuredPersonDetails?.biography}
         </p>
       </div>
 
-      <div className='w-full max-h-list-md sm:flex sm:items-center sm:justify-center hidden'>
+      <div className='w-full h-full max-h-list-md sm:flex sm:items-center sm:justify-center hidden sm:bg-slate-400 md:bg-blue-700'>
         {featuredPerson && featuredPerson?.known_for.length > 0 ? (
           <ScrollableComponent
             listSize={featuredPerson?.known_for.length}

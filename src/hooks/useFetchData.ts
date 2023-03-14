@@ -23,6 +23,8 @@ export function useFetchData<T>(url: string) {
       return;
     }
 
+    console.log(`${"#".repeat(50)}Buscando: ${url}`);
+
     await service
       .get<T>(`${url}`)
       .then((response) => {

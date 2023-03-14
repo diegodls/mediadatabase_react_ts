@@ -48,6 +48,7 @@ export function Home() {
     dataError: popularPersonListError,
     featuredPersonDetails,
     loadingData: loadingPopularPersonList,
+    loadingPersonDetails,
   } = usePopularPerson(`person/popular`);
 
   const { data: movieGenresList } = useFetchData<IGenres>(`genre/movie/list`);
@@ -127,6 +128,7 @@ export function Home() {
             featuredPerson={featuredPerson}
             dataError={popularPersonListError}
             loadingData={loadingPopularPersonList}
+            loadingPersonDetails={loadingPersonDetails}
           />
         </div>
       </div>

@@ -18,6 +18,7 @@ export function usePopularPerson(url: string) {
     data: featuredPersonDetails,
     dataError: featuredPersonDetailsError,
     fetchData: fetchFeaturedPersonDetailsData,
+    loadingData: loadingPersonDetails,
   } = useFetchData<IPersonDetails>(`person/${featuredPerson?.id}`);
 
   function sliceList() {
@@ -60,6 +61,8 @@ export function usePopularPerson(url: string) {
 
     tempArray = removeItemFromArray<IPerson>(tempFeaturedItem, tempArray);
 
+    console.log(`${"+".repeat(50)}Atualizando estado: ${url}`);
+
     setFeaturedPerson(tempFeaturedItem);
 
     setSlicedPersonList(tempArray);
@@ -93,6 +96,7 @@ export function usePopularPerson(url: string) {
     featuredPersonDetails,
     featuredPersonDetailsError,
     loadingData,
+    loadingPersonDetails,
     dataError,
     sliceList,
   };

@@ -16,6 +16,7 @@ interface PopularPersonProps {
   featuredPersonDetails?: IPersonDetails;
   dataError?: IErrorFetchContent;
   loadingData?: boolean;
+  loadingPersonDetails?: boolean;
 }
 export function PopularPerson({
   personList,
@@ -23,6 +24,7 @@ export function PopularPerson({
   featuredPersonDetails,
   dataError,
   loadingData,
+  loadingPersonDetails,
 }: PopularPersonProps) {
   return (
     <Section title='Populares'>
@@ -31,7 +33,8 @@ export function PopularPerson({
         personList.length > 0 &&
         featuredPerson &&
         featuredPerson.known_for.length > 0 &&
-        featuredPersonDetails ? (
+        featuredPersonDetails &&
+        !loadingPersonDetails ? (
           <div className='w-full bg-yellow-700'>
             <div
               className={`w-full h-[40vh] sm:h-[60vh] max-h-[600px] sm:min-h-[350px] flex rounded-md bg-neutral-900 transition-all overflow-hidden`}
@@ -48,7 +51,10 @@ export function PopularPerson({
               />
             </div>
 
-            <PopularPersonList personList={personList} />
+            <PopularPersonList
+              personList={personList}
+              loadingPersonDetails={loadingData}
+            />
           </div>
         ) : (
           <Loading onTop={false} />
