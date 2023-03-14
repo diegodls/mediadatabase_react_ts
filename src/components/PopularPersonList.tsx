@@ -1207,22 +1207,9 @@ export function PopularPersonList({
   loadingPersonDetails,
 }: PopularPersonListProps) {
   return (
-    <div className={`w-full mt-2 bg-emerald-400`}>
-      <ul
-        className='h-full flex flex-col bg-yellow-500 absolute z-50'
-        role='list'
-      >
-        {personList?.map((person: IPerson, index) => (
-          <li key={index}>
-            <p className='p-3 font-bold text-black'>
-              {personList?.length} -{person.id} - {person.name}
-            </p>
-          </li>
-        ))}
-      </ul>
-
+    <div className='w-full mt-2'>
       {personList && personList?.length > 0 && !loadingPersonDetails ? (
-        <div className='w-full h-list-md rounded bg-fuchsia-400'>
+        <div className='w-full h-list-md rounded'>
           <ScrollableComponent listSize={personList?.length}>
             <ul className='h-full flex flex-row items-center' role='list'>
               {personList?.map((person: IPerson, index) => (

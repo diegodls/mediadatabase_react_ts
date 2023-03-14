@@ -13,21 +13,21 @@ export function PopularPersonDescription({
   featuredPersonDetails,
 }: PopularPersonDescriptionProps) {
   return (
-    <div className='w-full h-full p-2 gap-1 flex flex-col'>
+    <div className='w-full h-full p-2 gap-1 flex flex-col relative'>
       <div className='sm:flex sm:items-end transition-all'>
-        <h1 className='font-bold text-3xl'>{featuredPerson?.name}</h1>
+        <h1 className='font-bold text-2xl sm:text-2xl whitespace-nowrap'>
+          {featuredPerson?.name}
+        </h1>
         <p className='text-sm sm:ml-layoutX'>
           {featuredPersonDetails?.birthday}
         </p>
       </div>
 
-      <div className=''>
-        <p className='transition-all line-clamp-1'>
-          {featuredPersonDetails?.biography}
-        </p>
+      <div className='line-clamp-3'>
+        <p className=''>{featuredPersonDetails?.biography}</p>
       </div>
 
-      <div className='w-full h-full max-h-list-md sm:flex sm:items-center sm:justify-center hidden sm:bg-slate-400 md:bg-blue-700'>
+      <div className='w-full h-full max-h-list-md sm:flex sm:items-center sm:justify-center hidden'>
         {featuredPerson && featuredPerson?.known_for.length > 0 ? (
           <ScrollableComponent
             listSize={featuredPerson?.known_for.length}
@@ -53,11 +53,10 @@ export function PopularPersonDescription({
           </ScrollableComponent>
         ) : null}
       </div>
-      <div className='w-full grow flex items-end justify-end'>
+      <div className='flex items-end justify-end m-2 absolute right-0 bottom-0'>
         <NavLink
           to={`person/${featuredPerson?.id}`}
-          className='w-fit flex items-center justify-center px-2 bg-customColors-red-500 rounded relative self-end justify-self-end hover:bg-red-600 hover:text-neutral-300 
-                  drop-shadow-lg shadow-customColors-red-500 transition-all'
+          className='w-fit flex items-center justify-center px-2 bg-customColors-red-500 rounded relative self-end justify-self-end hover:bg-red-600 hover:text-neutral-300 drop-shadow-lg shadow-customColors-red-500 transition-all'
         >
           <p className='p-1 min-h-fit m-auto font-bold'>Leia Mais</p>
         </NavLink>
