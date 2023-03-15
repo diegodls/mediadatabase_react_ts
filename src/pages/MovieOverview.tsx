@@ -119,6 +119,7 @@ export function MovieOverview() {
           <Recommended<IRecommendedResult>
             data={recommendedContent?.results}
             error={recommendedContentError}
+            mediaType='movie'
           />
         </div>
       )}
