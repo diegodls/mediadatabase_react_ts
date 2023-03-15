@@ -39,40 +39,40 @@ export function MovieVideos({ data, error, mediaName }: MovieVideoProps) {
               height='919'
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
               allowFullScreen
-              className='w-full h-auto aspect-video'
+              className='w-full max-w-CustomMaxWidth h-auto aspect-video'
             />
-
-            <div className='w-full max-h-list-sm flex items-center mt-2'>
-              <ScrollableComponent listSize={data.results.length}>
-                <ul
-                  className='group h-full flex flex-row items-center'
-                  role='list'
-                >
-                  {data.results.map((movie: IMovieVideoResults) => (
-                    <li
-                      className={`min-w-fit h-full max-h-list-sm flex flex-col rounded-md box-border cursor-pointer overflow-hidden scale-95 hover:scale-100 hover:drop-shadow-lg transition-all ${
-                        movie.id === featuredMovie.id
-                          ? "bg-black border-4 border-customColors-red-500"
-                          : " border-4 border-transparent"
-                      }`}
-                      key={movie.key}
-                      aria-label={`Assistir ${movie.name} de ${mediaName}`}
-                      title={`Assistir ${movie.name} de ${mediaName}`}
-                      onClick={() => {
-                        handleChangeFeaturedMovie(movie);
-                      }}
-                    >
-                      <img
-                        src={`https://i.ytimg.com/vi/${movie.key}/hqdefault.jpg`}
-                        alt={movie.name}
-                        className='max-h-list-sm rounded-md object-cover'
-                        loading='lazy'
-                      />
-                    </li>
-                  ))}
-                </ul>
-              </ScrollableComponent>
-            </div>
+            {data.results && data.results.length > 1 ? (
+              <div className='w-full h-list-md flex items-center mt-2'>
+                <ScrollableComponent listSize={data.results.length}>
+                  <ul className='h-full flex flex-row items-center' role='list'>
+                    {data.results.map((movie: IMovieVideoResults) => (
+                      <li className='h-full min-w-fit' key={movie.key}>
+                        <button
+                          className={`h-full rounded-md border-4 cursor-pointer overflow-hidden scale-95 hover:scale-100 hover:drop-shadow-lg focus-visible:scale-100 focus:scale-100 focus-visible:drop-shadow-xl focus-visible:outline-none focus-visible:ring-0 focus-visible:border-4 focus-visible:border-customColors-red-500 transition-all ${
+                            movie.id === featuredMovie.id
+                              ? "border-customColors-red-500"
+                              : "border-transparent"
+                          }`}
+                          key={movie.key}
+                          aria-label={`Assistir ${movie.name} de ${mediaName}`}
+                          title={`Assistir ${movie.name} de ${mediaName}`}
+                          onClick={() => {
+                            handleChangeFeaturedMovie(movie);
+                          }}
+                        >
+                          <img
+                            src={`https://i.ytimg.com/vi/${movie.key}/hqdefault.jpg`}
+                            alt={movie.name}
+                            className='h-full'
+                            loading='lazy'
+                          />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </ScrollableComponent>
+              </div>
+            ) : null}
           </div>
         ) : (
           <h1>Sem vídeos</h1>
