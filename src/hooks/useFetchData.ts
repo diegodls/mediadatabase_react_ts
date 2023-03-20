@@ -29,6 +29,7 @@ export function useFetchData<T>(url: string) {
       .get<T>(`${url}`)
       .then((response) => {
         if (response.data && isCurrentUrl) {
+          console.log(response.data);
           setData(response.data);
         }
       })
