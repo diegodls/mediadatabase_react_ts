@@ -112,7 +112,7 @@ export function ScrollableComponent({
                   onClick={(e) => {
                     handleScroll(e, "LEFT");
                   }}
-                  className={`w-[${BUTTON_WIDTH}px] h-full flex items-center justify-center scale-y-90 bg-black/20 hover:bg-black/80 rounded-r-sm overflow-hidden absolute left-0 z-50 cursor-pointer transition-all select-none ${
+                  className={`w-[${BUTTON_WIDTH}px] h-full flex items-center justify-center scale-y-90 bg-black/20 hover:bg-black/80 rounded-r-sm overflow-hidden absolute left-0 z-50 cursor-pointer transition-all select-none focus-visible:opacity-100 ${
                     isMouseOverList ? "opacity-100" : "opacity-0"
                   }`}
                 >
@@ -124,7 +124,7 @@ export function ScrollableComponent({
                   onClick={(e) => {
                     handleScroll(e, "RIGHT");
                   }}
-                  className={`w-[${BUTTON_WIDTH}px] h-full flex items-center justify-center scale-y-90 bg-black/50 hover:bg-black/80 rounded-l-sm overflow-hidden absolute right-0 z-50 cursor-pointer transition-all select-none  ${
+                  className={`w-[${BUTTON_WIDTH}px] h-full flex items-center justify-center scale-y-90 bg-black/50 hover:bg-black/80 rounded-l-sm overflow-hidden absolute right-0 z-50 cursor-pointer transition-all select-none focus-visible:opacity-100  ${
                     isMouseOverList ? "opacity-100" : "opacity-0"
                   }`}
                 >
