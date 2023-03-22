@@ -34,12 +34,47 @@ export function Movie() {
     dataError: errorAdventureMovies,
   } = useFetchData<IDiscoveryMovies>(`${URL_DISCOVERY_BY_GENRES}12`);
 
+  const {
+    data: comedyMovies,
+    loadingData: loadingComedyMovies,
+    dataError: errorComedyMovies,
+  } = useFetchData<IDiscoveryMovies>(`${URL_DISCOVERY_BY_GENRES}35`);
+
+  const {
+    data: romanceMovies,
+    loadingData: loadingRomanceMovies,
+    dataError: errorRomanceMovies,
+  } = useFetchData<IDiscoveryMovies>(`${URL_DISCOVERY_BY_GENRES}10749`);
+
+  const {
+    data: dramaMovies,
+    loadingData: loadingDramaMovies,
+    dataError: errorDramaMovies,
+  } = useFetchData<IDiscoveryMovies>(`${URL_DISCOVERY_BY_GENRES}18`);
+
+  const {
+    data: documentaryMovies,
+    loadingData: loadingDocumentaryMovies,
+    dataError: errorDocumentaryMovies,
+  } = useFetchData<IDiscoveryMovies>(`${URL_DISCOVERY_BY_GENRES}99`);
+
+  const {
+    data: terrorMovies,
+    loadingData: loadingTerrorMovies,
+    dataError: errorTerrorMovies,
+  } = useFetchData<IDiscoveryMovies>(`${URL_DISCOVERY_BY_GENRES}27`);
+
   useEffect(() => {
     document.title = `MDB - Filmes`;
   }, []);
 
   return !loadingActionMovies &&
     !loadingAdventureMovies &&
+    !loadingComedyMovies &&
+    !loadingRomanceMovies &&
+    !loadingDramaMovies &&
+    !loadingDocumentaryMovies &&
+    !loadingTerrorMovies &&
     !loadingRandomMovie ? (
     <div className='w-full mt-headerHeight'>
       <FeaturedContent
@@ -53,19 +88,55 @@ export function Movie() {
         overview={randomMovie?.overview}
         vote_average={randomMovie?.vote_average}
         type={MEDIA_TYPE}
+        showReadMore={true}
       />
 
       <List<IDiscoveryMoviesResult>
         data={actionMovies?.results}
         error={errorActionMovies}
-        title='Filmes de Ação'
+        title='Ação'
         type={MEDIA_TYPE}
       />
 
       <List<IDiscoveryMoviesResult>
         data={adventureMovies?.results}
         error={errorAdventureMovies}
-        title='Filmes de Aventura'
+        title='Aventura'
+        type={MEDIA_TYPE}
+      />
+
+      <List<IDiscoveryMoviesResult>
+        data={comedyMovies?.results}
+        error={errorComedyMovies}
+        title='Comédia'
+        type={MEDIA_TYPE}
+      />
+
+      <List<IDiscoveryMoviesResult>
+        data={romanceMovies?.results}
+        error={errorRomanceMovies}
+        title='Romance'
+        type={MEDIA_TYPE}
+      />
+
+      <List<IDiscoveryMoviesResult>
+        data={dramaMovies?.results}
+        error={errorDramaMovies}
+        title='Drama'
+        type={MEDIA_TYPE}
+      />
+
+      <List<IDiscoveryMoviesResult>
+        data={documentaryMovies?.results}
+        error={errorDocumentaryMovies}
+        title='Documentário'
+        type={MEDIA_TYPE}
+      />
+
+      <List<IDiscoveryMoviesResult>
+        data={terrorMovies?.results}
+        error={errorTerrorMovies}
+        title='Terror'
         type={MEDIA_TYPE}
       />
     </div>
