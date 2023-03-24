@@ -9,6 +9,7 @@ import { Movie } from "./pages/Movie";
 import { MovieOverview } from "./pages/MovieOverview";
 import { NotFound } from "./pages/NotFound";
 import { Search } from "./pages/Search";
+import { Tv } from "./pages/Tv";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: "/search", element: <Search /> },
       { path: "/movie", element: <Movie /> },
       { path: "/movie/:movieId", element: <MovieOverview /> },
+      { path: "/tv", element: <Tv /> },
       { path: "/tests", element: <Test /> },
     ],
   },
