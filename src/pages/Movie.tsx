@@ -3,7 +3,7 @@ import { FeaturedContent } from "../components/FeaturedContent";
 import { List } from "../components/List";
 import { Loading } from "../components/Loading";
 import { useFetchData } from "../hooks/useFetchData";
-import { useGetRandomMovie } from "../hooks/useGetRandomMovie";
+import { UseGetRandomByDiscovery } from "../hooks/useGetRandomMovie";
 import {
   IDiscoveryMovies,
   IDiscoveryMoviesResult,
@@ -20,7 +20,7 @@ export function Movie() {
   const { data: movieGenresList } = useFetchData<IGenres>(`genre/movie/list`);
 
   const { randomMovie, loadingRandomMovie, randomMovieError } =
-    useGetRandomMovie();
+    UseGetRandomByDiscovery("movie");
 
   const {
     data: actionMovies,
