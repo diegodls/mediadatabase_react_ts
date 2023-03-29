@@ -3,7 +3,7 @@ import { FeaturedContent } from "../components/FeaturedContent";
 import { List } from "../components/List";
 import { Loading } from "../components/Loading";
 import { useFetchData } from "../hooks/useFetchData";
-import { UseGetRandomByDiscovery } from "../hooks/useGetRandomMovie";
+import { useGetRandomByDiscovery } from "../hooks/useGetRandomMovie";
 import {
   IDiscoveryMovies,
   IDiscoveryMoviesResult,
@@ -19,8 +19,8 @@ export function Movie() {
 
   const { data: movieGenresList } = useFetchData<IGenres>(`genre/movie/list`);
 
-  const { randomMovie, loadingRandomMovie, randomMovieError } =
-    UseGetRandomByDiscovery("movie");
+  const { randomContent, loadingRandomContent, randomContentError } =
+    useGetRandomByDiscovery<IDiscoveryMoviesResult>("movie");
 
   const {
     data: actionMovies,
@@ -75,18 +75,18 @@ export function Movie() {
     !loadingDramaMovies &&
     !loadingDocumentaryMovies &&
     !loadingTerrorMovies &&
-    !loadingRandomMovie ? (
+    !loadingRandomContent ? (
     <div className='w-full mt-headerHeight'>
       <FeaturedContent
         genresList={movieGenresList}
-        contentGenresList={randomMovie?.genre_ids}
-        contentID={randomMovie?.id}
-        title={randomMovie?.title}
-        subTitle={randomMovie?.original_title}
-        release_date={randomMovie?.release_date}
-        backdrop_path={randomMovie?.backdrop_path}
-        overview={randomMovie?.overview}
-        vote_average={randomMovie?.vote_average}
+        contentGenresList={randomContent?.genre_ids}
+        contentID={randomContent?.id}
+        title={randomContent?.title}
+        subTitle={randomContent?.original_title}
+        release_date={randomContent?.release_date}
+        backdrop_path={randomContent?.backdrop_path}
+        overview={randomContent?.overview}
+        vote_average={randomContent?.vote_average}
         type={MEDIA_TYPE}
         showReadMore={true}
       />
