@@ -38,6 +38,67 @@ async function getRandomContentByGenre(
     });
 }
 
+async function getRandomContentTest<T extends TRandomContentState>(
+  url: string,
+  type: MediaTypes
+): Promise<T | undefined> {
+  let randomContentValid = {} as T;
+
+  let hasFind: boolean = false;
+
+  const randomNumberFromMockGenres = randomNumberFromArrayLength<IGenre>(
+    type == "movie" ? movieGenresMock : tvGenresMock
+  );
+
+  let randomGenre: Genre =
+    type == "movie"
+      ? movieGenresMock[randomNumberFromMockGenres]
+      : tvGenresMock[randomNumberFromMockGenres];
+
+  const contentGenres: IGenres = await getContentGenres(type);
+
+  if (contentGenres && contentGenres.genres.length > 0) {
+    let randomNumberForGenres = randomNumberFromArrayLength<IGenre>(
+      contentGenres.genres
+    );
+    randomGenre = contentGenres.genres[randomNumberForGenres];
+  }
+
+  const moviesByRandomGenre = (await getRandomContentByGenre(
+    `${url}${randomGenre.id}`
+  )) as T[];
+
+  if (moviesByRandomGenre && moviesByRandomGenre.length > 0) {
+    while (!hasFind) {
+      let randomNumberFromGenres =
+        randomNumberFromArrayLength<T>(moviesByRandomGenre);
+
+      let hasOverview: boolean =
+        "overview" in moviesByRandomGenre[randomNumberFromGenres];
+
+      let hasPosterPath: boolean =
+        "poster_path" in moviesByRandomGenre[randomNumberFromGenres];
+
+      let hasSomeTitle: boolean =
+        ("title" || "original_title") in
+        moviesByRandomGenre[randomNumberFromGenres];
+
+      let hasSomeName: boolean =
+        ("name" || "original_name") in
+        moviesByRandomGenre[randomNumberFromGenres];
+
+      let isValidContent: boolean =
+        hasOverview && hasPosterPath && (hasSomeTitle || hasSomeName);
+
+      if (isValidContent) {
+        randomContentValid = moviesByRandomGenre[randomNumberFromGenres];
+        hasFind = true;
+      }
+    }
+    return randomContentValid;
+  }
+}
+
 export function useGetRandomByDiscovery<T extends TRandomContentState>(
   type: MediaTypes
 ): UseGetRandomByDiscovery<T> {
@@ -58,15 +119,6 @@ export function useGetRandomByDiscovery<T extends TRandomContentState>(
 
     let isCurrentUrl: boolean = true;
 
-    const randomNumberFromMockGenres = randomNumberFromArrayLength<IGenre>(
-      type == "movie" ? movieGenresMock : tvGenresMock
-    );
-
-    let randomGenre: Genre =
-      type == "movie"
-        ? movieGenresMock[randomNumberFromMockGenres]
-        : tvGenresMock[randomNumberFromMockGenres];
-
     if (
       !URL_DISCOVERY_BY_GENRES ||
       URL_DISCOVERY_BY_GENRES === undefined ||
@@ -80,54 +132,25 @@ export function useGetRandomByDiscovery<T extends TRandomContentState>(
       return;
     }
 
-    const contentGenres: IGenres = await getContentGenres(type);
-
-    if (contentGenres && contentGenres.genres.length > 0) {
-      let randomNumberForGenres = randomNumberFromArrayLength<IGenre>(
-        contentGenres.genres
+    try {
+      const randomContentValidTest = await getRandomContentTest<T>(
+        URL_DISCOVERY_BY_GENRES,
+        type
       );
-      randomGenre = contentGenres.genres[randomNumberForGenres];
-    }
 
-    const moviesByRandomGenre = (await getRandomContentByGenre(
-      `${URL_DISCOVERY_BY_GENRES}${randomGenre.id}`
-    )) as T[];
-
-    if (moviesByRandomGenre && moviesByRandomGenre.length > 0) {
-      let randomContentValid = {} as T;
-
-      while (!randomContentValid?.overview) {
-        let randomNumberFromGenres =
-          randomNumberFromArrayLength<T>(moviesByRandomGenre);
-
-        let hasOverview: boolean =
-          "overview" in moviesByRandomGenre[randomNumberFromGenres];
-
-        let hasPosterPath: boolean =
-          "poster_path" in moviesByRandomGenre[randomNumberFromGenres];
-
-        let hasSomeTitle: boolean =
-          ("title" || "original_title") in
-          moviesByRandomGenre[randomNumberFromGenres];
-
-        let hasSomeName: boolean =
-          ("name" || "original_name") in
-          moviesByRandomGenre[randomNumberFromGenres];
-
-        let isValidContent: boolean =
-          hasOverview && hasPosterPath && (hasSomeTitle || hasSomeName);
-
-        if (isValidContent) {
-          randomContentValid = moviesByRandomGenre[randomNumberFromGenres];
-        }
+      if (randomContentValidTest && isCurrentUrl) {
+        setRandomContent(randomContentValidTest);
       }
-
-      if (isCurrentUrl) {
-        setRandomContent(randomContentValid);
-      }
+    } catch (error) {
+      setRandomContentError({
+        status_message: `Não foi possível localizar os conteúdos. Erro: ${error}`,
+        success: false,
+        status_code: 404,
+      });
     }
 
     setLoadingRandomContent(false);
+
     return () => {
       isCurrentUrl = false;
       setLoadingRandomContent(false);
