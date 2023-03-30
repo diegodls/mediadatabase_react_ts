@@ -15,11 +15,27 @@ import { randomNumberFromArrayLength } from "../utils/randomNumberFromArrayLengt
 
 type TRandomContentState = IDiscoveryMoviesResult | IDiscoveryTvResult;
 
-interface UseGetRandomByDiscovery<T extends TRandomContentState> {
+interface UseGetRandomByDiscovery<T> {
   randomContent: T | undefined;
   loadingRandomContent: boolean;
   randomContentError?: IErrorFetchContent;
   getRandomContent: () => void;
+}
+
+async function getContentGenres(type: MediaTypes): Promise<IGenres> {
+  return await service.get<IGenres>(`genre/${type}/list`).then((response) => {
+    return response.data;
+  });
+}
+
+async function getRandomContentByGenre(
+  url: string
+): Promise<TRandomContentState[]> {
+  return await service
+    .get<IDiscoveryMovies | IDiscoveryTv>(url)
+    .then((response) => {
+      return response.data.results;
+    });
 }
 
 export function useGetRandomByDiscovery<T extends TRandomContentState>(
@@ -30,55 +46,11 @@ export function useGetRandomByDiscovery<T extends TRandomContentState>(
   const URL_PARAMS = type == "movie" ? MOVIE_URL_PARAMS : TV_URL_PARAMS;
   const URL_DISCOVERY_BY_GENRES = `discover/${type}${URL_PARAMS}`;
 
-  const ssss =
-    "discover/tv?sort_by=popularity.desc&page=1&timezone=America%2FNew_York&include_null_first_air_dates=false&with_watch_monetization_types=flatrate&with_status=0&with_type=0";
-
   const [randomContent, setRandomContent] = useState<T>();
   const [loadingRandomContent, setLoadingRandomContent] =
     useState<boolean>(true);
   const [randomContentError, setRandomContentError] =
     useState<IErrorFetchContent>();
-
-  async function getContentGenres(
-    isCurrentUrl: boolean
-  ): Promise<IGenres | undefined> {
-    const moviesGenres: IGenres | undefined = await service
-      .get<IGenres>(`genre/${type}/list`)
-      .then((response) => {
-        if (response.data && isCurrentUrl) {
-          return response.data;
-        }
-      })
-      .catch((error: IErrorFetchContent) => {
-        console.log(
-          `Erro ao localizar os gêneros dos filmes: ${error.status_message}`
-        );
-        throw new Error(error.status_message);
-      });
-
-    return moviesGenres;
-  }
-
-  async function getRandomContentByGenre(
-    randomGenre: Genre,
-    isCurrentUrl: boolean
-  ): Promise<TRandomContentState[] | undefined> {
-    return await service
-      .get<IDiscoveryMovies | IDiscoveryTv>(
-        `${URL_DISCOVERY_BY_GENRES}${randomGenre.id}`
-      )
-      .then((response) => {
-        if (response.data.results && isCurrentUrl) {
-          return response.data.results;
-        }
-      })
-      .catch((error: IErrorFetchContent) => {
-        console.log(
-          `Erro ao localizar os filmes pelo gênero: ${randomGenre.id} - ${randomGenre.name} : ${error.status_message}`
-        );
-        throw new Error(error.status_message);
-      });
-  }
 
   async function getRandomContent() {
     setLoadingRandomContent(true);
@@ -108,41 +80,23 @@ export function useGetRandomByDiscovery<T extends TRandomContentState>(
       return;
     }
 
-    const contentGenres: IGenres | undefined = await getContentGenres(
-      isCurrentUrl
-    ).then((res) => {
-      if (res?.genres) {
-        return res;
-      }
-    });
+    const contentGenres: IGenres = await getContentGenres(type);
 
     if (contentGenres && contentGenres.genres.length > 0) {
       let randomNumberForGenres = randomNumberFromArrayLength<IGenre>(
         contentGenres.genres
       );
-
       randomGenre = contentGenres.genres[randomNumberForGenres];
     }
 
     const moviesByRandomGenre = (await getRandomContentByGenre(
-      randomGenre,
-      isCurrentUrl
-    ).then((res) => {
-      if (res) {
-        return res;
-      }
-    })) as T[];
+      `${URL_DISCOVERY_BY_GENRES}${randomGenre.id}`
+    )) as T[];
 
     if (moviesByRandomGenre && moviesByRandomGenre.length > 0) {
       let randomContentValid = {} as T;
 
-      let count = 0;
-
       while (!randomContentValid?.overview) {
-        console.log(``);
-        console.log(`while - count: ${count}`);
-        count += 1;
-
         let randomNumberFromGenres =
           randomNumberFromArrayLength<T>(moviesByRandomGenre);
 
@@ -163,30 +117,20 @@ export function useGetRandomByDiscovery<T extends TRandomContentState>(
         let isValidContent: boolean =
           hasOverview && hasPosterPath && (hasSomeTitle || hasSomeName);
 
-        console.log(`name: ${hasSomeName}`);
-
-        console.log(`title: ${hasSomeTitle}`);
-
-        console.log(
-          `overview: ${
-            "overview" in moviesByRandomGenre[randomNumberFromGenres]
-          }`
-        );
-
-        console.log(`isValid: ${isValidContent ? "true" : "false"}`);
-
         if (isValidContent) {
           randomContentValid = moviesByRandomGenre[randomNumberFromGenres];
-          console.log(randomContentValid);
         }
       }
 
-      setRandomContent(randomContentValid);
+      if (isCurrentUrl) {
+        setRandomContent(randomContentValid);
+      }
     }
 
     setLoadingRandomContent(false);
     return () => {
       isCurrentUrl = false;
+      setLoadingRandomContent(false);
     };
   }
 
