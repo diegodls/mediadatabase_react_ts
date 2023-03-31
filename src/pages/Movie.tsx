@@ -3,7 +3,7 @@ import { FeaturedContent } from "../components/FeaturedContent";
 import { List } from "../components/List";
 import { Loading } from "../components/Loading";
 import { useFetchData } from "../hooks/useFetchData";
-import { useGetRandomByDiscovery } from "../hooks/useGetRandomMovie";
+import { useGetRandomByDiscovery } from "../hooks/useGetRandomByDiscovery";
 import {
   IDiscoveryMovies,
   IDiscoveryMoviesResult,
@@ -12,12 +12,12 @@ import { IGenres } from "../interfaces/IGenres";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 
 export function Movie() {
-  const URL_DISCOVERY_BY_GENRES =
-    "discover/movie?sort_by=popularity.desc&include_adult=false&page=1&with_genres=";
-
   const MEDIA_TYPE: MediaTypes = "movie";
+  const URL_DISCOVERY_BY_GENRES = `discover/${MEDIA_TYPE}?sort_by=popularity.desc&include_adult=false&page=1&with_genres=`;
 
-  const { data: movieGenresList } = useFetchData<IGenres>(`genre/movie/list`);
+  const { data: movieGenresList } = useFetchData<IGenres>(
+    `genre/${MEDIA_TYPE}/list`
+  );
 
   const { randomContent, loadingRandomContent, randomContentError } =
     useGetRandomByDiscovery<IDiscoveryMoviesResult>("movie");
@@ -68,15 +68,20 @@ export function Movie() {
     document.title = `MDB - Filmes`;
   }, []);
 
-  return !loadingActionMovies &&
-    !loadingAdventureMovies &&
-    !loadingComedyMovies &&
-    !loadingRomanceMovies &&
-    !loadingDramaMovies &&
-    !loadingDocumentaryMovies &&
-    !loadingTerrorMovies &&
-    !loadingRandomContent ? (
-    <div className='w-full mt-headerHeight'>
+  const isFetchingData: boolean =
+    loadingActionMovies &&
+    loadingAdventureMovies &&
+    loadingComedyMovies &&
+    loadingRomanceMovies &&
+    loadingDramaMovies &&
+    loadingDocumentaryMovies &&
+    loadingTerrorMovies &&
+    loadingRandomContent;
+
+  return isFetchingData ? (
+    <Loading />
+  ) : (
+    <div className='w-full'>
       <FeaturedContent
         genresList={movieGenresList}
         contentGenresList={randomContent?.genre_ids}
@@ -140,7 +145,5 @@ export function Movie() {
         type={MEDIA_TYPE}
       />
     </div>
-  ) : (
-    <Loading />
   );
 }
