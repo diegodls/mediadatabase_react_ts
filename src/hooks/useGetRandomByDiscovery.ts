@@ -74,7 +74,8 @@ async function getRandomContentTest<T extends TRandomContentState>(
         randomNumberFromArrayLength<T>(moviesByRandomGenre);
 
       let hasOverview: boolean =
-        "overview" in moviesByRandomGenre[randomNumberFromGenres];
+        "overview" in moviesByRandomGenre[randomNumberFromGenres] &&
+        moviesByRandomGenre[randomNumberFromGenres].overview.length > 0;
 
       let hasPosterPath: boolean =
         "poster_path" in moviesByRandomGenre[randomNumberFromGenres];
@@ -89,7 +90,6 @@ async function getRandomContentTest<T extends TRandomContentState>(
 
       let isValidContent: boolean =
         hasOverview && hasPosterPath && (hasSomeTitle || hasSomeName);
-
       if (isValidContent) {
         randomContentValid = moviesByRandomGenre[randomNumberFromGenres];
         hasFind = true;
