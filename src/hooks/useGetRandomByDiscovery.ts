@@ -13,9 +13,10 @@ import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 import { movieGenresMock, tvGenresMock } from "../utils/Genres";
 import { randomNumberFromArrayLength } from "../utils/randomNumberFromArrayLength";
 
-type TRandomContentState = IDiscoveryMoviesResult | IDiscoveryTvResult;
+type TDiscovery = IDiscoveryMovies | IDiscoveryTv;
+type TDiscoveryResult = IDiscoveryMoviesResult | IDiscoveryTvResult;
 
-interface UseGetRandomByDiscovery<T> {
+interface IUseGetRandomByDiscovery<T> {
   randomContent: T | undefined;
   loadingRandomContent: boolean;
   randomContentError?: IErrorFetchContent;
@@ -30,15 +31,13 @@ async function getContentGenres(type: MediaTypes): Promise<IGenres> {
 
 async function getRandomContentByGenre(
   url: string
-): Promise<TRandomContentState[]> {
-  return await service
-    .get<IDiscoveryMovies | IDiscoveryTv>(url)
-    .then((response) => {
-      return response.data.results;
-    });
+): Promise<TDiscoveryResult[]> {
+  return await service.get<TDiscovery>(url).then((response) => {
+    return response.data.results;
+  });
 }
 
-async function getRandomContentTest<T extends TRandomContentState>(
+async function getRandomContentTest<T extends TDiscoveryResult>(
   url: string,
   type: MediaTypes
 ): Promise<T | undefined> {
@@ -47,13 +46,13 @@ async function getRandomContentTest<T extends TRandomContentState>(
   let hasFind: boolean = false;
 
   const randomNumberFromMockGenres = randomNumberFromArrayLength<IGenre>(
-    type == "movie" ? movieGenresMock : tvGenresMock
+    type == "movie" ? movieGenresMock.genres : tvGenresMock.genres
   );
 
   let randomGenre: Genre =
     type == "movie"
-      ? movieGenresMock[randomNumberFromMockGenres]
-      : tvGenresMock[randomNumberFromMockGenres];
+      ? movieGenresMock.genres[randomNumberFromMockGenres]
+      : tvGenresMock.genres[randomNumberFromMockGenres];
 
   const contentGenres: IGenres = await getContentGenres(type);
 
@@ -99,9 +98,9 @@ async function getRandomContentTest<T extends TRandomContentState>(
   }
 }
 
-export function useGetRandomByDiscovery<T extends TRandomContentState>(
+export function useGetRandomByDiscovery<T extends TDiscoveryResult>(
   type: MediaTypes
-): UseGetRandomByDiscovery<T> {
+): IUseGetRandomByDiscovery<T> {
   const MOVIE_URL_PARAMS = `?page=1&sort_by=popularity.desc&include_adult=false&with_genres=`;
   const TV_URL_PARAMS = `?page=1&sort_by=popularity.desc&include_adult=false&with_genres=`;
   const URL_PARAMS = type == "movie" ? MOVIE_URL_PARAMS : TV_URL_PARAMS;
