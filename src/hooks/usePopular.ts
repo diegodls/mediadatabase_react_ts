@@ -1,8 +1,20 @@
 import { useEffect, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
+import {
+  IPopularMoviesApiReturn,
+  IPopularMoviesResults,
+} from "../interfaces/IPopularMovies";
+import {
+  IPopularTvShowsApiReturn,
+  IPopularTvShowsResults,
+} from "../interfaces/IPopularTvShows";
 import { service } from "../services/api";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
-import { removeItemFromArray } from "../utils/removeItemFromArray";
+
+type TDiscovery = IPopularMoviesResults | IPopularTvShowsResults;
+type TPopularTvShowsApiReturn =
+  | IPopularMoviesApiReturn
+  | IPopularTvShowsApiReturn;
 
 interface IItemMockProps {
   backdrop_path?: string;
@@ -14,24 +26,81 @@ interface IUsePopularFunctionsProps {
   splitFeaturedItem?: boolean;
 }
 
-export function usePopular<T>(
+interface IHandleData {
+  a: string;
+}
+
+interface IUsePopularReturn<T, P> {
+  data: T | undefined;
+  loadingData: boolean;
+  dataItemFeatured: P | undefined;
+  dataWithoutItemFeatured: P[] | undefined;
+  dataError?: IErrorFetchContent;
+  populatePopularStates: () => void;
+}
+
+async function fetchData<T>(url: string): Promise<T | undefined> {
+  return await service.get<T>(url).then((response) => {
+    return response.data;
+  });
+}
+
+function handleData<T, P>(type: MediaTypes): IHandleData {
+  let a: string = "A";
+  return {
+    a,
+  };
+}
+
+export function usePopular<T, P>(
   type: MediaTypes,
   { splitFeaturedItem }: IUsePopularFunctionsProps
-) {
-  const [data, setData] = useState<T[]>();
+): IUsePopularReturn<T, P> {
+  const [data, setData] = useState<T | undefined>();
 
   const [loadingData, setLoadingData] = useState<boolean>(true);
+
   const [dataError, setDataError] = useState<IErrorFetchContent>();
 
-  const [dataItemFeatured, setDataItemFeatured] = useState<T | undefined>(
+  const [dataItemFeatured, setDataItemFeatured] = useState<P | undefined>(
     undefined
   );
 
   const [dataWithoutItemFeatured, setDataWithoutItemFeatured] = useState<
-    T[] | undefined
+    P[] | undefined
   >(undefined);
 
+  async function populatePopularStates() {
+    setLoadingData(true);
+    setDataError(undefined);
+
+    if (!type || type === undefined || type.length <= 0) {
+      setDataError({
+        status_message: "É necessário informar o tipo do conteúdo!",
+        success: false,
+        status_code: 404,
+      });
+
+      setLoadingData(false);
+      throw new Error(
+        `Não foi possível localizar os populares do tipo: ${type}`
+      );
+    }
+
+    let page = 1;
+
+    const popularContent: Promise<IPopularTvShowsApiReturn | undefined> =
+      fetchData<IPopularTvShowsApiReturn>(`/${type}/popular?page=${page}`);
+  }
+
+  useEffect(() => {
+    populatePopularStates();
+  }, []);
+  /*---------------------------------------------------
+
   async function populateFeaturedStates() {
+    console.log(`${"@".repeat(25)}=> usePopular populateFeaturedStates()`);
+
     if (data) {
       let randomNumber: number = Math.floor(Math.random() * data.length);
       let featuredItem = data[randomNumber] as T & IItemMockProps;
@@ -41,6 +110,12 @@ export function usePopular<T>(
         featuredItem.vote_average?.toFixed(1) === "0.0" ||
         !featuredItem.overview
       ) {
+        console.log(
+          `${"@".repeat(
+            25
+          )}=> usePopular populateFeaturedStates() => while => featuredItem`
+        );
+
         randomNumber = Math.floor(Math.random() * data.length);
         featuredItem = data[randomNumber] as T & IItemMockProps;
       }
@@ -58,23 +133,20 @@ export function usePopular<T>(
   }
 
   async function getPopular() {
+    console.log(`${"@".repeat(25)}=> usePopular getPopular()`);
+
     setLoadingData(true);
     setDataError(undefined);
 
-    if (!type || type === undefined || type.length <= 0) {
-      setDataError({
-        status_message: "É necessário informar o ID do conteúdo!",
-        success: false,
-        status_code: 404,
-      });
-
-      return;
-    }
-
     return await service
-      .get(`/${type}/popular`)
+      .get(`/${type}/popular?page=4`)
       .then((response) => {
         if (response.data) {
+          console.log(
+            `${"@".repeat(25)}=> usePopular getPopular() => response.data`
+          );
+          console.log(response.data);
+
           setData(response.data.results);
         }
       })
@@ -97,6 +169,7 @@ export function usePopular<T>(
       populateFeaturedStates();
     }
   }, [data]);
+*/
 
   return {
     data,
@@ -104,6 +177,6 @@ export function usePopular<T>(
     dataError,
     dataItemFeatured,
     dataWithoutItemFeatured,
-    getPopular,
+    populatePopularStates,
   };
 }
