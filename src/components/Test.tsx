@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { usePopular } from "../hooks/usePopular";
 import { usePopularPerson } from "../hooks/usePopularPerson";
 import { IPerson } from "../interfaces/IPerson";
+import { IPopularTvShowsApiReturn, IPopularTvShowsResults } from "../interfaces/IPopularTvShows";
 import { API_BASEURL_IMAGE_200 } from "../utils/constants";
 import { PopularPersonList } from "./PopularPersonList";
 import { ScrollableComponent } from "./ScrollableComponent";
@@ -14,8 +16,25 @@ export function Test() {
     loadingData: loadingPopularPersonList,
   } = usePopularPerson(`person/popular`);
 
+  const {
+    dataItemFeatured: featuredPopularTvShow,
+    dataWithoutItemFeatured: popularTvShowsWithoutFeatured,
+    dataError: popularTVListError,
+  } = usePopular<IPopularTvShowsApiReturn, IPopularTvShowsResults>("tv", { splitFeaturedItem: true });
+
   return (
     <>
+      <div className='w-full mt-headerHeight bg-slate-700 text-white'>
+        <p>
+          featuredPopularTvShow.name: {featuredPopularTvShow?.name} -
+          featuredPopularTvShow.backdrop_path:{" "}
+          {featuredPopularTvShow?.backdrop_path}
+        </p>
+        <p>
+          popularTvShowsWithoutFeatured: {popularTvShowsWithoutFeatured?.length}
+        </p>
+        <p>popularTVListError: {popularTVListError?.status_message}</p>
+      </div>
       <div className='w-full mt-12 bg-sky-400'>
         {personList && personList?.length > 0 && !loadingPopularPersonList ? (
           <ScrollableComponent listSize={personList?.length}>
