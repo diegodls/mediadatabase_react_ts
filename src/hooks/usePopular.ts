@@ -10,92 +10,142 @@ import {
 } from "../interfaces/IPopularTvShows";
 import { service } from "../services/api";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
+import { removeItemFromArray } from "../utils/removeItemFromArray";
 
-type TDiscovery = IPopularMoviesResults | IPopularTvShowsResults;
-type TPopularTvShowsApiReturn =
-  | IPopularMoviesApiReturn
-  | IPopularTvShowsApiReturn;
+type TPopularApiReturn = IPopularMoviesApiReturn | IPopularTvShowsApiReturn;
 
-interface IItemMockProps {
-  backdrop_path?: string;
-  vote_average?: number;
-  overview?: string;
-}
+type TPopularResults = IPopularMoviesResults | IPopularTvShowsResults;
 
-interface IUsePopularFunctionsProps {
-  splitFeaturedItem?: boolean;
-}
-
-interface IHandleData {
-  a: string;
-}
-
-interface IUsePopularReturn<T, P> {
-  data: T | undefined;
-  loadingData: boolean;
-  dataItemFeatured: P | undefined;
-  dataWithoutItemFeatured: P[] | undefined;
-  dataError?: IErrorFetchContent;
+interface IUsePopular<TPR> {
+  popularDataWithFeaturedItem?: TPR[];
+  popularDataWithoutFeaturedItem?: TPR[];
+  popularFeaturedItem?: TPR;
+  loadingPopularData?: boolean;
+  popularDataError?: IErrorFetchContent;
   populatePopularStates: () => void;
 }
 
-async function fetchData<T>(url: string): Promise<T | undefined> {
-  return await service.get<T>(url).then((response) => {
-    return response.data;
+interface IHandleData<TPR> {
+  dataWithFeaturedItem: TPR[] | undefined;
+}
+
+async function fetchData(url: string): Promise<TPopularResults[]> {
+  return await service.get<TPopularApiReturn>(url).then((response) => {
+    if (response.status === 200 && response.data) {
+      return response.data.results;
+    } else {
+      throw new Error(`Não foi possível buscar os dados usando a url: ${url}`);
+    }
   });
 }
 
-function handleData<T, P>(type: MediaTypes): IHandleData {
-  let a: string = "A";
-  return {
-    a,
-  };
+async function handleData<T extends TPopularResults>(
+  type: MediaTypes
+): Promise<IHandleData<T>> {
+  //fazer essa função receber o tipo, gerenciar a paginação em caso de não encontrar conteúdo que satisfaça (sem overview, sem back_drop e etc...), montar a url com o page e etc...
+  let page = 1;
+  let isValidItem: boolean = false;
+
+  let dataWithFeaturedItem = await fetchData(`/${type}/popular?page=${page}`);
+  let dataWithoutFeaturedItem = [...dataWithFeaturedItem];
+  let featuredItem = {} as TPopularResults;
+
+  while (!isValidItem) {
+    for (let item in dataWithoutFeaturedItem) {
+      if (
+        !dataWithoutFeaturedItem[item].backdrop_path ||
+        !dataWithoutFeaturedItem[item].overview ||
+        dataWithoutFeaturedItem[item].vote_average?.toFixed(1) === "0.0"
+      ) {
+        let rawDataCheckedWithoutItem = removeItemFromArray<TPopularResults>(
+          dataWithoutFeaturedItem[item],
+          dataWithoutFeaturedItem
+        );
+
+        if (rawDataCheckedWithoutItem && rawDataCheckedWithoutItem.length > 0) {
+          dataWithoutFeaturedItem = rawDataCheckedWithoutItem;
+        } else {
+          page += 1;
+          dataWithFeaturedItem = await fetchData(
+            `/${type}/popular?page=${page}`
+          );
+          dataWithoutFeaturedItem = [...dataWithFeaturedItem];
+        }
+      } else {
+        featuredItem = dataWithoutFeaturedItem[item];
+
+        let rawDataCheckedWithoutItem = removeItemFromArray<TPopularResults>(
+          dataWithoutFeaturedItem[item],
+          dataWithoutFeaturedItem
+        );
+
+        if (rawDataCheckedWithoutItem && rawDataCheckedWithoutItem.length > 0) {
+          dataWithoutFeaturedItem = rawDataCheckedWithoutItem;
+        } else {
+          dataWithoutFeaturedItem = dataWithFeaturedItem;
+        }
+
+        isValidItem = true;
+      }
+    }
+  }
+
+  return dataWithFeaturedItem;
 }
 
-export function usePopular<T, P>(
-  type: MediaTypes,
-  { splitFeaturedItem }: IUsePopularFunctionsProps
-): IUsePopularReturn<T, P> {
-  const [data, setData] = useState<T | undefined>();
+export function usePopular<T extends TPopularResults>(
+  type: MediaTypes
+): IUsePopular<T> {
+  const [popularDataWithFeaturedItem, setPopularDataWithFeaturedItem] =
+    useState<T[] | undefined>();
 
-  const [loadingData, setLoadingData] = useState<boolean>(true);
+  const [loadingPopularData, setLoadingPopularData] = useState<boolean>(true);
 
-  const [dataError, setDataError] = useState<IErrorFetchContent>();
+  const [popularDataError, setPopularDataError] =
+    useState<IErrorFetchContent>();
 
-  const [dataItemFeatured, setDataItemFeatured] = useState<P | undefined>(
-    undefined
-  );
+  const [popularFeaturedItem, setPopularFeaturedItem] = useState<T>();
 
-  const [dataWithoutItemFeatured, setDataWithoutItemFeatured] = useState<
-    P[] | undefined
-  >(undefined);
+  const [popularDataWithoutFeaturedItem, setPopularDataWithoutFeaturedItem] =
+    useState<T[]>();
 
   async function populatePopularStates() {
-    setLoadingData(true);
-    setDataError(undefined);
+    setLoadingPopularData(true);
+    setPopularDataError(undefined);
 
     if (!type || type === undefined || type.length <= 0) {
-      setDataError({
+      setPopularDataError({
         status_message: "É necessário informar o tipo do conteúdo!",
         success: false,
-        status_code: 404,
+        status_code: 400,
       });
 
-      setLoadingData(false);
+      setLoadingPopularData(false);
       throw new Error(
         `Não foi possível localizar os populares do tipo: ${type}`
       );
     }
 
-    let page = 1;
+    const dataWithFeaturedItem = await handleData<T>(type);
 
-    const popularContent: Promise<IPopularTvShowsApiReturn | undefined> =
-      fetchData<IPopularTvShowsApiReturn>(`/${type}/popular?page=${page}`);
+    if (dataWithFeaturedItem) {
+      setPopularDataWithFeaturedItem(dataWithFeaturedItem);
+    }
   }
 
   useEffect(() => {
     populatePopularStates();
   }, []);
+
+  return {
+    popularDataWithFeaturedItem,
+    popularDataWithoutFeaturedItem,
+    popularFeaturedItem,
+    loadingPopularData,
+    popularDataError,
+    populatePopularStates,
+  };
+
   /*---------------------------------------------------
 
   async function populateFeaturedStates() {
@@ -170,13 +220,4 @@ export function usePopular<T, P>(
     }
   }, [data]);
 */
-
-  return {
-    data,
-    loadingData,
-    dataError,
-    dataItemFeatured,
-    dataWithoutItemFeatured,
-    populatePopularStates,
-  };
 }
