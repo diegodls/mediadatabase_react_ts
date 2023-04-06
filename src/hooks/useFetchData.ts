@@ -18,7 +18,7 @@ export function useFetchData<T>(url: string) {
       setDataError({
         status_message: "É necessário informar a URL do conteúdo!",
         success: false,
-        status_code: 404,
+        status_code: 400,
       });
       return;
     }

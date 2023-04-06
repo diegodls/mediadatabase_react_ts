@@ -82,7 +82,7 @@ export function useGetContentsByGenresOnDiscovery<T>(
       setContent(ContentListFromApi);
     } else {
       setContentError({
-        status_code: 404,
+        status_code: 400,
         success: false,
         status_message: `Não foi possível localizar a lista de ${
           type === "movie" ? "filmes" : "series"

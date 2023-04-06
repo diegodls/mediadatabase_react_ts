@@ -126,7 +126,7 @@ export function useGetRandomByDiscovery<T extends TDiscoveryResult>(
       setRandomContentError({
         status_message: "É necessário informar a URL do conteúdo!",
         success: false,
-        status_code: 404,
+        status_code: 400,
       });
       return;
     }
