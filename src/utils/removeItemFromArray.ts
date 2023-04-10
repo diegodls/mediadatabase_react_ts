@@ -1,6 +1,6 @@
 export function removeItemFromArray<T>(
   item: T,
-  arr?: Array<T>
+  arr: Array<T>
 ): Array<T> | undefined {
   if (arr) {
     const index = arr.indexOf(item);
