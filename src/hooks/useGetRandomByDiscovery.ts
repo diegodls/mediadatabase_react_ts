@@ -146,9 +146,9 @@ export function useGetRandomByDiscovery<T extends TDiscoveryResult>(
         success: false,
         status_code: 404,
       });
+    } finally {
+      setLoadingRandomContent(false);
     }
-
-    setLoadingRandomContent(false);
 
     return () => {
       isCurrentUrl = false;
