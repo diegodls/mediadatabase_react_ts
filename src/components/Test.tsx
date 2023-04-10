@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { usePopular } from "../hooks/usePopular";
 import { usePopularPerson } from "../hooks/usePopularPerson";
 import { IPerson } from "../interfaces/IPerson";
+import { IPopularMoviesResults } from "../interfaces/IPopularMovies";
 import { IPopularTvShowsResults } from "../interfaces/IPopularTvShows";
 import { API_BASEURL_IMAGE_200 } from "../utils/constants";
 import { PopularPersonList } from "./PopularPersonList";
@@ -23,6 +24,13 @@ export function Test() {
     loadingPopularData,
   } = usePopular<IPopularTvShowsResults>("tv");
 
+  const {
+    popularFeaturedItem: popularFeaturedItemMovie,
+    popularDataWithoutFeaturedItem: popularDataWithoutFeaturedItemMovie,
+    popularDataError: popularDataErrorMovie,
+    loadingPopularData: loadingPopularDataMovie,
+  } = usePopular<IPopularMoviesResults>("movie");
+
   return (
     <>
       <div className='w-full mt-headerHeight bg-slate-700 text-white'>
@@ -38,7 +46,24 @@ export function Test() {
         <p>popularDataError: {popularDataError?.status_message}</p>
         <p>
           loadingPopularData:{" "}
-          {loadingPopularData ? "Carregando" : "Não Carregando"}
+          {loadingPopularData ? "Carregando TV" : "Não Carregando TV"}
+        </p>
+      </div>
+
+      <div className='w-full mt-headerHeight bg-slate-700 text-white'>
+        <p>
+          popularFeaturedItemMovie.name: {popularFeaturedItemMovie?.title} -
+          popularFeaturedItemMovie.backdrop_path:{" "}
+          {popularFeaturedItemMovie?.backdrop_path}
+        </p>
+        <p>
+          popularDataWithoutFeaturedItemMovie:{" "}
+          {popularDataWithoutFeaturedItemMovie?.length}
+        </p>
+        <p>popularDataError: {popularDataErrorMovie?.status_message}</p>
+        <p>
+          loadingPopularData:{" "}
+          {loadingPopularDataMovie ? "Carregando TV" : "Não Carregando TV"}
         </p>
       </div>
       <div className='w-full mt-12 bg-sky-400'>
