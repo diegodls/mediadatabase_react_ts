@@ -18,18 +18,18 @@ export function Test() {
   } = usePopularPerson(`person/popular`);
 
   const {
-    popularFeaturedItem,
-    popularDataWithoutFeaturedItem,
-    popularDataError,
-    loadingPopularData,
-  } = usePopular<IPopularTvShowsResults>("tv");
-
-  const {
     popularFeaturedItem: popularFeaturedItemMovie,
     popularDataWithoutFeaturedItem: popularDataWithoutFeaturedItemMovie,
     popularDataError: popularDataErrorMovie,
     loadingPopularData: loadingPopularDataMovie,
   } = usePopular<IPopularMoviesResults>("movie");
+
+  const {
+    popularFeaturedItem,
+    popularDataWithoutFeaturedItem,
+    popularDataError,
+    loadingPopularData,
+  } = usePopular<IPopularTvShowsResults>("tv");
 
   return (
     <>
@@ -66,6 +66,7 @@ export function Test() {
           {loadingPopularDataMovie ? "Carregando TV" : "Não Carregando TV"}
         </p>
       </div>
+
       <div className='w-full mt-12 bg-sky-400'>
         {personList && personList?.length > 0 && !loadingPopularPersonList ? (
           <ScrollableComponent listSize={personList?.length}>
