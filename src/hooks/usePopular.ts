@@ -10,22 +10,25 @@ import {
 } from "../interfaces/IPopularTvShows";
 import { service } from "../services/api";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
+import { removeItemFromArray } from "../utils/removeItemFromArray";
 
 type TPopularApiReturn = IPopularMoviesApiReturn | IPopularTvShowsApiReturn;
 
 type TPopularResults = IPopularMoviesResults | IPopularTvShowsResults;
 
-interface IUsePopular<TPR> {
-  popularDataWithFeaturedItem?: TPR[];
-  popularDataWithoutFeaturedItem?: TPR[];
-  popularFeaturedItem?: TPR;
+interface IUsePopular<T> {
+  popularDataWithFeaturedItem?: T[];
+  popularDataWithoutFeaturedItem?: T[];
+  popularFeaturedItem?: T;
   loadingPopularData?: boolean;
   popularDataError?: IErrorFetchContent;
   populatePopularStates: () => void;
 }
 
 interface IHandleData<T> {
+  featuredItem: T | undefined;
   dataWithFeaturedItem: T[] | undefined;
+  dataWithoutFeaturedItem: T[] | undefined;
 }
 
 async function fetchData(url: string): Promise<TPopularResults[]> {
@@ -38,16 +41,58 @@ async function fetchData(url: string): Promise<TPopularResults[]> {
   });
 }
 
+function checkForAValidItem<T extends TPopularResults>(
+  data: T[]
+): T | undefined {
+  let dataWithFeaturedItem: T[] = data;
+
+  for (let item in dataWithFeaturedItem) {
+    if (
+      !dataWithFeaturedItem[item].backdrop_path ||
+      !dataWithFeaturedItem[item].overview ||
+      dataWithFeaturedItem[item].vote_average?.toFixed(1) === "0.0"
+    ) {
+      let dataWithoutItem = removeItemFromArray<T>(
+        dataWithFeaturedItem[item],
+        dataWithFeaturedItem
+      );
+
+      if (dataWithoutItem && dataWithoutItem.length > 0) {
+        dataWithFeaturedItem = dataWithoutItem;
+      }
+    } else {
+      return dataWithFeaturedItem[item];
+    }
+  }
+}
+
 async function handleData<T extends TPopularResults>(
   type: MediaTypes
 ): Promise<IHandleData<T>> {
-  let page = 1;
+  let page: number = 1;
 
-  let dataWithFeaturedItem = (await fetchData(
-    `/${type}/popular?page=${page}`
-  )) as T[];
+  let dataWithFeaturedItem: T[] | undefined = undefined;
 
-  return { dataWithFeaturedItem };
+  let dataWithoutFeaturedItem: T[] | undefined = undefined;
+
+  let featuredItem: T | undefined = undefined;
+
+  do {
+    dataWithFeaturedItem = (await fetchData(
+      `/${type}/popular?page=${page}`
+    )) as T[];
+
+    page += 1;
+
+    featuredItem = checkForAValidItem<T>(dataWithFeaturedItem);
+  } while (!featuredItem);
+
+  dataWithoutFeaturedItem = removeItemFromArray<T>(
+    featuredItem,
+    dataWithFeaturedItem
+  );
+
+  return { featuredItem, dataWithFeaturedItem, dataWithoutFeaturedItem };
 }
 
 export function usePopular<T extends TPopularResults>(
@@ -85,10 +130,18 @@ export function usePopular<T extends TPopularResults>(
     }
 
     try {
-      const { dataWithFeaturedItem } = await handleData<T>(type);
+      const { featuredItem, dataWithFeaturedItem, dataWithoutFeaturedItem } =
+        await handleData<T>(type);
 
-      if (dataWithFeaturedItem && isCurrentUrl) {
+      if (
+        featuredItem &&
+        dataWithFeaturedItem &&
+        dataWithoutFeaturedItem &&
+        isCurrentUrl
+      ) {
         setPopularDataWithFeaturedItem(dataWithFeaturedItem);
+        setPopularFeaturedItem(featuredItem);
+        setPopularDataWithoutFeaturedItem(dataWithoutFeaturedItem);
       }
     } catch (error) {
       setPopularDataError({
@@ -119,122 +172,4 @@ export function usePopular<T extends TPopularResults>(
     popularDataError,
     populatePopularStates,
   };
-
-  /*---------------------------------------------------
-
-  let dataWithoutFeaturedItem = [...dataWithFeaturedItem];
-  let featuredItem = {} as TPopularResults;
-
-  while (!isValidItem) {
-    for (let item in dataWithoutFeaturedItem) {
-      if (
-        !dataWithoutFeaturedItem[item].backdrop_path ||
-        !dataWithoutFeaturedItem[item].overview ||
-        dataWithoutFeaturedItem[item].vote_average?.toFixed(1) === "0.0"
-      ) {
-        let rawDataCheckedWithoutItem = removeItemFromArray<TPopularResults>(
-          dataWithoutFeaturedItem[item],
-          dataWithoutFeaturedItem
-        );
-
-        if (rawDataCheckedWithoutItem && rawDataCheckedWithoutItem.length > 0) {
-          dataWithoutFeaturedItem = rawDataCheckedWithoutItem;
-        } else {
-          page += 1;
-          dataWithFeaturedItem = await fetchData(
-            `/${type}/popular?page=${page}`
-          );
-          dataWithoutFeaturedItem = [...dataWithFeaturedItem];
-        }
-      } else {
-        featuredItem = dataWithoutFeaturedItem[item];
-
-        let rawDataCheckedWithoutItem = removeItemFromArray<TPopularResults>(
-          dataWithoutFeaturedItem[item],
-          dataWithoutFeaturedItem
-        );
-
-        if (rawDataCheckedWithoutItem && rawDataCheckedWithoutItem.length > 0) {
-          dataWithoutFeaturedItem = rawDataCheckedWithoutItem;
-        } else {
-          dataWithoutFeaturedItem = dataWithFeaturedItem;
-        }
-
-        isValidItem = true;
-      }
-    }
-  }
-
-  async function populateFeaturedStates() {
-    console.log(`${"@".repeat(25)}=> usePopular populateFeaturedStates()`);
-
-    if (data) {
-      let randomNumber: number = Math.floor(Math.random() * data.length);
-      let featuredItem = data[randomNumber] as T & IItemMockProps;
-
-      while (
-        !featuredItem.backdrop_path ||
-        featuredItem.vote_average?.toFixed(1) === "0.0" ||
-        !featuredItem.overview
-      ) {
-        console.log(
-          `${"@".repeat(
-            25
-          )}=> usePopular populateFeaturedStates() => while => featuredItem`
-        );
-
-        randomNumber = Math.floor(Math.random() * data.length);
-        featuredItem = data[randomNumber] as T & IItemMockProps;
-      }
-
-      let popularTvShowsWithoutFeatured = removeItemFromArray<T>(
-        featuredItem,
-        data
-      );
-
-      if (popularTvShowsWithoutFeatured) {
-        setDataItemFeatured(featuredItem);
-        setDataWithoutItemFeatured(popularTvShowsWithoutFeatured);
-      }
-    }
-  }
-
-  async function getPopular() {
-    console.log(`${"@".repeat(25)}=> usePopular getPopular()`);
-
-    setLoadingData(true);
-    setDataError(undefined);
-
-    return await service
-      .get(`/${type}/popular?page=4`)
-      .then((response) => {
-        if (response.data) {
-          console.log(
-            `${"@".repeat(25)}=> usePopular getPopular() => response.data`
-          );
-          console.log(response.data);
-
-          setData(response.data.results);
-        }
-      })
-      .catch((error: IErrorFetchContent) => {
-        setDataError(error);
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setLoadingData(false);
-        }, 500);
-      });
-  }
-
-  useEffect(() => {
-    getPopular();
-  }, []);
-
-  useEffect(() => {
-    if (splitFeaturedItem && data) {
-      populateFeaturedStates();
-    }
-  }, [data]);
-*/
 }
