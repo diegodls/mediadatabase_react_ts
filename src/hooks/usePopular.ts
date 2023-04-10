@@ -24,8 +24,8 @@ interface IUsePopular<TPR> {
   populatePopularStates: () => void;
 }
 
-interface IHandleData<TPR> {
-  dataWithFeaturedItem: TPR[] | undefined;
+interface IHandleData<T> {
+  dataWithFeaturedItem: T[] | undefined;
 }
 
 async function fetchData(url: string): Promise<TPopularResults[]> {
@@ -47,7 +47,7 @@ async function handleData<T extends TPopularResults>(
     `/${type}/popular?page=${page}`
   )) as T[];
 
-  return dataWithFeaturedItem;
+  return { dataWithFeaturedItem };
 }
 
 export function usePopular<T extends TPopularResults>(
@@ -69,6 +69,7 @@ export function usePopular<T extends TPopularResults>(
   async function populatePopularStates() {
     setLoadingPopularData(true);
     setPopularDataError(undefined);
+    let isCurrentUrl: boolean = true;
 
     if (!type || type === undefined || type.length <= 0) {
       setPopularDataError({
@@ -83,11 +84,27 @@ export function usePopular<T extends TPopularResults>(
       );
     }
 
-    const dataWithFeaturedItem = await handleData<T>(type);
+    try {
+      const { dataWithFeaturedItem } = await handleData<T>(type);
 
-    if (dataWithFeaturedItem) {
-      setPopularDataWithFeaturedItem(dataWithFeaturedItem);
+      if (dataWithFeaturedItem && isCurrentUrl) {
+        setPopularDataWithFeaturedItem(dataWithFeaturedItem);
+      }
+    } catch (error) {
+      setPopularDataError({
+        status_message: `Não foi possível localizar os conteúdos. Erro: ${error}`,
+        success: false,
+        status_code: 404,
+      });
+      return;
+    } finally {
+      setLoadingPopularData(false);
     }
+
+    return () => {
+      isCurrentUrl = false;
+      setLoadingPopularData(false);
+    };
   }
 
   useEffect(() => {
