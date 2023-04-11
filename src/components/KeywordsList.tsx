@@ -1,10 +1,10 @@
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
-import { IKeywords } from "../interfaces/IKeywords";
+import { IKeyword } from "../interfaces/IKeywords";
 import { ErrorFetchContent } from "./ErrorFetchContent";
 import { Section } from "./Section";
 
 interface KeywordListProps {
-  data?: IKeywords;
+  data?: IKeyword[];
   error?: IErrorFetchContent;
 }
 
@@ -12,9 +12,9 @@ export function KeywordList({ data, error }: KeywordListProps) {
   return (
     <Section title={"TAGS"}>
       <ErrorFetchContent error={error}>
-        {data && data.keywords.length > 0 ? (
+        {data && data.length > 0 ? (
           <ul role='list' className='mt-4 flex flex-row gap-2 flex-wrap'>
-            {data.keywords.slice(0, 5).map((keyword) => (
+            {data.slice(0, 5).map((keyword) => (
               <li
                 key={keyword.id}
                 title={keyword.name}
