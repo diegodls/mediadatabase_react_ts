@@ -8,51 +8,50 @@ import { MovieVideos } from "../components/MovieVideos";
 import { Summary } from "../components/Summary";
 import { useFetchData } from "../hooks/useFetchData";
 
-import { Recommended } from "../components/Recommended";
 import { IGenres } from "../interfaces/IGenres";
 import { IKeywords } from "../interfaces/IKeywords";
 import { IMovieCredits } from "../interfaces/IMovieCredits";
 import { IMovieOverview } from "../interfaces/IMovieOverview";
 import { IMovieVideos } from "../interfaces/IMovieVideos";
-import {
-  IRecommendedApiReturn,
-  IRecommendedResult,
-} from "../interfaces/IRecommended";
+import { IRecommendedApiReturn } from "../interfaces/IRecommended";
+import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 
 export function MovieOverview() {
   let { movieId } = useParams();
+
+  const type: MediaTypes = "movie";
 
   const {
     data: overview,
     loadingData: loadingOverview,
     fetchData: fetchOverview,
-  } = useFetchData<IMovieOverview>(`movie/${movieId}`);
+  } = useFetchData<IMovieOverview>(`${type}/${movieId}`);
 
   const {
     data: keywords,
     dataError: keywordsError,
     fetchData: fetchKeywords,
-  } = useFetchData<IKeywords>(`movie/${movieId}/keywords`);
+  } = useFetchData<IKeywords>(`${type}/${movieId}/keywords`);
 
   const {
     data: credits,
     dataError: creditsError,
     fetchData: getCredits,
-  } = useFetchData<IMovieCredits>(`movie/${movieId}/credits`);
+  } = useFetchData<IMovieCredits>(`${type}/${movieId}/credits`);
 
   const {
     data: videos,
     dataError: videosError,
     fetchData: fetchVideos,
-  } = useFetchData<IMovieVideos>(`movie/${movieId}/videos`);
+  } = useFetchData<IMovieVideos>(`${type}/${movieId}/videos`);
 
   const {
     data: recommendedContent,
     dataError: recommendedContentError,
     fetchData: fetchRecommendedContent,
-  } = useFetchData<IRecommendedApiReturn>(`movie/${movieId}/recommendations`);
+  } = useFetchData<IRecommendedApiReturn>(`${type}/${movieId}/recommendations`);
 
-  const { data: movieGenresList } = useFetchData<IGenres>(`genre/movie/list`);
+  const { data: movieGenresList } = useFetchData<IGenres>(`genre/${type}/list`);
 
   function refetchData(contentID: string | undefined = undefined) {
     if (!contentID) return;
@@ -94,14 +93,14 @@ export function MovieOverview() {
             backdrop_path={overview?.backdrop_path}
             overview={overview?.overview}
             vote_average={overview?.vote_average}
-            type={"movie"}
+            type={type}
             showInfo={false}
             showReadMore={false}
           />
 
           <Summary title={overview?.title} overview={overview?.overview} />
 
-          <KeywordList data={keywords} error={keywordsError} />
+          <KeywordList data={keywords?.keywords} error={keywordsError} />
 
           <List
             title='Elenco'
@@ -116,10 +115,11 @@ export function MovieOverview() {
             mediaName={overview.title || overview.original_title}
           />
 
-          <Recommended<IRecommendedResult>
+          <List
+            title='Você também pode gostar'
+            type={type}
             data={recommendedContent?.results}
             error={recommendedContentError}
-            mediaType='movie'
           />
         </div>
       )}
