@@ -11,6 +11,9 @@ export function FeaturedContentDescription({
   title,
   subTitle,
   release_date,
+  number_of_episodes,
+  number_of_seasons,
+  last_on_air,
   overview,
   vote_average,
   runtime,
@@ -75,10 +78,20 @@ export function FeaturedContentDescription({
             </p>
           ) : null}
 
+          {last_on_air ? (
+            <p
+              aria-label={`${prefix.toUpperCase()} ${mediaTypeInPtBr} ${title} foi ao ar pela última vez em: ${last_on_air} `}
+              title={`${prefix.toUpperCase()} ${mediaTypeInPtBr} ${title} foi ao ar pela última vez em: ${last_on_air} `}
+              className='text-lg font-bold line-clamp-3'
+            >
+              {last_on_air.split("-")[0]}
+            </p>
+          ) : null}
+
           {vote_average ? (
             <span
               aria-label={`${prefix.toUpperCase()} ${mediaTypeInPtBr} ${title} tem uam popularidade de ${vote_average}`}
-              title={`${prefix.toUpperCase()} ${mediaTypeInPtBr} ${title} tem uam popularidade de ${vote_average}s`}
+              title={`${prefix.toUpperCase()} ${mediaTypeInPtBr} ${title} tem uma popularidade de ${vote_average}s`}
               className='flex'
             >
               <Star
@@ -100,6 +113,30 @@ export function FeaturedContentDescription({
             >
               <p className='p-1 m-auto text-white'>Leia Mais</p>
             </NavLink>
+          ) : null}
+        </div>
+        <div className='w-full mt-2 flex items-center'>
+          {number_of_seasons ? (
+            <span
+              aria-label={`${prefix.toUpperCase()} ${mediaTypeInPtBr} ${title} possui ${number_of_seasons} temporadas`}
+              title={`${prefix.toUpperCase()} ${mediaTypeInPtBr} ${title} possui ${number_of_seasons} temporadas`}
+              className='flex mr-1'
+            >
+              {number_of_seasons} temporadas
+            </span>
+          ) : null}
+          {number_of_seasons && number_of_episodes ? (
+            <span className='flex'> e </span>
+          ) : null}
+
+          {number_of_episodes ? (
+            <span
+              aria-label={`${prefix.toUpperCase()} ${mediaTypeInPtBr} ${title} possui ${number_of_episodes} episódios`}
+              title={`${prefix.toUpperCase()} ${mediaTypeInPtBr} ${title} possui ${number_of_episodes} episódios`}
+              className='flex ml-1'
+            >
+              {number_of_episodes} episódios
+            </span>
           ) : null}
         </div>
         {genresList && genresList.genres.length > 0 ? (
