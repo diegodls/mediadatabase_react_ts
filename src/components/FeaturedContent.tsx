@@ -13,6 +13,9 @@ export interface FeaturedContentProps {
   title?: string;
   subTitle?: string;
   release_date?: string;
+  number_of_episodes?: number;
+  number_of_seasons?: number;
+  last_on_air?: string;
   backdrop_path?: string | null;
   overview?: string;
   vote_average?: number;
@@ -32,6 +35,9 @@ export function FeaturedContent({
   title,
   subTitle,
   release_date,
+  last_on_air,
+  number_of_episodes,
+  number_of_seasons,
   backdrop_path,
   overview,
   vote_average,
@@ -91,10 +97,13 @@ export function FeaturedContent({
         contentGenresList={contentGenresList}
         contentID={contentID}
         title={title}
+        last_on_air={last_on_air}
         subTitle={subTitle}
         release_date={release_date}
         overview={overview}
         vote_average={vote_average}
+        number_of_episodes={number_of_episodes}
+        number_of_seasons={number_of_seasons}
         type={type}
         runtime={runtime}
         showReadMore={showReadMore}
