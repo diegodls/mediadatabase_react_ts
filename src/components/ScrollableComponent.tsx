@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { IErrorFetchContent } from "../interfaces/IErrorFetchContent";
 
 interface IListRowProps {
-  children: React.ReactElement;
+  children: React.ReactNode;
   title?: string;
   error?: IErrorFetchContent;
   listSize?: number;
