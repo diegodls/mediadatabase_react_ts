@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FeaturedContent } from "../components/FeaturedContent";
 import { KeywordList } from "../components/KeywordsList";
@@ -15,12 +15,15 @@ import { IMovieCredits } from "../interfaces/IMovieCredits";
 import { IMovieVideos } from "../interfaces/IMovieVideos";
 import { IRecommendedApiReturn } from "../interfaces/IRecommended";
 import { ITvOverview } from "../interfaces/ITvOverview";
+import { ITvSeasonDetailed } from "../interfaces/ITvSeasonDetailed";
 import { MediaTypes } from "../types/sharedTypes/MediaTypes";
 
 export function TvOverview() {
   let { tvID } = useParams();
 
   const type: MediaTypes = "tv";
+
+  const [currentSeasonNumber, setCurrentSeasonNumber] = useState(1);
 
   const {
     data: overview,
@@ -67,6 +70,23 @@ export function TvOverview() {
     return genre.id;
   });
 
+  const {
+    data: currentSeason,
+    loadingData: loadingCurrentSeason,
+    dataError: errorCurrentSeason,
+    fetchData: fetchCurrentSeason,
+  } = useFetchData<ITvSeasonDetailed>(
+    `/tv/${tvID}/season/${currentSeasonNumber}`
+  );
+
+  function refetchCurrentSeason(
+    season_number: ITvSeasonDetailed["season_number"]
+  ) {
+    if (season_number > 0 && season_number !== currentSeasonNumber) {
+      setCurrentSeasonNumber(season_number);
+    }
+  }
+
   useEffect(() => {
     refetchData(tvID);
     window.scrollTo(0, 0);
@@ -74,9 +94,12 @@ export function TvOverview() {
 
   useEffect(() => {
     if (!overview) return;
-
     document.title = `MDB - ${overview.name || overview.original_name}`;
   }, [overview]);
+
+  useEffect(() => {
+    fetchCurrentSeason();
+  }, [currentSeasonNumber]);
 
   return (
     <div className='w-full'>
@@ -118,7 +141,11 @@ export function TvOverview() {
             mediaName={overview.name || overview.original_name}
           />
 
-          <Seasons />
+          <Seasons
+            seasons={overview.seasons}
+            currentSeason={currentSeason}
+            refetchCurrentSeason={refetchCurrentSeason}
+          />
 
           <List
             title='Você também pode gostar'
