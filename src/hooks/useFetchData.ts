@@ -23,13 +23,13 @@ export function useFetchData<T>(url: string) {
       return;
     }
 
-    console.log(`${"#".repeat(50)}Buscando: ${url}`);
+    console.log(`${"#".repeat(50)}> Buscando: ${url}`);
 
     await service
       .get<T>(`${url}`)
       .then((response) => {
         if (response.data && isCurrentUrl) {
-          console.log(`${"#".repeat(25)}Retorno de: ${url}`);
+          console.log(`${"#".repeat(25)}> Retorno de: ${url}`);
           console.log(response.data);
           setData(response.data);
         }
