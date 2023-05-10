@@ -106,7 +106,7 @@ export function TvOverview() {
       {!overview || loadingOverview ? (
         <Loading />
       ) : (
-        <div className='w-full flex flex-col gap-4 overflow-x-hidden'>
+        <div className='flex w-full flex-col gap-4 overflow-x-hidden'>
           <FeaturedContent
             genresList={genreList}
             contentGenresList={genres_id}
@@ -145,6 +145,7 @@ export function TvOverview() {
             seasons={overview.seasons}
             currentSeason={currentSeason}
             refetchCurrentSeason={refetchCurrentSeason}
+            loadingCurrentSeason={loadingCurrentSeason}
           />
 
           <List
