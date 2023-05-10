@@ -7,6 +7,7 @@ interface LoadingProps {
   onTop?: boolean;
   message?: string;
   stroke?: string;
+  h_full?: boolean;
 }
 
 export function Loading({
@@ -16,10 +17,13 @@ export function Loading({
   onTop = true,
   message,
   stroke = "#cfcfcf",
+  h_full = false,
 }: LoadingProps) {
   return (
     <div
-      className={`w-full h-screen flex flex-col items-center justify-center overflow-hidden 
+      className={`w-full ${
+        h_full ? "h-full" : "h-screen"
+      } flex flex-col items-center justify-center overflow-hidden 
       ${!show && "hidden"}
       ${show ? "animate-fadeIn" : "animate-fadeOut"}
       ${backdrop && "bg-black/10"}
