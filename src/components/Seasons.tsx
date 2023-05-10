@@ -2,13 +2,14 @@ import { Suspense } from "react";
 import { ITvOverview } from "../interfaces/ITvOverview";
 import { ITvSeasonDetailed } from "../interfaces/ITvSeasonDetailed";
 import { Loading } from "./Loading";
-import { ScrollableComponent } from "./ScrollableComponent";
 import { SeasonEpisodeList } from "./SeasonEpisodesList";
+import { SeasonListOption } from "./SeasonListOption";
 import { Section } from "./Section";
 
 interface SeasonsProps {
   seasons: ITvOverview["seasons"];
   currentSeason?: ITvSeasonDetailed;
+  loadingCurrentSeason: boolean;
   refetchCurrentSeason: (
     season_number: ITvSeasonDetailed["season_number"]
   ) => void;
@@ -18,36 +19,21 @@ export function Seasons({
   seasons,
   currentSeason,
   refetchCurrentSeason,
+  loadingCurrentSeason,
 }: SeasonsProps) {
-  function setSeasonNumber(season_number: ITvSeasonDetailed["season_number"]) {
-    if (season_number && season_number > 0) {
-      refetchCurrentSeason(season_number);
-    }
-  }
-
   return (
     <Section title='Temporadas'>
-      <div className='w-full flex justify-start items-start'>
+      <div className='flex w-full items-start justify-start'>
         <Suspense fallback={<Loading />}>
-          <div className='w-full flex flex-col bg-neutral-900 rounded'>
-            <ScrollableComponent center={false}>
-              <div className='w-full flex flex-row gap-2'>
-                {seasons.map((season) => (
-                  <button
-                    key={season.id}
-                    onClick={() => {
-                      setSeasonNumber(season.season_number);
-                    }}
-                    className='min-w-auto flex items-center justify-center py-1 px-2 bg-customColors-red-500 rounded'
-                  >
-                    <p className='whitespace-nowrap flex-nowrap'>
-                      {season.name}
-                    </p>
-                  </button>
-                ))}
-              </div>
-            </ScrollableComponent>
-            <SeasonEpisodeList currentSeason={currentSeason} />
+          <div className='flex w-full flex-col rounded bg-neutral-900'>
+            <SeasonListOption
+              seasons={seasons}
+              refetchCurrentSeason={refetchCurrentSeason}
+            />
+            <SeasonEpisodeList
+              currentSeason={currentSeason}
+              loadingCurrentSeason={loadingCurrentSeason}
+            />
           </div>
         </Suspense>
       </div>
