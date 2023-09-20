@@ -17,7 +17,7 @@
 </p>
 
 ## :computer: Projeto
-Projeto criado por em testes os conhecimentos em integrar o front ent com API Rest de terceiros (IMDB) com token unico, parametros(params) customizados, requisições para multiplos end points (várias requisições), rotas costumizadas com props, reponsividade e muito mais.
+Projeto criado para por em testes os conhecimentos em integrar o front ent com API Rest de terceiros (IMDB) com token único, parâmetros(params) customizados, requisições para múltiplos end points (várias requisições), rotas customizadas com props, responsividade e muito mais.
 
 ## :sparkles: Testando o projeto
 Em breve...
@@ -47,7 +47,7 @@ git clone https://github.com/diegodls/mediadatabase_react_ts.git
 ```
 
 Navegue pelo terminal até a pasta raiz do projeto e execute o comando `yarn` (ou `npm install`, caso utilize npm), isso fará que sejam instaladas as dependências do projeto.</br>
-Após a instalação, crie um arquivo na raiz do projeto chamado `.env`, neste arquivo insira as variaveis de ambiente seguindo o padrão do arquivo `.env_example`</br>
+Após a instalação, crie um arquivo na raiz do projeto chamado `.env`, neste arquivo insira as variáveis de ambiente seguindo o padrão do arquivo `.env_example`</br>
 Agora, execute o comando `yarn dev` (ou similar, como `npm dev`) para executar a aplicação.</br>
 Basta visitar a url gerada no terminal para testar a aplicação.</br>
 
@@ -59,8 +59,8 @@ Basta visitar a url gerada no terminal para testar a aplicação.</br>
       <a 
          href="https://github.com/diegodls/mediadatabase_react_ts/blob/assets/print_1.png"   
          target="_blank" 
-         alt="Screenshoot 1" 
-         title="Screenshoot 1">
+         alt="Screenshot 1" 
+         title="Screenshot 1">
         <img 
            src="https://github.com/diegodls/mediadatabase_react_ts/blob/assets/print_1.png"
            alt="Print" 
@@ -75,12 +75,12 @@ Basta visitar a url gerada no terminal para testar a aplicação.</br>
       <a 
          href="https://github.com/diegodls/mediadatabase_react_ts/blob/assets/print_2.png" 
          target="_blank" 
-         alt="Screenshoot 2" 
-         title="Screenshoot 2">
+         alt="Screenshot 2" 
+         title="Screenshot 2">
         <img 
            src="https://github.com/diegodls/mediadatabase_react_ts/blob/assets/print_2.png"
-           alt="Screenshoot 2" 
-           title="Screenshoot 2" 
+           alt="Screenshot 2" 
+           title="Screenshot 2" 
            style="width="300" height="250""/></br>
         Expandir
       </a>
